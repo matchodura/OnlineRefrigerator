@@ -10,7 +10,7 @@ using OnlineRefrigerator.Models;
 
 namespace OnlineRefrigerator.Controllers
 {
-    [Authorize]
+    //[Authorize]
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
