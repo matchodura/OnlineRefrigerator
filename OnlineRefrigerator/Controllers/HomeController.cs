@@ -10,7 +10,7 @@ using OnlineRefrigerator.Models;
 
 namespace OnlineRefrigerator.Controllers
 {
-    //[Authorize]
+   
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
@@ -20,12 +20,25 @@ namespace OnlineRefrigerator.Controllers
             _logger = logger;
         }
 
+        
         public IActionResult Index()
         {
             return View();
         }
 
         public IActionResult Privacy()
+        {
+            return View();
+        }
+
+       // [Authorize]
+        public IActionResult Recipes()
+        {
+            return View();
+        }
+
+        //[Authorize]
+        public IActionResult Calculator()
         {
             return View();
         }
