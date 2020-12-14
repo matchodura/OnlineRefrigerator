@@ -1,5 +1,5 @@
-﻿@model IEnumerable<OnlineRefrigerator.Models.Ingredients>
-
+﻿@*@model IEnumerable<OnlineRefrigerator.Models.Ingredients>*@
+@model OnlineRefrigerator.Models.IngredientsCategoryViewModel
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -10,30 +10,49 @@
 <p>
     <a asp-action="Create">Create New</a>
 </p>
+
+<form asp-controller="Ingredients" asp-action="Index" method="get">
+    <p>
+
+        <select asp-for="IngredientCategory" asp-items="Model.Categories">
+            <option value="">All</option>
+        </select>
+
+        Title: <input type="text" asp-for="SearchString" />
+        <input type="submit" value="Filter" />
+    </p>
+</form>
+
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Name)
+                @Html.DisplayNameFor(model => model.Ingredients[0].Category)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Fat)
+                @Html.DisplayNameFor(model => model.Ingredients[0].Name)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Carbs)
+                @Html.DisplayNameFor(model => model.Ingredients[0].Fat)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Protein)
+                @Html.DisplayNameFor(model => model.Ingredients[0].Carbs)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Energy)
+                @Html.DisplayNameFor(model => model.Ingredients[0].Protein)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Ingredients[0].Energy)
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
+@foreach (var item in Model.Ingredients) {
         <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Category)
+            </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Name)
             </td>
@@ -50,9 +69,14 @@
                 @Html.DisplayFor(modelItem => item.Energy)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                @if (this.User.Identity.IsAuthenticated)
+                {
+                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a>
+                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                }
+
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a> 
+
             </td>
         </tr>
 }

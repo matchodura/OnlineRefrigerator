@@ -10,6 +10,7 @@ namespace OnlineRefrigerator.Models
 
         public int Id { get; set; }
 
+        public string Category { get; set; }
         public string Name { get; set; }
         public decimal Fat { get; set; }
         public decimal Carbs { get; set; }

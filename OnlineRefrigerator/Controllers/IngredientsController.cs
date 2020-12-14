@@ -2,13 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using OnlineRefrigerator.Data;
 using OnlineRefrigerator.Models;
 
-namespace OnlineRefrigerator.Controllers
+namespace OnlineRefrigerator
 {
     public class IngredientsController : Controller
     {
@@ -20,12 +21,38 @@ namespace OnlineRefrigerator.Controllers
         }
 
         // GET: Ingredients
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string ingredientCategory, string searchString)
         {
-            return View(await _context.Ingredient.ToListAsync());
+
+            // Use LINQ to get list of genres.
+            IQueryable<string> categoryQuery = from m in _context.Ingredient
+                                            orderby m.Category
+                                            select m.Category;
+
+            var ingredients = from m in _context.Ingredient
+                         select m;
+
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                ingredients = ingredients.Where(s => s.Category.Contains(searchString));
+            }
+
+            if (!string.IsNullOrEmpty(ingredientCategory))
+            {
+                ingredients = ingredients.Where(x => x.Category == ingredientCategory);
+            }
+
+            var ingredientCategoryVM = new IngredientsCategoryViewModel
+            {
+                Categories = new SelectList(await categoryQuery.Distinct().ToListAsync()),
+                Ingredients = await ingredients.ToListAsync()
+            };
+
+            return View(ingredientCategoryVM);
         }
 
         // GET: Ingredients/Details/5
+       
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -44,6 +71,7 @@ namespace OnlineRefrigerator.Controllers
         }
 
         // GET: Ingredients/Create
+       
         public IActionResult Create()
         {
             return View();
@@ -53,8 +81,8 @@ namespace OnlineRefrigerator.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Fat,Carbs,Protein,Energy")] Ingredients ingredients)
+        [ValidateAntiForgeryToken]    
+        public async Task<IActionResult> Create([Bind("Id,Category,Name,Fat,Carbs,Protein,Energy")] Ingredients ingredients)
         {
             if (ModelState.IsValid)
             {
@@ -66,6 +94,7 @@ namespace OnlineRefrigerator.Controllers
         }
 
         // GET: Ingredients/Edit/5
+        
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -85,8 +114,8 @@ namespace OnlineRefrigerator.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Fat,Carbs,Protein,Energy")] Ingredients ingredients)
+        [ValidateAntiForgeryToken]       
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Category,Name,Fat,Carbs,Protein,Energy")] Ingredients ingredients)
         {
             if (id != ingredients.Id)
             {
@@ -117,6 +146,7 @@ namespace OnlineRefrigerator.Controllers
         }
 
         // GET: Ingredients/Delete/5
+        
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
