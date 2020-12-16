@@ -25,34 +25,60 @@ namespace OnlineRefrigerator
         {
 
             // Use LINQ to get list of genres.
-            IQueryable<string> categoryQuery = from m in _context.Ingredient
-                                            orderby m.Category
-                                            select m.Category;
+            //IQueryable<string> categoryQuery = from m in _context.Ingredients
+            //                                   orderby m.Category
+            //                                   select m.Category;
 
-            var ingredients = from m in _context.Ingredient
-                         select m;
+            // var ingredients = from m in _context.Ingredients
+            //                   select m;
 
-            if (!string.IsNullOrEmpty(searchString))
-            {
-                ingredients = ingredients.Where(s => s.Category.Contains(searchString));
-            }
+            //if (!string.IsNullOrEmpty(searchString))
+            //{
+            //    ingredients = ingredients.Where(s => s.Name.Contains(searchString));
+            //}
 
-            if (!string.IsNullOrEmpty(ingredientCategory))
-            {
-                ingredients = ingredients.Where(x => x.Category == ingredientCategory);
-            }
+            //if (!string.IsNullOrEmpty(ingredientCategory))
+            //{
+            //    ingredients = ingredients.Where(x => x.Category == ingredientCategory);
+            //}
+
+
+
+
+            //var ingredientCategoryVM = new IngredientsCategoryViewModel
+            //{
+            //    Categories = new SelectList(await categoryQuery.Distinct().ToListAsync()),
+            //    Ingredients = await ingredients.ToListAsync()
+            //};
+
+            //return View(ingredientCategoryVM);
+
+            
+
+            var ingredients = from m in _context.Ingredients
+                              select m;
+
+            IQueryable<string> categoryQuery = from m in _context.Categories
+                                               orderby m.Name
+                                               select m.Name;
 
             var ingredientCategoryVM = new IngredientsCategoryViewModel
             {
-                Categories = new SelectList(await categoryQuery.Distinct().ToListAsync()),
+                //  Categories = new SelectList(await categoryQuery.Distinct().ToListAsync()),
+                Categories = new SelectList(await categoryQuery.ToListAsync()),
                 Ingredients = await ingredients.ToListAsync()
             };
 
+            ViewBag.CategoryName = new SelectList(categoryQuery);
+
+            //Categories = new SelectList(_context.Categories, "CategoryID", "CategoryName");
+
             return View(ingredientCategoryVM);
+
         }
 
         // GET: Ingredients/Details/5
-       
+
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -60,7 +86,7 @@ namespace OnlineRefrigerator
                 return NotFound();
             }
 
-            var ingredients = await _context.Ingredient
+            var ingredients = await _context.Ingredients
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (ingredients == null)
             {
@@ -102,7 +128,7 @@ namespace OnlineRefrigerator
                 return NotFound();
             }
 
-            var ingredients = await _context.Ingredient.FindAsync(id);
+            var ingredients = await _context.Ingredients.FindAsync(id);
             if (ingredients == null)
             {
                 return NotFound();
@@ -154,7 +180,7 @@ namespace OnlineRefrigerator
                 return NotFound();
             }
 
-            var ingredients = await _context.Ingredient
+            var ingredients = await _context.Ingredients
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (ingredients == null)
             {
@@ -169,15 +195,15 @@ namespace OnlineRefrigerator
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var ingredients = await _context.Ingredient.FindAsync(id);
-            _context.Ingredient.Remove(ingredients);
+            var ingredients = await _context.Ingredients.FindAsync(id);
+            _context.Ingredients.Remove(ingredients);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool IngredientsExists(int id)
         {
-            return _context.Ingredient.Any(e => e.Id == id);
+            return _context.Ingredients.Any(e => e.Id == id);
         }
     }
 }

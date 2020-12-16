@@ -12,7 +12,9 @@ namespace OnlineRefrigerator.Data
 
         public IngredientsContext(DbContextOptions<IngredientsContext> options) : base(options) { }
 
-        public DbSet<Ingredients> Ingredient { get; set; }
+        public DbSet<Ingredients> Ingredients { get; set; }
+
+        public DbSet<Categories> Categories { get; set; }
 
     }
 }

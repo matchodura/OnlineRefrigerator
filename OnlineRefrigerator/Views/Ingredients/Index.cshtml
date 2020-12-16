@@ -14,11 +14,13 @@
 <form asp-controller="Ingredients" asp-action="Index" method="get">
     <p>
 
-        <select asp-for="IngredientCategory" asp-items="Model.Categories">
+        @*<select asp-for="IngredientCategory" asp-items="Model.Categories">
             <option value="">All</option>
-        </select>
+        </select>*@
 
-        Title: <input type="text" asp-for="SearchString" />
+        @Html.DropDownList("CategoryName", null, htmlAttributes: new { @class = "form-control" })
+
+        Ingredient Name: <input type="text" asp-for="SearchString" />
         <input type="submit" value="Filter" />
     </p>
 </form>
@@ -51,7 +53,7 @@
 @foreach (var item in Model.Ingredients) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.Category)
+                @Html.DisplayFor(modelItem => item.)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Name)
