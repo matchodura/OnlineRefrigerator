@@ -55,17 +55,19 @@ namespace OnlineRefrigerator
 
             
 
-            var ingredients = from m in _context.Ingredients
+            var ingredients = from m in _context.Ingredients.Include(x=>x.Category)
                               select m;
 
             IQueryable<string> categoryQuery = from m in _context.Categories
                                                orderby m.Name
                                                select m.Name;
 
+           
             var ingredientCategoryVM = new IngredientsCategoryViewModel
             {
-                //  Categories = new SelectList(await categoryQuery.Distinct().ToListAsync()),
+               
                 Categories = new SelectList(await categoryQuery.ToListAsync()),
+             
                 Ingredients = await ingredients.ToListAsync()
             };
 
