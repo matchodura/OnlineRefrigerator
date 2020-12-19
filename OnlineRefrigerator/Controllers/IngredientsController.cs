@@ -61,8 +61,8 @@ namespace OnlineRefrigerator
             IQueryable<string> categoryQuery = from m in _context.Categories
                                                orderby m.Name
                                                select m.Name;
+            ViewBag.CategoryName = new SelectList(categoryQuery);
 
-           
             var ingredientCategoryVM = new IngredientsCategoryViewModel
             {
                
@@ -71,7 +71,7 @@ namespace OnlineRefrigerator
                 Ingredients = await ingredients.ToListAsync()
             };
 
-            ViewBag.CategoryName = new SelectList(categoryQuery);
+            
 
             //Categories = new SelectList(_context.Categories, "CategoryID", "CategoryName");
 
@@ -102,23 +102,43 @@ namespace OnlineRefrigerator
        
         public IActionResult Create()
         {
-            return View();
+            var vm = new IngredientsCreateViewModel();
+
+            vm.Categories = _context.Categories
+                                    .Select(a => new SelectListItem()
+                                    {
+                                        Text = a.Name,
+                                        Value = a.Id.ToString()
+                                    }).ToList();
+
+            return View(vm);
         }
+
+
+
 
         // POST: Ingredients/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken]    
-        public async Task<IActionResult> Create([Bind("Id,Category,Name,Fat,Carbs,Protein,Energy")] Ingredients ingredients)
+        [ValidateAntiForgeryToken]
+
+        //[Bind("Id,Category,Name,Fat,Carbs,Protein,Energy,CategoryId")] Ingredients ingredients
+        public async Task<IActionResult> Create(IngredientsCreateViewModel model)
         {
+
+            Ingredients ingredientModel = model.Ingredient;
+
+            ingredientModel.CategoryId = model.SelectedCategory;
+
+
             if (ModelState.IsValid)
             {
-                _context.Add(ingredients);
+                _context.Add(ingredientModel);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(ingredients);
+            return View(ingredientModel);
         }
 
         // GET: Ingredients/Edit/5
