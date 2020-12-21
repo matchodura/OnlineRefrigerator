@@ -23,9 +23,12 @@ namespace OnlineRefrigerator.Models
         public int CategoryId { get; set; }
         public virtual Categories Category{ get; set; }
 
-        //to do path to image to database
-        //public string Image { get; set; }
-        //public virtual ICollection<File> Files { get; set; }
+
+        [ForeignKey("Image")]
+        public int? ImageId { get; set; }
+        public virtual IngredientsImages Image { get; set; }
+
+    
     }
       
     

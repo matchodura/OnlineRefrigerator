@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -21,7 +23,7 @@ namespace OnlineRefrigerator
         }
 
         // GET: Ingredients
-        public async Task<IActionResult> Index(string ingredientCategory, string searchString)
+        public async Task<IActionResult> Index(int SelectedCategory, string searchString)
         {
 
             // Use LINQ to get list of genres.
@@ -53,31 +55,62 @@ namespace OnlineRefrigerator
 
             //return View(ingredientCategoryVM);
 
-            
-
-            var ingredients = from m in _context.Ingredients.Include(x=>x.Category)
+            var ingredients = from m in _context.Ingredients.Include(x => x.Category).Include(i=>i.Image)
                               select m;
 
-            IQueryable<string> categoryQuery = from m in _context.Categories
-                                               orderby m.Name
-                                               select m.Name;
-            ViewBag.CategoryName = new SelectList(categoryQuery);
+            
+
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                ingredients = ingredients.Where(s => s.Name.Contains(searchString));
+            }
+
+
+            if (SelectedCategory!=0)
+            {
+                ingredients = ingredients.Where(x => x.Category.Id == SelectedCategory);
+            }
 
             var ingredientCategoryVM = new IngredientsCategoryViewModel
             {
                
-                Categories = new SelectList(await categoryQuery.ToListAsync()),
-             
-                Ingredients = await ingredients.ToListAsync()
+                 Categories = _context.Categories
+                                    .Select(a => new SelectListItem()
+                                    {
+                                        Text = a.Name,
+                                        Value = a.Id.ToString()
+                                    }).ToList(),
+
+                 Ingredients = await ingredients.ToListAsync()
+               
             };
-
+                       
             
-
-            //Categories = new SelectList(_context.Categories, "CategoryID", "CategoryName");
 
             return View(ingredientCategoryVM);
 
         }
+
+        public ActionResult GetImage(int id)
+        {
+
+            var image = _context.IngredientsImages.Where(x => x.Id == id).FirstOrDefault();
+
+            if(image!=null)
+            {
+                byte[] test = image.Image;
+
+                return File(test, "image/jpg");
+            }
+
+            else
+            {
+                return null;
+            }
+            
+        }
+
+
 
         // GET: Ingredients/Details/5
 
@@ -129,13 +162,42 @@ namespace OnlineRefrigerator
 
             Ingredients ingredientModel = model.Ingredient;
 
+            IngredientsImages ingredientImage = new IngredientsImages();
+
+            var image = model.Image;
+
             ingredientModel.CategoryId = model.SelectedCategory;
 
 
+
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+                       
+
             if (ModelState.IsValid)
             {
+                if (image != null)
+                {
+                    using (var memoryStream = new MemoryStream())
+                    {
+                        await image.CopyToAsync(memoryStream);
+                        var imageToBeUploadedByteArray = memoryStream.ToArray();
+                        ingredientImage.Image = imageToBeUploadedByteArray;
+                                               
+                    }
+                }
+
+
+                _context.IngredientsImages.Add(ingredientImage);
+                await _context.SaveChangesAsync();
+
+                ingredientModel.ImageId = ingredientImage.Id;
                 _context.Add(ingredientModel);
                 await _context.SaveChangesAsync();
+
+
                 return RedirectToAction(nameof(Index));
             }
             return View(ingredientModel);
@@ -222,6 +284,10 @@ namespace OnlineRefrigerator
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
+
+
+
+
 
         private bool IngredientsExists(int id)
         {

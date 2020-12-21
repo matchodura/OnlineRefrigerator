@@ -18,7 +18,11 @@
             <option value="">All</option>
         </select>*@
 
-        @Html.DropDownList("CategoryName", null, htmlAttributes: new { @class = "form-control" })
+      
+
+        @Html.DropDownListFor(s => s.SelectedCategory, Model.Categories, "Select one item", htmlAttributes: new { @class = "form-control" })
+
+
 
         Ingredient Name: <input type="text" asp-for="SearchString" />
         <input type="submit" value="Filter" />
@@ -46,6 +50,11 @@
             <th>
                 @Html.DisplayNameFor(model => model.Ingredients[0].Energy)
             </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Ingredients[0].ImageId)
+            </th>
+
+
             <th></th>
         </tr>
     </thead>
@@ -53,7 +62,7 @@
 @foreach (var item in Model.Ingredients) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem=>item.Category.Name)
+                @Html.DisplayFor(modelItem => item.Category.Name)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Name)
@@ -71,13 +80,22 @@
                 @Html.DisplayFor(modelItem => item.Energy)
             </td>
             <td>
+               @* @Html.DisplayFor(modelItem => item.ImageId)*@
+
+               @* <img src='@item.Image.Image' />*@
+
+                <img class="ingredients-table-img" src="@Url.Action("GetImage", new { id = item.ImageId })"/>
+
+
+            </td>
+            <td>
                 @if (this.User.Identity.IsAuthenticated)
                 {
                     <a asp-action="Edit" asp-route-id="@item.Id">Edit</a>
                     <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
                 }
 
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> 
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a>
 
             </td>
         </tr>

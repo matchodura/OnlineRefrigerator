@@ -7,6 +7,19 @@ a.navbar-brand {
   word-break: break-all;
 }
 
+
+.ingredients-table-img{
+
+    width: 100px;
+    height: 100px;
+}
+
+.ingredients-details-img{
+
+    width:300px;
+    height:300px;
+}
+
 /* Provide sufficient contrast against white background */
 a {
   color: #0366d6;

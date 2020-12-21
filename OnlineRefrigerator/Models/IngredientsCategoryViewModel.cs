@@ -10,9 +10,12 @@ namespace OnlineRefrigerator.Models
     {
 
         public List<Ingredients> Ingredients { get; set; }
-        public SelectList Categories { get; set; }
 
-       
+        public List<SelectListItem> Categories { get; set; }
+
+        public int SelectedCategory { get; set; }
+                       
+
         public string IngredientCategory { get; set; }
 
         public string SearchString { get; set; }

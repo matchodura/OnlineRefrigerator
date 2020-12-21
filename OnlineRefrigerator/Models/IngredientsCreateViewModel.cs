@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc.Rendering;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,5 +15,7 @@ namespace OnlineRefrigerator.Models
         public List<SelectListItem> Categories { get; set; }
 
         public int SelectedCategory { get; set; }
+
+        public IFormFile Image { get; set; }
     }
 }
