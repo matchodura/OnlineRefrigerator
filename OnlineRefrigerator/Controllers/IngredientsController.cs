@@ -96,6 +96,8 @@ namespace OnlineRefrigerator
 
             var image = _context.IngredientsImages.Where(x => x.Id == id).FirstOrDefault();
 
+
+
             if(image!=null)
             {
                 byte[] test = image.Image;

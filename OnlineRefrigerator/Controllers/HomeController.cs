@@ -31,7 +31,7 @@ namespace OnlineRefrigerator.Controllers
             return View();
         }
 
-        [Authorize]
+        //[Authorize]
         public IActionResult Recipes()
         {
             return View();

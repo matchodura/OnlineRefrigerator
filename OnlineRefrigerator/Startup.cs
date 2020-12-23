@@ -28,6 +28,7 @@ namespace OnlineRefrigerator
             services.AddControllersWithViews();
 
             services.AddDbContext<IngredientsContext>(options => options.UseSqlServer(Configuration.GetConnectionString("IngredientsContext")));
+            services.AddDbContext<RecipesContext>(options => options.UseSqlServer(Configuration.GetConnectionString("RecipesContext")));
             services.AddRazorPages();
         }
 
