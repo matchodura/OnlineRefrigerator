@@ -35,14 +35,31 @@ namespace OnlineRefrigerator.Migrations.Recipes
                     b.Property<int>("PreparationTime")
                         .HasColumnType("int");
 
-                    b.Property<int>("Type")
+                    b.Property<int?>("TypeId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
                     b.HasIndex("ImageId");
 
+                    b.HasIndex("TypeId");
+
                     b.ToTable("Recipes");
+                });
+
+            modelBuilder.Entity("OnlineRefrigerator.Models.RecipesCategories", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("RecipesCategories");
                 });
 
             modelBuilder.Entity("OnlineRefrigerator.Models.RecipesImages", b =>
@@ -89,6 +106,10 @@ namespace OnlineRefrigerator.Migrations.Recipes
                     b.HasOne("OnlineRefrigerator.Models.RecipesImages", "Image")
                         .WithMany("Recipe")
                         .HasForeignKey("ImageId");
+
+                    b.HasOne("OnlineRefrigerator.Models.RecipesCategories", "Type")
+                        .WithMany("Recipes")
+                        .HasForeignKey("TypeId");
                 });
 #pragma warning restore 612, 618
         }

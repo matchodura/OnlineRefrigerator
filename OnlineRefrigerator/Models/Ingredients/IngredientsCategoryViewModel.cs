@@ -16,7 +16,7 @@ namespace OnlineRefrigerator.Models
         public int SelectedCategory { get; set; }
                        
 
-        public string IngredientCategory { get; set; }
+        //public string IngredientCategory { get; set; }
 
         public string SearchString { get; set; }
     }

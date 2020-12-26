@@ -26,40 +26,10 @@ namespace OnlineRefrigerator
         public async Task<IActionResult> Index(int SelectedCategory, string searchString)
         {
 
-            // Use LINQ to get list of genres.
-            //IQueryable<string> categoryQuery = from m in _context.Ingredients
-            //                                   orderby m.Category
-            //                                   select m.Category;
-
-            // var ingredients = from m in _context.Ingredients
-            //                   select m;
-
-            //if (!string.IsNullOrEmpty(searchString))
-            //{
-            //    ingredients = ingredients.Where(s => s.Name.Contains(searchString));
-            //}
-
-            //if (!string.IsNullOrEmpty(ingredientCategory))
-            //{
-            //    ingredients = ingredients.Where(x => x.Category == ingredientCategory);
-            //}
-
-
-
-
-            //var ingredientCategoryVM = new IngredientsCategoryViewModel
-            //{
-            //    Categories = new SelectList(await categoryQuery.Distinct().ToListAsync()),
-            //    Ingredients = await ingredients.ToListAsync()
-            //};
-
-            //return View(ingredientCategoryVM);
-
             var ingredients = from m in _context.Ingredients.Include(x => x.Category).Include(i=>i.Image)
                               select m;
 
             
-
             if (!string.IsNullOrEmpty(searchString))
             {
                 ingredients = ingredients.Where(s => s.Name.Contains(searchString));
@@ -286,8 +256,6 @@ namespace OnlineRefrigerator
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
-
-
 
 
 

@@ -20,9 +20,35 @@ namespace OnlineRefrigerator.Controllers
         }
 
         // GET: Recipes
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int SelectedCategory)
         {
-            return View(await _context.Recipes.ToListAsync());
+
+            var recipes = from m in _context.Recipes.Include(x => x.Type)
+                          select m;
+
+
+
+            if (SelectedCategory != 0)
+            {
+                recipes = recipes.Where(x => x.Type.Id == SelectedCategory);
+            }
+
+            var recipesCategoryVM = new RecipesCategoryViewModel
+            {
+
+                Categories = _context.RecipesCategories
+                                    .Select(a => new SelectListItem()
+                                    {
+                                        Text = a.Name,
+                                        Value = a.Id.ToString()
+                                    }).ToList(),
+
+                Recipes = await recipes.ToListAsync()
+
+
+            };
+
+            return View(recipesCategoryVM);
         }
 
         // GET: Recipes/Details/5
@@ -46,7 +72,18 @@ namespace OnlineRefrigerator.Controllers
         // GET: Recipes/Create
         public IActionResult Create()
         {
-            return View();
+
+            var vm = new RecipesCreateViewModel();
+
+            vm.Categories = _context.RecipesCategories
+                                    .Select(a => new SelectListItem()
+                                    {
+                                        Text = a.Name,
+                                        Value = a.Id.ToString()
+                                    }).ToList();
+
+            return View(vm);
+           
         }
 
         // POST: Recipes/Create
@@ -54,15 +91,22 @@ namespace OnlineRefrigerator.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Type,PreparationTime")] Recipes recipes)
+        public async Task<IActionResult> Create( RecipesCreateViewModel model)
         {
+
+            Recipes recipe = model.Recipe;
+
+            recipe.TypeId = model.SelectedCategory;
+
+            
+
             if (ModelState.IsValid)
             {
-                _context.Add(recipes);
+                _context.Add(recipe);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(recipes);
+            return View(recipe);
         }
 
         // GET: Recipes/Edit/5

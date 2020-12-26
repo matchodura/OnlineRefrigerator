@@ -16,6 +16,8 @@ namespace OnlineRefrigerator.Data
         public DbSet<RecipesSteps> RecipesSteps { get; set; }
         public DbSet<RecipesImages> RecipesImages { get; set; }
 
+        public DbSet<RecipesCategories> RecipesCategories { get; set; }
+
         //TODO: zrozumieć to i przeczytać dokładnie
         //protected override void OnModelCreating(ModelBuilder modelBuilder)
         //{
