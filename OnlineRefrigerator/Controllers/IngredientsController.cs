@@ -22,18 +22,33 @@ namespace OnlineRefrigerator
             _context = context;
         }
 
+
+        
+
+
+        [HttpGet]
+        public IActionResult Test()
+        {
+            var name = HttpContext.Request.Query["term"].ToString();
+            var ingredientName = _context.Ingredients.Where(c => c.Name.Contains(name)).Select(c => c.Name).ToList();
+            return Ok(ingredientName);
+        }
+
+
+
+
         // GET: Ingredients
-        public async Task<IActionResult> Index(int SelectedCategory, string searchString)
+        public async Task<IActionResult> Index(int SelectedCategory)
         {
 
             var ingredients = from m in _context.Ingredients.Include(x => x.Category).Include(i=>i.Image)
                               select m;
 
             
-            if (!string.IsNullOrEmpty(searchString))
-            {
-                ingredients = ingredients.Where(s => s.Name.Contains(searchString));
-            }
+            //if (!string.IsNullOrEmpty(searchString))
+            //{
+            //    ingredients = ingredients.Where(s => s.Name.Contains(searchString));
+            //}
 
 
             if (SelectedCategory!=0)

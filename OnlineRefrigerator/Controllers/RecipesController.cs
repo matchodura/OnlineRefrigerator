@@ -48,6 +48,8 @@ namespace OnlineRefrigerator.Controllers
 
             };
 
+
+
             return View(recipesCategoryVM);
         }
 
@@ -96,14 +98,44 @@ namespace OnlineRefrigerator.Controllers
 
             Recipes recipe = model.Recipe;
 
+
+
             recipe.TypeId = model.SelectedCategory;
 
-            
+           
+
 
             if (ModelState.IsValid)
             {
+
+
+
+
+
                 _context.Add(recipe);
                 await _context.SaveChangesAsync();
+
+               
+                //TODO: frontend dodawania stepów i ich wyświetlania na stronie
+                for (int i = 0; i <= 3; i++)
+                {
+
+                    RecipesSteps recipesSteps = new RecipesSteps();
+
+                    recipesSteps.RecipeId = recipe.Id;
+                    recipesSteps.StepNumber = i;
+                    recipesSteps.Text = $"dupa dupa {i}"; 
+
+                    _context.Add(recipesSteps);
+                    
+                }
+
+                await _context.SaveChangesAsync();
+
+
+
+
+
                 return RedirectToAction(nameof(Index));
             }
             return View(recipe);
