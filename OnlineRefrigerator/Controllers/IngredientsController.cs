@@ -11,6 +11,7 @@ using Microsoft.EntityFrameworkCore;
 using OnlineRefrigerator.Data;
 using OnlineRefrigerator.Models;
 
+
 namespace OnlineRefrigerator
 {
     public class IngredientsController : Controller
@@ -23,58 +24,92 @@ namespace OnlineRefrigerator
         }
 
 
-        
+        //działa ale do poprawy
+        //[HttpGet]
+        //public IActionResult Test()
+        //{
+        //    var name = HttpContext.Request.Query["term"].ToString();
+        //    var ingredientName = _context.Ingredients.Where(c => c.Name.Contains(name)).Select(c => c.Name).ToList();
+        //    return Ok(ingredientName);
+        //}
 
-
-        [HttpGet]
-        public IActionResult Test()
+        /// <summary>
+        /// returns viewmodel with ingredients and categories
+        /// </summary>
+        /// <returns></returns>
+        public IngredientsCategoryViewModel GetIngredients(IngredientsFilter filters)
         {
-            var name = HttpContext.Request.Query["term"].ToString();
-            var ingredientName = _context.Ingredients.Where(c => c.Name.Contains(name)).Select(c => c.Name).ToList();
-            return Ok(ingredientName);
+
+            var ingredients = from m in _context.Ingredients.Include(x => x.Category).Include(i => i.Image)
+                              select m;
+
+            var categories = from m in _context.Categories
+                           select m;
+
+            var ingredientCategoryVM = new IngredientsCategoryViewModel
+            {
+
+                //Categories = _context.Categories
+                //                    .Select(a => new SelectListItem()
+                //                    {
+                //                        Text = a.Name,
+                //                        Value = a.Id.ToString()
+                //                    }).ToList(),
+
+                Categories = categories.ToList(),
+
+                Ingredients = ingredients.ToList()
+
+            };
+
+            if (!string.IsNullOrEmpty(filters.IngredientName))
+                ingredientCategoryVM.Ingredients = ingredientCategoryVM.Ingredients.Where(s => s.Name.ToLower().Contains(filters.IngredientName.ToLower())).ToList();
+            //if (filters.CategoryId != 0)
+            //    ingredientCategoryVM.Categories = ingredientCategoryVM.Categories.Where(s => s.Id == filters.CategoryId).ToList();
+
+
+
+
+            return ingredientCategoryVM;
+
         }
+
+
+
+
 
 
 
 
         // GET: Ingredients
-        public async Task<IActionResult> Index(int SelectedCategory)
+        //public Task<IActionResult> Index(int SelectedCategory, string searchString)
+        public IActionResult Index(int SelectedCategory, string searchString)
         {
 
-            var ingredients = from m in _context.Ingredients.Include(x => x.Category).Include(i=>i.Image)
-                              select m;
+            //var VM = GetIngredients(new IngredientsFilter());
 
+           
+            return View();
             
-            //if (!string.IsNullOrEmpty(searchString))
-            //{
-            //    ingredients = ingredients.Where(s => s.Name.Contains(searchString));
-            //}
-
-
-            if (SelectedCategory!=0)
-            {
-                ingredients = ingredients.Where(x => x.Category.Id == SelectedCategory);
-            }
-
-            var ingredientCategoryVM = new IngredientsCategoryViewModel
-            {
-               
-                 Categories = _context.Categories
-                                    .Select(a => new SelectListItem()
-                                    {
-                                        Text = a.Name,
-                                        Value = a.Id.ToString()
-                                    }).ToList(),
-
-                 Ingredients = await ingredients.ToListAsync()
-               
-            };
-                       
-            
-
-            return View(ingredientCategoryVM);
 
         }
+
+        [HttpPost]
+        public IActionResult ShowIngredients(IngredientsFilter filters)
+        {
+            //IngredientsFilter filters
+
+        
+
+            var VM = GetIngredients(filters);
+
+            return PartialView("~/Views/_IngredientsViewModel.cshtml",VM);
+
+         
+        }
+
+
+
 
         public ActionResult GetImage(int id)
         {

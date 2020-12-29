@@ -11,7 +11,9 @@ namespace OnlineRefrigerator.Models
 
         public List<Ingredients> Ingredients { get; set; }
 
-        public List<SelectListItem> Categories { get; set; }
+        //public List<SelectListItem> Categories { get; set; }
+
+        public List<Categories> Categories { get; set; }
 
         public int SelectedCategory { get; set; }
                        
@@ -20,4 +22,5 @@ namespace OnlineRefrigerator.Models
 
         public string SearchString { get; set; }
     }
+
 }
