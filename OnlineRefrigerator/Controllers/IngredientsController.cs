@@ -37,6 +37,8 @@ namespace OnlineRefrigerator
         /// returns viewmodel with ingredients and categories
         /// </summary>
         /// <returns></returns>
+        /// 
+        //TODO: poprawić ten szajs
         public IngredientsCategoryViewModel GetIngredients(IngredientsFilter filters)
         {
 
