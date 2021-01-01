@@ -1,10 +1,4 @@
-﻿//$(document).ready(function () {
-//    alert("I am an alert box!");
-//});
-
-
-
-$(function () {
+﻿$(function () {
     GetIngredients();
 });
 
@@ -33,25 +27,4 @@ $('#ingredient').on('keydown', function (e) {
     GetIngredients(filters);
 
 });
-
-//$(document).on('click', "#category", function (e) {
-
-//    var sortValue = "asc";
-
-//    var filters = {
-//        ingredientName: $('#ingredient').val(),
-//        categoryId: $('#category').val(),
-//        sort: sortValue
-//    };
-
-   
-
-//    //sortValue.append(filters);
-
-
-//   // alert(filters.sort);
-//    GetIngredients(filters);
-//});
-
-
 

@@ -11,7 +11,9 @@
     })
         .done(function (result) {
             $('#displayIngredients')
-                .html(result);            
+                .html(result)
+                .hide()
+                .slideDown('slow');            
                      
         }).fail(function (xhr) {
             console.log('error: ' + xhr.status + ' - '

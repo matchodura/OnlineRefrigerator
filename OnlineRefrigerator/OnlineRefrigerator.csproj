@@ -9,6 +9,8 @@
     <Compile Remove="Migrations\20201207205246_Initial-Create.Designer.cs" />
     <Compile Remove="Migrations\20201207205645_InitialCreation.cs" />
     <Compile Remove="Migrations\20201207205645_InitialCreation.Designer.cs" />
+    <Compile Remove="Migrations\Ingredients\20210101223727_SiteImages.cs" />
+    <Compile Remove="Migrations\Ingredients\20210101223727_SiteImages.Designer.cs" />
     <Compile Remove="Migrations\Recipes\20201226183424_test.cs" />
     <Compile Remove="Migrations\Recipes\20201226183424_test.Designer.cs" />
   </ItemGroup>

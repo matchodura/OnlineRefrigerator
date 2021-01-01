@@ -5,32 +5,35 @@ using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using OnlineRefrigerator.Data;
 using OnlineRefrigerator.Models;
-
+using static System.Net.Mime.MediaTypeNames;
 
 namespace OnlineRefrigerator
 {
     public class IngredientsController : Controller
     {
         private readonly IngredientsContext _context;
-
-        public IngredientsController(IngredientsContext context)
+        private readonly IWebHostEnvironment env;
+        
+        public IngredientsController(IngredientsContext context, IWebHostEnvironment env)
         {
+            //allows for using wwwroot files
+            this.env = env;
             _context = context;
         }
 
 
         /// <summary>
-        /// returns viewmodel with ingredients and categories
+        /// returns partial view with viewmodel of ingredients and categories
         /// </summary>
         /// <returns></returns>
-        /// 
-    
+        ///    
         public IngredientsCategoryViewModel GetIngredients(IngredientsFilter filters)
         {
 
@@ -61,13 +64,14 @@ namespace OnlineRefrigerator
 
             if (!string.IsNullOrEmpty(filters.IngredientName))
                 ingredientCategoryVM.Ingredients = ingredientCategoryVM.Ingredients.Where(s => s.Name.ToLower().StartsWith(filters.IngredientName.ToLower())).ToList();
+           
             if (filters.CategoryId != 0)
                 ingredientCategoryVM.Ingredients = ingredientCategoryVM.Ingredients.Where(s => s.CategoryId == filters.CategoryId).ToList();
 
            
             if (filters.ColumnName != null)
             {
-                //geting property name of ingredient class, selected by clicking on the sort button of specific column name in partial view
+                //geting property name of ingredient class, selected by clicking on the sort button of specified column name in partial view
                 PropertyInfo orderByProperty = typeof(Ingredients).GetProperties().SingleOrDefault(property => property.Name == filters.ColumnName);
 
                 if (filters.SortOrder)
@@ -78,12 +82,9 @@ namespace OnlineRefrigerator
 
                 else if (!filters.SortOrder)
                 {
-
                     var result = ingredientCategoryVM.Ingredients.OrderBy(s => orderByProperty.GetValue(s)).ToList();
                     ingredientCategoryVM.Ingredients = result;
-
                 }
-
 
             }
 
@@ -93,30 +94,22 @@ namespace OnlineRefrigerator
 
 
         // GET: Ingredients
-        //public Task<IActionResult> Index(int SelectedCategory, string searchString)
-        public IActionResult Index(int SelectedCategory, string searchString)
+       
+        public IActionResult Index()
         {
-
-            //var VM = GetIngredients(new IngredientsFilter());
-
-           
+                       
             return View();
             
-
         }
 
         [HttpPost]
         public IActionResult ShowIngredients(IngredientsFilter filters)
         {
-            //IngredientsFilter filters
+                  
+            var partialViewModel = GetIngredients(filters);
 
-        
-
-            var VM = GetIngredients(filters);
-
-            return PartialView("~/Views/_IngredientsViewModel.cshtml",VM);
-
-         
+            return PartialView("~/Views/_IngredientsResultsPartial.cshtml", partialViewModel);
+                     
         }
 
 
@@ -124,21 +117,25 @@ namespace OnlineRefrigerator
 
         public ActionResult GetImage(int id)
         {
+            //selectes images from db
+            var ingredientImage = _context.IngredientsImages.Where(x => x.Id == id).FirstOrDefault();
 
-            var image = _context.IngredientsImages.Where(x => x.Id == id).FirstOrDefault();
+            //gets path of immage in wwwroot
+            var path = env.WebRootFileProvider.GetFileInfo("Images/missing_image.jpg")?.PhysicalPath;
 
-
-
-            if(image!=null)
+            if(ingredientImage != null)
             {
-                byte[] test = image.Image;
+                byte[] image = ingredientImage.Image;
 
-                return File(test, "image/jpg");
+                return File(image, "image/jpg");
             }
 
             else
             {
-                return null;
+                //displays missing image as placeholder if correct image was not provided
+                var imageFileStream = System.IO.File.OpenRead(path);
+                return File(imageFileStream, "image/jpeg");
+               
             }
             
         }
@@ -154,8 +151,9 @@ namespace OnlineRefrigerator
                 return NotFound();
             }
 
-            var ingredients = await _context.Ingredients
+            var ingredients = await _context.Ingredients.Include(x => x.Category)
                 .FirstOrDefaultAsync(m => m.Id == id);
+
             if (ingredients == null)
             {
                 return NotFound();
@@ -181,15 +179,13 @@ namespace OnlineRefrigerator
         }
 
 
-
-
         // POST: Ingredients/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
 
-        //[Bind("Id,Category,Name,Fat,Carbs,Protein,Energy,CategoryId")] Ingredients ingredients
+        
         public async Task<IActionResult> Create(IngredientsCreateViewModel model)
         {
 

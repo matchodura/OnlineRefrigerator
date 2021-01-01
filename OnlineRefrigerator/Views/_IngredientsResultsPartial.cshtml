@@ -8,7 +8,7 @@
 
 
 
-<table class="table" id="dupatabela">
+<table class="table">
     <thead>
         <tr id="rowLabels">
             <th id="CategoryId">
@@ -76,21 +76,9 @@
                         </div>
                     </div>
                 </div>
-            </th>
-
-            <th>
-                <div class="row">
-                    <div class="column">@Html.DisplayNameFor(model => model.Ingredients[0].Energy) </div>
-                    <div class="column">
-                        <div class="btnHover">
-                            <i class="fas fa-sort"></i>
-                        </div>
-                    </div>
-                </div>
-            </th>
-
-
-
+            </th>    
+            @* tables for images and details *@
+            <th></th>
             <th></th>
         </tr>
     </thead>
@@ -140,5 +128,4 @@
 
 @section Scripts{
     <script src="~/js/ingredients-display.js"></script>
-
 }
