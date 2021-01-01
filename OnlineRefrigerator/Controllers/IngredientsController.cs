@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -24,29 +25,22 @@ namespace OnlineRefrigerator
         }
 
 
-        //działa ale do poprawy
-        //[HttpGet]
-        //public IActionResult Test()
-        //{
-        //    var name = HttpContext.Request.Query["term"].ToString();
-        //    var ingredientName = _context.Ingredients.Where(c => c.Name.Contains(name)).Select(c => c.Name).ToList();
-        //    return Ok(ingredientName);
-        //}
-
         /// <summary>
         /// returns viewmodel with ingredients and categories
         /// </summary>
         /// <returns></returns>
         /// 
-        //TODO: poprawić ten szajs
+    
         public IngredientsCategoryViewModel GetIngredients(IngredientsFilter filters)
         {
+
 
             var ingredients = from m in _context.Ingredients.Include(x => x.Category).Include(i => i.Image)
                               select m;
 
             var categories = from m in _context.Categories
                            select m;
+                                 
 
             var ingredientCategoryVM = new IngredientsCategoryViewModel
             {
@@ -64,23 +58,38 @@ namespace OnlineRefrigerator
 
             };
 
+
             if (!string.IsNullOrEmpty(filters.IngredientName))
-                ingredientCategoryVM.Ingredients = ingredientCategoryVM.Ingredients.Where(s => s.Name.ToLower().Contains(filters.IngredientName.ToLower())).ToList();
-            //if (filters.CategoryId != 0)
-            //    ingredientCategoryVM.Categories = ingredientCategoryVM.Categories.Where(s => s.Id == filters.CategoryId).ToList();
+                ingredientCategoryVM.Ingredients = ingredientCategoryVM.Ingredients.Where(s => s.Name.ToLower().StartsWith(filters.IngredientName.ToLower())).ToList();
+            if (filters.CategoryId != 0)
+                ingredientCategoryVM.Ingredients = ingredientCategoryVM.Ingredients.Where(s => s.CategoryId == filters.CategoryId).ToList();
+
+           
+            if (filters.ColumnName != null)
+            {
+                //geting property name of ingredient class, selected by clicking on the sort button of specific column name in partial view
+                PropertyInfo orderByProperty = typeof(Ingredients).GetProperties().SingleOrDefault(property => property.Name == filters.ColumnName);
+
+                if (filters.SortOrder)
+                {
+                    var result = ingredientCategoryVM.Ingredients.OrderByDescending(s => orderByProperty.GetValue(s)).ToList();
+                    ingredientCategoryVM.Ingredients = result;
+                }
+
+                else if (!filters.SortOrder)
+                {
+
+                    var result = ingredientCategoryVM.Ingredients.OrderBy(s => orderByProperty.GetValue(s)).ToList();
+                    ingredientCategoryVM.Ingredients = result;
+
+                }
 
 
-
+            }
 
             return ingredientCategoryVM;
 
         }
-
-
-
-
-
-
 
 
         // GET: Ingredients

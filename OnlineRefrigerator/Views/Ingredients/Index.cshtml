@@ -16,7 +16,7 @@
 
 <div>
     
-        <h1>Search Students</h1>
+        <h1>Search Ingredients</h1>
         <br />
         <form>
             <div class="form-row">
@@ -27,29 +27,32 @@
                 <div class="form-group col-md-6">
                     <label for="Category">Category</label>
                     <select class="form-control" id="category">
+                        <option value="0">All</option>
                         <option value="1">Vegetables</option>
                         <option value="2">Fruits</option>
                         <option value="3">Meat</option>
                     </select>
                 </div>
             </div>
-            <div class="form-row">
+            @*<div class="form-row">
                 <div class="form-group col-md-12">
                     <input id="btnSearch" type="button" class="btn btn-primary" value="Search" />
                 </div>
-            </div>
+            </div>*@
         </form>
 
 
 
 
-        <div id="dupa"> </div>
+        <div id="displayIngredients"> </div>
 
 
         @section Scripts{
-            <script src="~/js/index.js"></script>
 
-            @*<script src="~/js/index.js"></script>*@
+            <script src="~/js/ingredients-functions.js"></script>
+            <script src="~/js/ingredients-display.js"></script>
+            <script src="~/js/ingredients-sort.js"></script>
+                       
         }
     
 </div>
