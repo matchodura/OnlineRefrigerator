@@ -123,19 +123,39 @@ namespace OnlineRefrigerator
             //gets path of immage in wwwroot
             var path = env.WebRootFileProvider.GetFileInfo("Images/missing_image.jpg")?.PhysicalPath;
 
+
+           
+
+
             if(ingredientImage != null)
             {
-                byte[] image = ingredientImage.Image;
+                
+                if(ingredientImage.Image == null)
+                {
+                    var imageFileStream = System.IO.File.OpenRead(path);
+                    return File(imageFileStream, "image/jpeg");
 
-                return File(image, "image/jpg");
+                }
+
+                else
+                {
+                    byte[] image = ingredientImage.Image;
+
+                    return File(image, "image/jpg");
+
+                    
+                }
+               
+
             }
 
             else
             {
+
                 //displays missing image as placeholder if correct image was not provided
                 var imageFileStream = System.IO.File.OpenRead(path);
                 return File(imageFileStream, "image/jpeg");
-               
+
             }
             
         }
@@ -213,8 +233,9 @@ namespace OnlineRefrigerator
                     {
                         await image.CopyToAsync(memoryStream);
                         var imageToBeUploadedByteArray = memoryStream.ToArray();
-                        ingredientImage.Image = imageToBeUploadedByteArray;
-                                               
+                        ingredientImage.Image = imageToBeUploadedByteArray;                                                                
+
+                        
                     }
                 }
 
@@ -223,6 +244,7 @@ namespace OnlineRefrigerator
                 await _context.SaveChangesAsync();
 
                 ingredientModel.ImageId = ingredientImage.Id;
+
                 _context.Add(ingredientModel);
                 await _context.SaveChangesAsync();
 

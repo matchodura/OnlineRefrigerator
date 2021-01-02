@@ -71,21 +71,53 @@ namespace OnlineRefrigerator.Controllers
             return View(recipes);
         }
 
+
+
+
+        //public IActionResult RecipesCreate()
+        //{
+        //    var vm = new RecipesCreateViewModel() { };
+        //    return View(vm);
+
+
+        //}
+
+
+        [HttpPost]
+        public IActionResult RecipesCreate(RecipesSteps model)
+        {
+            //check model.ListItems
+            // to do : return something
+
+            var test = model;
+
+
+            return View();
+        }
+
+
+
+
         // GET: Recipes/Create
         public IActionResult Create()
         {
 
-            var vm = new RecipesCreateViewModel();
+            //var vm = new RecipesCreateViewModel();
 
-            vm.Categories = _context.RecipesCategories
-                                    .Select(a => new SelectListItem()
-                                    {
-                                        Text = a.Name,
-                                        Value = a.Id.ToString()
-                                    }).ToList();
+            //vm.Categories = _context.RecipesCategories
+            //                        .Select(a => new SelectListItem()
+            //                        {
+            //                            Text = a.Name,
+            //                            Value = a.Id.ToString()
+            //                        }).ToList();
 
+
+
+            //return View(vm);
+
+            var vm = new RecipesSteps() { };
             return View(vm);
-           
+
         }
 
         // POST: Recipes/Create
@@ -93,12 +125,10 @@ namespace OnlineRefrigerator.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create( RecipesCreateViewModel model)
+        public async Task<IActionResult> Create(RecipesCreateViewModel model)
         {
 
             Recipes recipe = model.Recipe;
-
-
 
             recipe.TypeId = model.SelectedCategory;
 
@@ -107,8 +137,6 @@ namespace OnlineRefrigerator.Controllers
 
             if (ModelState.IsValid)
             {
-
-
 
 
 

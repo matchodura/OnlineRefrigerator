@@ -25,6 +25,14 @@ a.navbar-brand {
 }
 
 
+
+.ingredients-table-results {
+    height: 500px;
+    overflow: scroll;
+}
+
+
+
 /* Provide sufficient contrast against white background */
 a {
   color: #0366d6;

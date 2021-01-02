@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
@@ -12,11 +13,21 @@ namespace OnlineRefrigerator.Models
 
         public int Id { get; set; }
 
-       // public string Category { get; set; }
+        // public string Category { get; set; }
+
+        [RegularExpression(@"([a-zA-Z](\s)?)+", ErrorMessage = "Name can only contain letters"), Required(ErrorMessage = "Name must be provided")]
         public string Name { get; set; }
+
+        [DisplayName("Fat"), Range(0.0, Double.MaxValue, ErrorMessage = "Value should be greater than zero")]
         public decimal Fat { get; set; }
+
+        [DisplayName("Carbs"), Range(0.0, Double.MaxValue, ErrorMessage = "Value should be greater than zero")]
         public decimal Carbs { get; set; }
+
+        [DisplayName("Protein"), Range(0.0, Double.MaxValue, ErrorMessage = "Value should be greater than zero")]
         public decimal Protein { get; set; }
+
+        [DisplayName("Energy"), Range(0.0, Double.MaxValue, ErrorMessage = "Value should be greater than zero")]
         public decimal Energy { get; set; }
 
       

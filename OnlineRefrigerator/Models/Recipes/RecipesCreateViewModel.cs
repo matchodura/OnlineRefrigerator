@@ -16,6 +16,18 @@ namespace OnlineRefrigerator.Models
         public int SelectedCategory { get; set; }
 
 
+        public List<RecipesSteps> RecipesSteps { get; set; }
+
+
+        public RecipesCreateViewModel()
+        {
+
+            RecipesSteps = new List<RecipesSteps>();
+
+        }
+
+
+
         //TODO: image upload dla przepisu
         //public IFormFile Image { get; set; }
     }

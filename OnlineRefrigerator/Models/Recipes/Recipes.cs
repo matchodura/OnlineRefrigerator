@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
@@ -14,6 +15,8 @@ namespace OnlineRefrigerator.Models
 
         public int Id { get; set; }
 
+
+        [RegularExpression(@"^([\sA-Za-z]+)$", ErrorMessage = "Name can only contain letters"), Required(ErrorMessage = "Name must be provided")]        
         public string Name { get; set; }
 
 
@@ -25,11 +28,10 @@ namespace OnlineRefrigerator.Models
         public virtual RecipesCategories Type { get; set; }
 
         /// <summary>
-        /// time in minutes as integer 
+        /// time in minutes as integers
         /// </summary>
         /// 
-
-        [DisplayName("Preparation Time")]
+        [DisplayName("Preparation Time"), Range(1, Int32.MaxValue, ErrorMessage = "Value should be greater than or equal to 1")]
         public int PreparationTime { get; set; }
 
         
