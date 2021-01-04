@@ -18,16 +18,16 @@ namespace OnlineRefrigerator.Models
         [RegularExpression(@"([a-zA-Z](\s)?)+", ErrorMessage = "Name can only contain letters"), Required(ErrorMessage = "Name must be provided")]
         public string Name { get; set; }
 
-        [DisplayName("Fat"), Range(0.0, Double.MaxValue, ErrorMessage = "Value should be greater than zero")]
+        [DisplayName("Fat"), Range(0.0, Double.MaxValue, ErrorMessage = "Value cannot be negative!")]
         public decimal Fat { get; set; }
 
-        [DisplayName("Carbs"), Range(0.0, Double.MaxValue, ErrorMessage = "Value should be greater than zero")]
+        [DisplayName("Carbs"), Range(0.0, Double.MaxValue, ErrorMessage = "Value cannot be negative!")]
         public decimal Carbs { get; set; }
 
-        [DisplayName("Protein"), Range(0.0, Double.MaxValue, ErrorMessage = "Value should be greater than zero")]
+        [DisplayName("Protein"), Range(0.0, Double.MaxValue, ErrorMessage = "Value cannot be negative!")]
         public decimal Protein { get; set; }
 
-        [DisplayName("Energy"), Range(0.0, Double.MaxValue, ErrorMessage = "Value should be greater than zero")]
+        [DisplayName("Energy"), Range(0.0, Double.MaxValue, ErrorMessage = "Value cannot be negative!")]
         public decimal Energy { get; set; }
 
       

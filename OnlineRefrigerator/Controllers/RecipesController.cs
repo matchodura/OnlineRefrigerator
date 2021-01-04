@@ -56,69 +56,50 @@ namespace OnlineRefrigerator.Controllers
         // GET: Recipes/Details/5
         public async Task<IActionResult> Details(int? id)
         {
+            var vm = new RecipesDetailsViewModel();
+
+
             if (id == null)
             {
                 return NotFound();
             }
 
-            var recipes = await _context.Recipes
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (recipes == null)
+            var recipe = await _context.Recipes.Include(x=>x.Type).FirstOrDefaultAsync(m => m.Id == id);
+
+            var steps = _context.RecipesSteps.Where(s => s.RecipeId == id).ToList();
+
+            if (recipe == null)
             {
                 return NotFound();
             }
 
-            return View(recipes);
+            vm.Recipe = recipe;
+            vm.RecipesSteps = steps;
+
+
+            return View(vm);
         }
 
 
 
 
-        //public IActionResult RecipesCreate()
-        //{
-        //    var vm = new RecipesCreateViewModel() { };
-        //    return View(vm);
 
-
-        //}
-
-
-        [HttpPost]
-        public IActionResult RecipesCreate(RecipesSteps model)
-        {
-            //check model.ListItems
-            // to do : return something
-
-            var test = model;
-
-
-            return View();
-        }
-
-
-
-
-        // GET: Recipes/Create
         public IActionResult Create()
         {
+            var vm = new RecipesCreateViewModel() { };
 
-            //var vm = new RecipesCreateViewModel();
+            vm.Categories = _context.RecipesCategories
+                                    .Select(a => new SelectListItem()
+                                    {
+                                        Text = a.Name,
+                                        Value = a.Id.ToString()
+                                    }).ToList();
 
-            //vm.Categories = _context.RecipesCategories
-            //                        .Select(a => new SelectListItem()
-            //                        {
-            //                            Text = a.Name,
-            //                            Value = a.Id.ToString()
-            //                        }).ToList();
-
-
-
-            //return View(vm);
-
-            var vm = new RecipesSteps() { };
+        
             return View(vm);
-
         }
+
+    
 
         // POST: Recipes/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
@@ -132,35 +113,32 @@ namespace OnlineRefrigerator.Controllers
 
             recipe.TypeId = model.SelectedCategory;
 
-           
+            
 
 
             if (ModelState.IsValid)
             {
 
-
-
                 _context.Add(recipe);
                 await _context.SaveChangesAsync();
 
-               
-                //TODO: frontend dodawania stepów i ich wyświetlania na stronie
-                for (int i = 0; i <= 3; i++)
+              
+                             
+                for(int i = 0; i<model.StepList.Count; i++)
                 {
 
                     RecipesSteps recipesSteps = new RecipesSteps();
 
                     recipesSteps.RecipeId = recipe.Id;
                     recipesSteps.StepNumber = i;
-                    recipesSteps.Text = $"dupa dupa {i}"; 
+                    recipesSteps.Text = model.StepList[i].Text;
 
                     _context.Add(recipesSteps);
-                    
+
                 }
 
+
                 await _context.SaveChangesAsync();
-
-
 
 
 
