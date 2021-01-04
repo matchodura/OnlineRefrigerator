@@ -14,6 +14,7 @@ namespace OnlineRefrigerator.Models
         //public List<SelectListItem> Categories { get; set; }
 
         public List<Categories> Categories { get; set; }
+        public List<Servings> Servings { get; set; }
 
         public int SelectedCategory { get; set; }
                        

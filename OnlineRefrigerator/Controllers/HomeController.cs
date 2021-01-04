@@ -32,22 +32,7 @@ namespace OnlineRefrigerator.Controllers
         }
 
         //[Authorize]
-        public IActionResult Recipes()
-        {
-            return View();
-        }
-
-        //[Authorize]
-        public IActionResult Calculator()
-        {
-            return View();
-        }
-
-        [Authorize]
-        public IActionResult Fridge()
-        {
-            return View();
-        }
+   
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()

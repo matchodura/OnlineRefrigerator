@@ -111,10 +111,7 @@ namespace OnlineRefrigerator.Controllers
 
             Recipes recipe = model.Recipe;
 
-            recipe.TypeId = model.SelectedCategory;
-
-            
-
+            recipe.TypeId = model.SelectedCategory;            
 
             if (ModelState.IsValid)
             {

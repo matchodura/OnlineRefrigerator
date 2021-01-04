@@ -11,6 +11,8 @@
     <Compile Remove="Migrations\20201207205645_InitialCreation.Designer.cs" />
     <Compile Remove="Migrations\Ingredients\20210101223727_SiteImages.cs" />
     <Compile Remove="Migrations\Ingredients\20210101223727_SiteImages.Designer.cs" />
+    <Compile Remove="Migrations\Ingredients\20210104184738_ServingsTypese.cs" />
+    <Compile Remove="Migrations\Ingredients\20210104184738_ServingsTypese.Designer.cs" />
     <Compile Remove="Migrations\Recipes\20201226183424_test.cs" />
     <Compile Remove="Migrations\Recipes\20201226183424_test.Designer.cs" />
   </ItemGroup>
@@ -32,6 +34,8 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.4" />
+    <PackageReference Include="xunit.extensibility.core" Version="2.4.1" />
+    <PackageReference Include="xunit.extensibility.execution" Version="2.4.1" />
   </ItemGroup>
 
   <ItemGroup>

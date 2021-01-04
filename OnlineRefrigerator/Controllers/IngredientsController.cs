@@ -38,12 +38,17 @@ namespace OnlineRefrigerator
         {
 
 
-            var ingredients = from m in _context.Ingredients.Include(x => x.Category).Include(i => i.Image)
+            var ingredients = from m in _context.Ingredients.Include(x => x.Category).Include(i => i.Image).Include(x=>x.Serving)
                               select m;
 
             var categories = from m in _context.Categories
                            select m;
-                                 
+
+
+            //var servings = from m in _context.Servings.Include(x => x.ServingType)
+            //               select m;
+
+
 
             var ingredientCategoryVM = new IngredientsCategoryViewModel
             {
@@ -58,6 +63,8 @@ namespace OnlineRefrigerator
                 Categories = categories.ToList(),
 
                 Ingredients = ingredients.ToList()
+
+                //Servings = servings.ToList()
 
             };
 
@@ -171,7 +178,7 @@ namespace OnlineRefrigerator
                 return NotFound();
             }
 
-            var ingredients = await _context.Ingredients.Include(x => x.Category)
+            var ingredients = await _context.Ingredients.Include(x => x.Category).Include(x=>x.Serving)
                 .FirstOrDefaultAsync(m => m.Id == id);
 
             if (ingredients == null)
@@ -186,14 +193,27 @@ namespace OnlineRefrigerator
        
         public IActionResult Create()
         {
-            var vm = new IngredientsCreateViewModel();
-
-            vm.Categories = _context.Categories
+            var vm = new IngredientsCreateViewModel()
+            {
+                Categories = _context.Categories
                                     .Select(a => new SelectListItem()
                                     {
                                         Text = a.Name,
                                         Value = a.Id.ToString()
-                                    }).ToList();
+                                    }).ToList(),
+
+
+                Servings = _context.Servings
+                                    .Select(a => new SelectListItem()
+                                    {
+                                        Text = a.ServingType,
+                                        Value = a.Id.ToString()
+                                    }).ToList()
+
+
+            };
+
+           
 
             return View(vm);
         }
@@ -217,10 +237,30 @@ namespace OnlineRefrigerator
 
             ingredientModel.CategoryId = model.SelectedCategory;
 
+            ingredientModel.ServingId = model.SelectedServing;
+            ingredientModel.ServingValue = model.ServingValue;
+
 
 
             if (!ModelState.IsValid)
             {
+
+                model.Categories = _context.Categories
+                                    .Select(a => new SelectListItem()
+                                    {
+                                        Text = a.Name,
+                                        Value = a.Id.ToString()
+                                    }).ToList();
+
+
+                model.Servings = _context.Servings
+                                     .Select(a => new SelectListItem()
+                                     {
+                                         Text = a.ServingType,
+                                         Value = a.Id.ToString()
+                                     }).ToList();
+
+
                 return View(model);
             }
                        

@@ -78,6 +78,28 @@
                         </div>
                     </div>
                 </th>
+
+                <th id="ServingId">
+                    <div class="row">
+                        <div class="column">@Html.DisplayNameFor(model => model.Ingredients[0].Serving) </div>
+                        <div class="column">
+                            <div class="btnHover">
+                                <i class="fas fa-sort"></i>
+                            </div>
+                        </div>
+                    </div>
+                </th>
+
+                <th id="ServingValue">
+                    <div class="row">
+                        <div class="column">@Html.DisplayNameFor(model => model.Ingredients[0].ServingValue) </div>
+                        <div class="column">
+                            <div class="btnHover">
+                                <i class="fas fa-sort"></i>
+                            </div>
+                        </div>
+                    </div>
+                </th>
                 @* tables for images and details *@
                 <th></th>
                 <th></th>
@@ -86,42 +108,49 @@
         <tbody class="ingredientsResults">
             @foreach (var item in Model.Ingredients)
             {
-                <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Category.Name)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Name)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Fat)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Carbs)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Protein)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Energy)
-                    </td>
-                    <td>
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Category.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Fat)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Carbs)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Protein)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Energy)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Serving.ServingType)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ServingValue)
+                </td>
 
-                        <img class="ingredients-table-img" src="@Url.Action("GetImage", new { id = item.ImageId })" />
+                <td>
+
+                    <img class="ingredients-table-img" src="@Url.Action("GetImage", new { id = item.ImageId })" />
 
 
-                    </td>
-                    <td>
-                        @if (this.User.Identity.IsAuthenticated)
-                        {
-                            <a asp-action="Edit" asp-route-id="@item.Id">Edit</a>
-                            <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-                        }
+                </td>
+                <td>
+                    @if (this.User.Identity.IsAuthenticated)
+                    {
+                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a>
+                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                    }
 
-                        <a asp-action="Details" asp-route-id="@item.Id">Details</a>
+                    <a asp-action="Details" asp-route-id="@item.Id">Details</a>
 
-                    </td>
-                </tr>
+                </td>
+            </tr>
             }
         </tbody>
 

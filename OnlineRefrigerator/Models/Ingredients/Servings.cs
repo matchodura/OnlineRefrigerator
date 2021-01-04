@@ -5,11 +5,14 @@ using System.Threading.Tasks;
 
 namespace OnlineRefrigerator.Models
 {
-    public class Categories
+    public class Servings
     {
+
         public int Id { get; set; }
-        public string Name { get; set; }
+        public string ServingType { get; set; }
         public virtual ICollection<Ingredients> Ingredient { get; set; }
+
+
 
     }
 }

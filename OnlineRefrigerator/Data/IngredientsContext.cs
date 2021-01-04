@@ -15,6 +15,7 @@ namespace OnlineRefrigerator.Data
         public DbSet<Ingredients> Ingredients { get; set; }
 
         public DbSet<Categories> Categories { get; set; }
+        public DbSet<Servings> Servings { get; set; }
 
         public DbSet<IngredientsImages> IngredientsImages { get; set; }
        
