@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 using OnlineRefrigerator.Data;
 using OnlineRefrigerator.Models;
 using System;
@@ -13,39 +14,135 @@ namespace OnlineRefrigerator.Controllers
     public class CalculatorController : Controller
     {
         private readonly IngredientsContext _context;
+        private readonly RecipesContext _recipesContext;
 
-        public CalculatorController(IngredientsContext context)
+        public CalculatorController(IngredientsContext context, RecipesContext recipesContext)
         {
-           
+            _recipesContext = recipesContext;
             _context = context;
         }
         // GET: Calculator
         public IActionResult Index()
+        {        
+
+
+            return View();
+
+        }
+
+
+        public CalculatorViewModel GetIngredients(CalculatorFilter filters)
         {
 
-            var vm = new CalculatorViewModel()
+            var ingredients = from m in _context.Ingredients.Include(x => x.Category)
+                              select m;
+
+            
+
+            var recipes = from m in _recipesContext.Recipes.Include(x => x.Type)
+                          select m;
+
+           
+
+
+            var calculatorVM = new CalculatorViewModel()
             {
-                Categories = _context.Categories
-                                  .Select(a => new SelectListItem()
-                                  {
-                                      Text = a.Name,
-                                      Value = a.Id.ToString()
-                                  }).ToList(),
 
-
-                Servings = _context.Servings
-                                  .Select(a => new SelectListItem()
-                                  {
-                                      Text = a.ServingType,
-                                      Value = a.Id.ToString()
-                                  }).ToList()
-
-
+                Recipes = recipes.ToList(),
+                Ingredients = ingredients.ToList(),
+                
+                                               
             };
 
 
+        
 
-            return View(vm);
+
+
+
+            if (filters.TypeId == 0)
+            {                                              
+                calculatorVM.Ingredients = calculatorVM.Ingredients.Where(s => s.CategoryId == filters.CategoryId).ToList();
+
+                var items = _context.Ingredients.Select(x => new SelectListItem
+                {
+                    Value = x.CategoryId.ToString(),
+                    Text = x.Category.Name
+                }).Distinct().ToList();
+
+                calculatorVM.Glossary_List = items;
+
+                foreach (var item in calculatorVM.Ingredients)
+                {
+                    var results = new Results();
+
+                    results.Name = item.Name;
+                    results.Id = item.Id;
+                    results.EnergyValues = item.Energy;
+                    results.CategoryId = item.CategoryId;
+                    results.CategoryName = item.Category.Name;
+
+                    calculatorVM.Results.Add(results);
+
+
+
+                }
+
+            }
+            else
+            {
+                calculatorVM.Recipes = calculatorVM.Recipes.Where(s => s.TypeId == filters.CategoryId).ToList();
+
+                var items = _recipesContext.Recipes.Select(x => new SelectListItem
+                {
+                    Value = x.TypeId.ToString(),
+                    Text = x.Type.Name
+                }).Distinct().ToList();
+
+                calculatorVM.Glossary_List = items;
+
+                foreach (var item in calculatorVM.Recipes)
+                {
+                    var results = new Results();
+
+                    results.Name = item.Name;
+                    results.Id = item.Id;
+                    results.CategoryId = (int)item.TypeId;
+                    results.CategoryName = item.Type.Name;
+
+                    calculatorVM.Results.Add(results);
+
+                }
+
+            }
+
+
+            
+         
+           
+
+            return (calculatorVM);
+        }
+
+
+        [HttpPost]
+        public IActionResult ShowCategories(CalculatorFilter filters)
+        {
+
+            var partialViewModel = GetIngredients(filters);
+
+            return PartialView("~/Views/Calculator/_CalculatorCategoriesPartial.cshtml",partialViewModel);
+        }
+
+
+
+        [HttpPost]
+        public IActionResult ShowIngredients(CalculatorFilter filters)
+        {
+
+            var partialViewModel = GetIngredients(filters);
+
+            return PartialView("~/Views/Calculator/_CalculatorResultsPartial.cshtml", partialViewModel);
 
         }
 

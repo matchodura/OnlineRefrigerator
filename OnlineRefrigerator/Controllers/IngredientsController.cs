@@ -62,6 +62,7 @@ namespace OnlineRefrigerator
 
                 Categories = categories.ToList(),
 
+
                 Ingredients = ingredients.ToList()
 
                 //Servings = servings.ToList()

@@ -1,0 +1,102 @@
+﻿@model OnlineRefrigerator.Models.CalculatorViewModel
+
+<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+
+
+
+
+    <table class="table">
+        <thead>
+            <tr id="rowLabels">
+                <th id="Name">
+                    <div class="row">
+                        <div class="column">@Html.DisplayNameFor(model => model.Results[0].Name) </div>
+                        <div class="column">
+                            <div class="btnHover">
+                                <i class="fas fa-sort"></i>
+                            </div>
+                        </div>
+                    </div>
+                </th>
+
+
+
+                <th id="Id">
+                    <div class="row">
+                        <div class="column">@Html.DisplayNameFor(model => model.Results[0].Id) </div>
+                        <div class="column">
+                            <div class="btnHover">
+                                <i class="fas fa-sort"></i>
+                            </div>
+                        </div>
+                    </div>
+                </th>
+
+                <th id="CategoryId">
+                    <div class="row">
+                        <div class="column">@Html.DisplayNameFor(model => model.Results[0].CategoryId) </div>
+                        <div class="column">
+                            <div class="btnHover">
+                                <i class="fas fa-sort"></i>
+                            </div>
+                        </div>
+                    </div>
+                </th>
+
+                <th id="Energy">
+                    <div class="row">
+                        <div class="column">@Html.DisplayNameFor(model => model.Results[0].EnergyValues) </div>
+                        <div class="column">
+                            <div class="btnHover">
+                                <i class="fas fa-sort"></i>
+                            </div>
+                        </div>
+                    </div>
+                </th>
+
+            </tr>
+        </thead>
+        <tbody class="ingredientsResults">
+            @foreach (var item in Model.Results)
+            {
+            <tr>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.Id)
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.CategoryName)
+                </td>
+                <td>
+
+                    @Html.DisplayFor(modelItem => item.EnergyValues)
+                </td>
+
+                <td>
+                    @if (this.User.Identity.IsAuthenticated)
+                    {
+                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a>
+                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                    }
+
+                    <a asp-controller="Ingredients" asp-action="Details" asp-route-id="@item.Id">Details</a>
+
+                </td>
+            </tr>
+            }
+        </tbody>
+
+    </table>
+
+@section Scripts{
+    <script src="~/js/ingredients-display.js"></script>
+}

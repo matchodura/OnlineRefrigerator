@@ -13,35 +13,68 @@
     <br />
     <form>
         <div class="row">
-            <div class="form-group col-md-6">
-                <label for="Ingredient">Ingredient</label>
-                <input type="text" id="ingredient" placeholder="ingredient" class="form-control">
+            <div class="form-group col-md-3">
+                <label for="ItemSearch">Ingredient</label>
+                <input type="text" id="itemSearch" placeholder="type name of looking item" class="form-control">
             </div>
-            <div class="col-md-4">
-                <div class="form-group">
-                    <label asp-for="@Model.Categories" class="control-label"></label>
-                    @Html.DropDownListFor(s => s.SelectedCategory, Model.Categories, htmlAttributes: new { @class = "form-control" })
+
+            <div class="form-group col-md-3">
+                <label for="Types">Types</label>
+                @* TODO: dodac opcje wyboru kategorii z bazy danych *@
+                @* TODO: dodac opcje wyboru kategorii z bazy danych *@
+                <select class="form-control" id="typeSearch">
+                    <option value="0">Ingredients</option>
+                    <option value="1">Recipes</option>
+                    @*<option value="2">Recipes</option>*@
+                </select>
+            </div>
+
+            
+            <div class="form-group col-md-3">
+                <div id="renderCategories">                 
                 </div>
             </div>
 
+            @*<div class="form-group col-md-4">
             <div class="col-md-4">
                 <div class="form-group">
-                    <label asp-for="@Model.Servings" class="control-label"></label>
-                    @Html.DropDownListFor(s => s.SelectedServing, Model.Servings, htmlAttributes: new { @class = "form-control" })
+                    <label asp-for="@Model.IngredientsCategories" class="control-label"></label>
+                    @Html.DropDownListFor(s => s.SelectedCategory, Model.IngredientsCategories, htmlAttributes: new { @class = "form-control" })
                 </div>
             </div>
+
+        </div>
+
+        <div class="col-md-4">
+            <div class="form-group">
+                <label asp-for="@Model.RecipesCategories" class="control-label"></label>
+                @Html.DropDownListFor(s => s.SelectedCategory, Model.RecipesCategories, htmlAttributes: new { @class = "form-control" })
+            </div>
+        </div>*@
+
+
+
+
+            @* Wyświetlić to w tabeli ładnie *@
+            @*<div class="col-md-4">
+            <div class="form-group">
+                <label asp-for="@Model.Servings" class="control-label"></label>
+                @Html.DropDownListFor(s => s.SelectedServing, Model.Servings, htmlAttributes: new { @class = "form-control" })
+            </div>
+        </div>*@
         </div>
     </form>
 
 
-    <div id="displayIngredients"> </div>
+    <div id="displayCalculator"> </div>
 
     @section Scripts{
 
-        @*<script src="~/js/ingredients-functions.js"></script>
-        <script src="~/js/ingredients-display.js"></script>
-        <script src="~/js/ingredients-sort.js"></script>*@
+        <script src="~/js/calculator-functions.js"></script>
+        <script src="~/js/calculator-display.js"></script>
+        @*<script src="~/js/calculator-sort.js"></script>*@
 
     }
+
 
 </div>
