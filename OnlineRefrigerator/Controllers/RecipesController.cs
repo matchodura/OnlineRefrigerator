@@ -13,10 +13,12 @@ namespace OnlineRefrigerator.Controllers
     public class RecipesController : Controller
     {
         private readonly RecipesContext _context;
+        private readonly IngredientsContext _ingredientsContext;
 
-        public RecipesController(RecipesContext context)
+        public RecipesController(RecipesContext context, IngredientsContext ingredientsContext)
         {
             _context = context;
+            _ingredientsContext = ingredientsContext;
         }
 
         // GET: Recipes
@@ -99,7 +101,37 @@ namespace OnlineRefrigerator.Controllers
             return View(vm);
         }
 
-    
+
+        public RecipesCreateViewModel GetIngredients(IngredientsFilter filters)
+        {
+
+            var vm = new RecipesCreateViewModel();
+
+
+
+
+            //if (!string.IsNullOrEmpty(filters.IngredientName))
+            //    vm.Ingredients = ingredientCategoryVM.Ingredients.Where(s => s.Name.ToLower().StartsWith(filters.IngredientName.ToLower())).ToList();
+          
+
+
+            return vm;
+
+        }
+
+
+
+        [HttpPost]
+        public IActionResult ShowIngredients(IngredientsFilter filters)
+        {
+
+            var partialViewModel = GetIngredients(filters);
+
+            return PartialView("~/Views/Recipes/_RecipesIngredientsChoosePartial.cshtml", partialViewModel);
+
+        }
+
+
 
         // POST: Recipes/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 

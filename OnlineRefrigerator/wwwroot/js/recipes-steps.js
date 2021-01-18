@@ -1,26 +1,4 @@
-﻿//$(document).ready(function () {
-
-
-    //$(function () {
-    //    $("#add").click(function (e) {
-    //        e.preventDefault();
-
-
-           
-    //        var numberOfElements = $(".items").length;
-
-
-    //        var n = '<div><input type="text" class="items" name="StepList[' + numberOfElements + '].Text" />';
-              
-
-    //        $("#item-list").append(n);
-
-
-
-    //    });
-
-
-    $("#addRow").click(function () {
+﻿    $("#addRow").click(function () {
 
         var numberOfElements = $(".form-control.m-input").length;
       //  form - control m - input
@@ -43,9 +21,5 @@
         $(this).closest('#inputFormRow').remove();
     });
 
-
-
-
-//});
 
 

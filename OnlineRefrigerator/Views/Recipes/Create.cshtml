@@ -13,12 +13,8 @@
 <form asp-action="Create" method="post">
     <div class="row">
         <div class="col-md-4">
-
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-
-
             @Html.DropDownListFor(s => s.SelectedCategory, Model.Categories, htmlAttributes: new { @class = "form-control" })
-
 
             <div class="form-group">
                 <label asp-for="@Model.Recipe.Name" class="control-label"></label>
@@ -35,96 +31,51 @@
 
         </div>
         <div class="col-md-4">
-            <table class="table">
-                <tr>
-                    <td id="label-list">
-                    </td>
-                    <td>
-                        @*<div class="container">
-                            <div class="form-group" id="item-list">
-                                <a href="#" id="add">Add</a>
-                                @Html.EditorFor(f => f.StepList)
-                            </div>
-                        </div>*@
-
-
-                        <div class="col-lg-12">
-                            <div id="inputFormRow">
-                                <div class="input-group mb-3">
-                                    @Html.EditorFor(f => f.StepList)
-                                    @*<input type="text" name="title[]" class="form-control m-input" placeholder="Enter information" autocomplete="off">*@
-                                    <div class="input-group-append">
-                                        @*<button id="removeRow" type="button" class="btn btn-danger">Remove</button>*@
-
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="form-group" id="item-list"></div>
-                            <div id="newRow"></div>
-                            <button id="addRow" type="button" class="btn btn-info">Add Row</button>
-
+            <div class="form-group">
+                <div id="inputFormRow">
+                    <div class="input-group mb-3">
+                        @Html.EditorFor(f => f.StepList)
+                        @*<input type="text" name="title[]" class="form-control m-input" placeholder="Enter information" autocomplete="off">*@
+                        <div class="input-group-append">
+                            @*<button id="removeRow" type="button" class="btn btn-danger">Remove</button>*@
 
                         </div>
-                    </td>
-                </tr>
-            </table>
+                    </div>
+                </div>
 
+                <div class="form-group" id="item-list"></div>
+                <div id="newRow"></div>
+                <button id="addRow" type="button" class="btn btn-info">Add Step</button>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="form-group">
+                <div id="ingredientsCreation">
+                </div>
+            </div>
         </div>
     </div>
+
     <div class="row">
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>            
+        <div class="form-group">
+            <input type="submit" value="Create" class="btn btn-primary" />
+        </div>
     </div>
 </form>
-
-
 
 <div>
     <a asp-action="Index">Back to List</a>
 </div>
 
-
-@*<div class="row">
-        <div class="col-md-4">
-            <form asp-action="Create">
-                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-
-
-                @Html.DropDownListFor(s => s.SelectedCategory, Model.Categories, htmlAttributes: new { @class = "form-control" })
-
-
-                <div class="form-group">
-                    <label asp-for="@Model.Recipe.Name" class="control-label"></label>
-                    <input asp-for="@Model.Recipe.Name" class="form-control" />
-                    <span asp-validation-for="@Model.Recipe.Name" class="text-danger"></span>
-                </div>
-
-
-
-
-                <div class="form-group">
-                    <label asp-for="@Model.Recipe.PreparationTime" class="control-label"></label>
-                    <input asp-for="@Model.Recipe.PreparationTime" class="form-control" />
-                    <span asp-validation-for="@Model.Recipe.PreparationTime" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <input type="submit" value="Create" class="btn btn-primary" />
-                </div>
-            </form>
-        </div>
-    </div>
-
-    <div>
-        <a asp-action="Index">Back to List</a>
-    </div>*@
-
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 
-
+    <script src="~/js/recipes-functions.js"></script>
     <script src="~/js/recipes-steps.js"></script>
+    <script src="~/js/recipes-ingredient-add.js"></script>
 
+
+}
 
 }
