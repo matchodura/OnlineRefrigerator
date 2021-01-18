@@ -12,50 +12,45 @@
     <h1>Calculate things</h1>
     <br />
     <form>
-        <div class="row">
-            <div class="form-group col-md-3">
-                <label for="ItemSearch">Ingredient</label>
-                <input type="text" id="itemSearch" placeholder="type name of looking item" class="form-control">
-            </div>
+        <div class="column">           
+            @using (Html.BeginForm())
+            {
+                @Html.AntiForgeryToken()
+
+                <div class="form-horizontal">
+                   
+                    <hr />
+
+                    <div class="form-group">
+                       
+                        <div class="col-md-12">
+                       
+                            @Html.EditorFor(model => model.Ingredient.Name, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.EditorFor(model => model.Ingredient.Id, new { htmlAttributes = new { @class = "form-control" } })
+                        </div>
+                    </div>
+
+                </div>
+            }
 
             <div class="form-group col-md-3">
-                <label for="Types">Types</label>
-                @* TODO: dodac opcje wyboru kategorii z bazy danych *@
-                @* TODO: dodac opcje wyboru kategorii z bazy danych *@
-                <select class="form-control" id="typeSearch">
-                    <option value="0">Ingredients</option>
-                    <option value="1">Recipes</option>
-                    @*<option value="2">Recipes</option>*@
-                </select>
-            </div>
-
-            
-            <div class="form-group col-md-3">
-                <div id="renderCategories">                 
+                <div id="renderDetails">
                 </div>
             </div>
 
-            @*<div class="form-group col-md-4">
-            <div class="col-md-4">
-                <div class="form-group">
-                    <label asp-for="@Model.IngredientsCategories" class="control-label"></label>
-                    @Html.DropDownListFor(s => s.SelectedCategory, Model.IngredientsCategories, htmlAttributes: new { @class = "form-control" })
+
+            <div class="col-md-3">
+                <div id="renderCategories">
                 </div>
             </div>
 
-        </div>
-
-        <div class="col-md-4">
-            <div class="form-group">
-                <label asp-for="@Model.RecipesCategories" class="control-label"></label>
-                @Html.DropDownListFor(s => s.SelectedCategory, Model.RecipesCategories, htmlAttributes: new { @class = "form-control" })
-            </div>
-        </div>*@
+            @* to do here, dodać opcje wyświetlania porcji + wartości w gramach
+        potem wyświetlanie dynamiczne obliczonych wartości kalorii + makroskładników jak dojdą
+         dodatkowo uzupełnić powyższą wyszukiwarkę autocomplete*@
 
 
 
 
-            @* Wyświetlić to w tabeli ładnie *@
             @*<div class="col-md-4">
             <div class="form-group">
                 <label asp-for="@Model.Servings" class="control-label"></label>
@@ -65,13 +60,68 @@
         </div>
     </form>
 
+  
 
-    <div id="displayCalculator"> </div>
+
+
+    @*<div class="col-md-4">
+            <div class="form-group">
+                <label asp-for="@Model.Servings" class="control-label"></label>
+                @Html.DropDownListFor(s => s.SelectedServing, Model.Servings, htmlAttributes: new { @class = "form-control" })
+            </div>
+        </div>*@
+
+
+
+    @*<div class="form-group">
+            <label asp-for="@Model.ServingValue" class="control-label"></label>
+            <input asp-for="@Model.ServingValue" class="form-control" />
+            <span asp-validation-for="@Model.ServingValue" class="text-danger"></span>
+        </div>*@
+
+
+    <!--<div class="form-group col-md-3">
+    <label for="Types">Types</label>-->
+    @* TODO: dodac opcje wyboru kategorii z bazy danych *@
+    @* TODO: dodac opcje wyboru kategorii z bazy danych *@
+    <!--<select class="form-control" id="typeSearch">
+    <option value="0">Ingredients</option>
+    <option value="1">Recipes</option>-->
+    @*<option value="2">Recipes</option>*@
+    <!--</select>
+    </div>-->
+    @*<div class="form-group col-md-3">
+                <div id="renderCategories">
+                </div>
+            </div>
+
+            <div class="form-group col-md-4">
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label asp-for="@Model.IngredientsCategories" class="control-label"></label>
+                    @Html.DropDownListFor(s => s.SelectedCategory, Model.IngredientsCategories, htmlAttributes: new { @class = "form-control" })
+                </div>
+            </div>
+
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <label asp-for="@Model.RecipesCategories" class="control-label"></label>
+                @Html.DropDownListFor(s => s.SelectedCategory, Model.RecipesCategories, htmlAttributes: new { @class = "form-control" })
+            </div>
+        </div>*@
+
+
+    @*<div id="displayCalculator"> </div>*@
 
     @section Scripts{
 
-        <script src="~/js/calculator-functions.js"></script>
-        <script src="~/js/calculator-display.js"></script>
+        @*<script src="~/js/calculator-functions.js"></script>
+        <script src="~/js/calculator-display.js"></script>*@
+
+
+
+        <script src="~/js/calculator-autocomplete.js"></script>
         @*<script src="~/js/calculator-sort.js"></script>*@
 
     }

@@ -21,6 +21,8 @@ namespace OnlineRefrigerator.Controllers
             _recipesContext = recipesContext;
             _context = context;
         }
+
+
         // GET: Calculator
         public IActionResult Index()
         {        
@@ -31,188 +33,176 @@ namespace OnlineRefrigerator.Controllers
         }
 
 
-        public CalculatorViewModel GetIngredients(CalculatorFilter filters)
+        [HttpPost]
+        public JsonResult Index(string prefix)
         {
 
             var ingredients = from m in _context.Ingredients.Include(x => x.Category)
-                              select m;
+                              where m.Name.StartsWith(prefix)
+                              select new { m.Name, m.Id }; ;                     
 
+            return Json(ingredients);
+        }
+
+
+        public Ingredients GetDetails(int? id)
+        {
             
+            var ingredient =  _context.Ingredients.Include(x => x.Category).Include(x => x.Serving)
+                .FirstOrDefault(m => m.Id == id);
 
-            var recipes = from m in _recipesContext.Recipes.Include(x => x.Type)
-                          select m;
-
-           
-
-
-            var calculatorVM = new CalculatorViewModel()
-            {
-
-                Recipes = recipes.ToList(),
-                Ingredients = ingredients.ToList(),
-                
-                                               
-            };
-
-
-        
-
-
-
-
-            if (filters.TypeId == 0)
-            {                                              
-                calculatorVM.Ingredients = calculatorVM.Ingredients.Where(s => s.CategoryId == filters.CategoryId).ToList();
-
-                var items = _context.Ingredients.Select(x => new SelectListItem
-                {
-                    Value = x.CategoryId.ToString(),
-                    Text = x.Category.Name
-                }).Distinct().ToList();
-
-                calculatorVM.Glossary_List = items;
-
-                foreach (var item in calculatorVM.Ingredients)
-                {
-                    var results = new Results();
-
-                    results.Name = item.Name;
-                    results.Id = item.Id;
-                    results.EnergyValues = item.Energy;
-                    results.CategoryId = item.CategoryId;
-                    results.CategoryName = item.Category.Name;
-
-                    calculatorVM.Results.Add(results);
-
-
-
-                }
-
-            }
-            else
-            {
-                calculatorVM.Recipes = calculatorVM.Recipes.Where(s => s.TypeId == filters.CategoryId).ToList();
-
-                var items = _recipesContext.Recipes.Select(x => new SelectListItem
-                {
-                    Value = x.TypeId.ToString(),
-                    Text = x.Type.Name
-                }).Distinct().ToList();
-
-                calculatorVM.Glossary_List = items;
-
-                foreach (var item in calculatorVM.Recipes)
-                {
-                    var results = new Results();
-
-                    results.Name = item.Name;
-                    results.Id = item.Id;
-                    results.CategoryId = (int)item.TypeId;
-                    results.CategoryName = item.Type.Name;
-
-                    calculatorVM.Results.Add(results);
-
-                }
-
-            }
-
-
-            
-         
-           
-
-            return (calculatorVM);
+            return ingredient;
         }
 
 
         [HttpPost]
-        public IActionResult ShowCategories(CalculatorFilter filters)
+        public IActionResult DisplayDetails(int id)
         {
 
-            var partialViewModel = GetIngredients(filters);
+            var partialViewModel = GetDetails(id);
 
-            return PartialView("~/Views/Calculator/_CalculatorCategoriesPartial.cshtml",partialViewModel);
+            return PartialView("~/Views/Calculator/_CalculatorIngredientsDetailsPartial", partialViewModel);
         }
 
 
 
-        [HttpPost]
-        public IActionResult ShowIngredients(CalculatorFilter filters)
-        {
 
-            var partialViewModel = GetIngredients(filters);
 
-            return PartialView("~/Views/Calculator/_CalculatorResultsPartial.cshtml", partialViewModel);
+        //public CalculatorViewModel GetIngredients(CalculatorFilter filters)
+        //{
 
-        }
+        //    var ingredients = from m in _context.Ingredients.Include(x => x.Category)
+        //                      select m;
 
-        // GET: Calculator/Details/5
-        public ActionResult Details(int id)
-        {
-            return View();
-        }
 
-        // GET: Calculator/Create
-        public ActionResult Create()
-        {
-            return View();
-        }
 
-        // POST: Calculator/Create
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
+        //    var recipes = from m in _recipesContext.Recipes.Include(x => x.Type)
+        //                  select m;
 
-        // GET: Calculator/Edit/5
-        public ActionResult Edit(int id)
-        {
-            return View();
-        }
 
-        // POST: Calculator/Edit/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
 
-        // GET: Calculator/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
 
-        // POST: Calculator/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
+        //    var calculatorVM = new CalculatorViewModel()
+        //    {
+
+        //        Recipes = recipes.ToList(),
+        //        Ingredients = ingredients.ToList(),
+
+
+        //    };
+
+
+        //    if (filters.TypeId == 0)
+        //    {
+        //        //calculatorVM.Ingredients = calculatorVM.Ingredients.Where(s => s.CategoryId == filters.CategoryId).ToList();
+
+        //        //var items = _context.Ingredients.Select(x => new SelectListItem
+        //        //{
+        //        //    Value = x.CategoryId.ToString(),
+        //        //    Text = x.Category.Name
+        //        //}).Distinct().ToList();
+
+        //        //calculatorVM.Glossary_List = items;
+
+        //        calculatorVM.Ingredients = calculatorVM.Ingredients.Where(s => s.CategoryId == filters.CategoryId).ToList();
+
+        //        var items = _context.Ingredients.Select(x => new SelectListItem
+        //        {
+        //            Value = x.CategoryId.ToString(),
+        //            Text = x.Category.Name
+        //        }).Distinct().ToList();
+
+        //        calculatorVM.Glossary_List = items;
+
+
+        //        foreach (var item in calculatorVM.Ingredients)
+        //        {
+        //            var results = new Results();
+
+        //            results.Name = item.Name;
+        //            results.Id = item.Id;
+        //            results.EnergyValues = item.Energy;
+        //            results.CategoryId = item.CategoryId;
+        //            results.CategoryName = item.Category.Name;
+
+        //            calculatorVM.Results.Add(results);
+
+
+
+        //        }
+
+        //    }
+        //    else
+        //    {
+        //        calculatorVM.Recipes = calculatorVM.Recipes.Where(s => s.TypeId == filters.CategoryId).ToList();
+
+        //        var items = _recipesContext.Recipes.Select(x => new SelectListItem
+        //        {
+        //            Value = x.TypeId.ToString(),
+        //            Text = x.Type.Name
+        //        }).Distinct().ToList();
+
+        //        calculatorVM.Glossary_List = items;
+
+        //        foreach (var item in calculatorVM.Recipes)
+        //        {
+        //            var results = new Results();
+
+        //            results.Name = item.Name;
+        //            results.Id = item.Id;
+        //            results.CategoryId = (int)item.TypeId;
+        //            results.CategoryName = item.Type.Name;
+
+        //            calculatorVM.Results.Add(results);
+
+        //        }
+
+        //    }
+
+
+
+
+
+
+        //    return (calculatorVM);
+        //}
+
+
+
+
+
+
+
+
+        //[HttpPost]
+        //public IActionResult ShowCategories(CalculatorFilter filters)
+        //{
+
+        //    var partialViewModel = GetIngredients(filters);
+
+        //    return PartialView("~/Views/Calculator/_CalculatorCategoriesPartial.cshtml",partialViewModel);
+        //}
+
+
+
+        //[HttpPost]
+        //public IActionResult ShowIngredients(CalculatorFilter filters)
+        //{
+
+        //    var partialViewModel = GetIngredients(filters);
+
+        //    return PartialView("~/Views/Calculator/_CalculatorResultsPartial.cshtml", partialViewModel);
+
+        //}
+
+        //// GET: Calculator/Details/5
+        //public ActionResult Details(int id)
+        //{
+        //    return View();
+        //}
+
+
+
+
     }
 }
