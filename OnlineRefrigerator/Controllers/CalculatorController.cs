@@ -61,7 +61,7 @@ namespace OnlineRefrigerator.Controllers
 
             var partialViewModel = GetDetails(id);
 
-            return PartialView("~/Views/Calculator/_CalculatorIngredientsDetailsPartial", partialViewModel);
+            return PartialView("~/Views/Calculator/_CalculatorIngredientsDetailsPartial.cshtml", partialViewModel);
         }
 
 

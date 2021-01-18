@@ -12,15 +12,19 @@
                     response($.map(data, function (item) {
                         console.log(item);
                        
-                        return { label: item.name, value: item.name };
+                        return { label: item.name, value: item.name, id: item.id };
                     }))
 
                 }
             })
         },
-        //messages: {
-        //    noResults: "", results: ""
-        //}
+        select: function (event, ui) {
+            //alert(ui.item ? ("You picked '" + ui.item.label + "' with an ID of " + ui.item.id)
+            //    : "Nothing selected, input was " + this.value);
+
+            var id = ui.item.id;
+            DisplayDetails(id);
+        }
 
          
     });
@@ -29,15 +33,19 @@
 
 
 
-function DisplayDetails(id) {
-    console.log(id);
+function DisplayDetails(ingredientId) {
+
+  
     $.ajax({
         url: '/Calculator/DisplayDetails',
         type: 'POST',
         cache: false,
         async: true,
         dataType: "html",
-        data: id
+        data: {
+            id: ingredientId
+        }
+
 
     })
         .done(function (result) {
