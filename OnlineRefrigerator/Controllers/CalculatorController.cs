@@ -27,12 +27,11 @@ namespace OnlineRefrigerator.Controllers
         public IActionResult Index()
         {        
 
-
             return View();
-
         }
 
 
+        //returns ingredient names from database as json objects for autocomplete searching
         [HttpPost]
         public JsonResult Index(string prefix)
         {
@@ -45,29 +44,102 @@ namespace OnlineRefrigerator.Controllers
         }
 
 
-        public Ingredients GetDetails(int? id)
-        {
-            
-            var ingredient =  _context.Ingredients.Include(x => x.Category).Include(x => x.Serving)
-                .FirstOrDefault(m => m.Id == id);
-
-            return ingredient;
-        }
 
 
+        //displaying partial view with ingredient details and options for calculating values
         [HttpPost]
         public IActionResult DisplayDetails(int id)
         {
 
             var partialViewModel = GetDetails(id);
 
-            return PartialView("~/Views/Calculator/_CalculatorIngredientsDetailsPartial.cshtml", partialViewModel);
+            return PartialView("~/Views/Calculator/_CalculatorDetailsPartial.cshtml", partialViewModel);
         }
 
 
+        //returning details of found ingredient
+        public CalculatorViewModel GetDetails(int? id)
+        {
+            
+            var ingredient =  _context.Ingredients.Include(x => x.Category).Include(x => x.Serving)
+                .FirstOrDefault(m => m.Id == id);
+
+         
+            var model = new CalculatorViewModel
+            {
+                Ingredient = ingredient,
+                ServingTypes = new SelectList(
+                    new List<SelectListItem>
+                    {
+                        new SelectListItem { Text = ingredient.Serving.ServingType, Value = "portion" },
+                        new SelectListItem { Text = "Grams", Value = "grams" }
+                    }, "Value", "Text")
+            };
+
+
+            return model;
+        }
+
+
+        [HttpPost]
+        public IActionResult DisplayResults(CalculatorParameters calculatorParameters)
+        {
+
+            var partialViewModel = CalculateResults(calculatorParameters);
+
+            return PartialView("~/Views/Calculator/_CalculatorResultsPartial.cshtml", partialViewModel);
+        }
+
+
+        //helper method for calculating values with provided count and quantity
+        public Ingredients CalculateResults(CalculatorParameters model)
+        {
+
+            Ingredients ingredientModel = new Ingredients();
+
+            decimal calculatedFat = 0;
+            decimal calculatedCarbs = 0;
+            decimal calculatedProtein = 0;
+            decimal calculatedEnergy = 0;
 
 
 
+            if (model.ServingType == "portion")
+            {
+                calculatedFat = model.Fat * model.ServingQuantity;
+                calculatedCarbs = model.Carbs * model.ServingQuantity;
+                calculatedProtein = model.Protein * model.ServingQuantity;
+                calculatedEnergy = model.Energy * model.ServingQuantity;
+
+            }
+
+            else
+            {
+                calculatedFat = model.Fat *  model.ServingQuantity / model.ServingValue;
+                calculatedCarbs = model.Carbs * model.ServingQuantity / model.ServingValue;
+                calculatedProtein = model.Protein * model.ServingQuantity / model.ServingValue;
+                calculatedEnergy = model.Energy * model.ServingQuantity / model.ServingValue;
+
+            }
+
+
+
+            
+
+         
+
+            ingredientModel.Fat = calculatedFat;
+            ingredientModel.Carbs = calculatedCarbs;
+            ingredientModel.Protein = calculatedProtein;
+            ingredientModel.Energy = calculatedEnergy;
+
+        
+
+
+
+
+            return ingredientModel;
+        }
         //public CalculatorViewModel GetIngredients(CalculatorFilter filters)
         //{
 

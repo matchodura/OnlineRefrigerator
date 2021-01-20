@@ -1,6 +1,6 @@
 ﻿$(document).ready(function () {
    
-    $("#Ingredient_Name").autocomplete({
+    $("#Name").autocomplete({
         
         source: function (request, response) {
             $.ajax({

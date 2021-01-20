@@ -1,0 +1,94 @@
+﻿@model OnlineRefrigerator.Models.CalculatorViewModel
+
+
+<div>
+    <h4>Ingredients</h4>
+    <hr />
+    <div class="row">
+        <div class="column col-md-6">
+            <div class="col-sm-10">
+                <img class="ingredients-details-img" src="@Url.Action("GetImage", "Ingredients", new { id = Model.Ingredient.ImageId })" />
+            </div>
+        </div>
+
+
+        <div class="column col-md-6">
+            <dl class="row">
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.Ingredient.Category)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.Ingredient.Category.Name)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.Ingredient.Name)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.Ingredient.Name)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.Ingredient.Fat)
+                </dt>
+                <dd class="col-sm-10">
+                    <span id="Fat">@Model.Ingredient.Fat</span>
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.Ingredient.Carbs)
+                </dt>
+                <dd class="col-sm-10">
+                    <span id="Carbs">@Model.Ingredient.Carbs</span>
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.Ingredient.Protein)
+                </dt>
+                <dd class="col-sm-10">
+                    <span id="Protein">@Model.Ingredient.Protein</span>
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.Ingredient.Energy)
+                </dt>
+                <dd class="col-sm-10">
+                    <span id="Energy">@Model.Ingredient.Energy</span>
+                </dd>
+
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.Ingredient.Serving)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.Ingredient.Serving.ServingType)
+                </dd>
+
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.Ingredient.ServingValue)
+                </dt>
+                <dd class="col-sm-10">
+                    <span id="ServingValue">@Model.Ingredient.ServingValue</span>
+                </dd>
+            </dl>
+        </div>
+
+    </div>
+
+
+    <div class="column">
+        <div class="col-md-4">
+            <div class="form-group">
+                <label asp-for="@Model.ServingTypes" class="control-label"></label>
+                @Html.DropDownListFor(s => s.SelectedServing, Model.ServingTypes, htmlAttributes: new { @class = "form-control" })
+
+            </div>
+
+            <div class="form-group">
+                <label asp-for="@Model.ServingQuantity" class="control-label"></label>
+                <input asp-for="@Model.ServingQuantity" class="form-control" name="dupa" />
+                <span asp-validation-for="@Model.ServingQuantity" class="text-danger"></span>
+            </div>
+
+
+        </div>
+
+    </div>
+
+
+</div>
+
