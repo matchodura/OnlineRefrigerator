@@ -11,7 +11,7 @@
         html += '</div>';
         html += '</div>';
 
-        $('#item-list').append(html);
+        $('#item-list-steps').append(html);
 
 
     });

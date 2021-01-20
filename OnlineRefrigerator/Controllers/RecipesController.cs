@@ -70,6 +70,8 @@ namespace OnlineRefrigerator.Controllers
 
             var steps = _context.RecipesSteps.Where(s => s.RecipeId == id).ToList();
 
+           
+
             if (recipe == null)
             {
                 return NotFound();
@@ -102,34 +104,47 @@ namespace OnlineRefrigerator.Controllers
         }
 
 
-        public RecipesCreateViewModel GetIngredients(IngredientsFilter filters)
-        {
-
-            var vm = new RecipesCreateViewModel();
-
-
-
-
-            //if (!string.IsNullOrEmpty(filters.IngredientName))
-            //    vm.Ingredients = ingredientCategoryVM.Ingredients.Where(s => s.Name.ToLower().StartsWith(filters.IngredientName.ToLower())).ToList();
-          
-
-
-            return vm;
-
-        }
-
-
-
+        //returns ingredient names from database as json objects for autocomplete searching
         [HttpPost]
-        public IActionResult ShowIngredients(IngredientsFilter filters)
+        public JsonResult Autocomplete(string prefix)
         {
 
-            var partialViewModel = GetIngredients(filters);
+            var ingredients = from m in _ingredientsContext.Ingredients.Include(x => x.Category)
+                              where m.Name.StartsWith(prefix)
+                              select new { m.Name, m.Id }; ;
 
-            return PartialView("~/Views/Recipes/_RecipesIngredientsChoosePartial.cshtml", partialViewModel);
-
+            return Json(ingredients);
         }
+
+
+        //public RecipesCreateViewModel GetIngredients(IngredientsFilter filters)
+        //{
+
+        //    var vm = new RecipesCreateViewModel();
+
+
+
+
+        //    //if (!string.IsNullOrEmpty(filters.IngredientName))
+        //    //    vm.Ingredients = ingredientCategoryVM.Ingredients.Where(s => s.Name.ToLower().StartsWith(filters.IngredientName.ToLower())).ToList();
+
+
+
+        //    return vm;
+
+        //}
+
+
+
+        //[HttpPost]
+        //public IActionResult ShowIngredients(IngredientsFilter filters)
+        //{
+
+        //    var partialViewModel = GetIngredients(filters);
+
+        //    return PartialView("~/Views/Recipes/_RecipesIngredientsChoosePartial.cshtml", partialViewModel);
+
+        //}
 
 
 
@@ -167,6 +182,18 @@ namespace OnlineRefrigerator.Controllers
                 }
 
 
+                for (int i = 0; i < model.IngredientsList.Count; i++)
+                {
+
+                    IngredientsRecipes ingredientsRecipes = new IngredientsRecipes();
+
+                    ingredientsRecipes.RecipeId = recipe.Id;
+                    ingredientsRecipes.IngredientId = model.IngredientsList[i].Id;
+                 
+
+                    _context.Add(ingredientsRecipes);
+
+                }
                 await _context.SaveChangesAsync();
 
 

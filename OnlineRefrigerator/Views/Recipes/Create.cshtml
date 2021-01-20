@@ -31,28 +31,36 @@
 
         </div>
         <div class="col-md-4">
-            <div class="form-group">
+            <div class="form-group-steps">
                 <div id="inputFormRow">
                     <div class="input-group mb-3">
-                        @Html.EditorFor(f => f.StepList)
-                        @*<input type="text" name="title[]" class="form-control m-input" placeholder="Enter information" autocomplete="off">*@
-                        <div class="input-group-append">
-                            @*<button id="removeRow" type="button" class="btn btn-danger">Remove</button>*@
-
+                        @Html.EditorFor(f => f.StepList)                   
+                        <div class="input-group-append">                       
                         </div>
                     </div>
                 </div>
 
-                <div class="form-group" id="item-list"></div>
+                <div class="form-group" id="item-list-steps"></div>
                 <div id="newRow"></div>
                 <button id="addRow" type="button" class="btn btn-info">Add Step</button>
             </div>
         </div>
 
         <div class="col-md-4">
-            <div class="form-group">
-                <div id="ingredientsCreation">
+            <div class="form-group-ingredients">
+                <div id="inputIngredientsRow">
+                    <div class="input-group mb-3">
+                    
+                        @Html.EditorFor(f => f.IngredientsList)
+                        @*@Html.HiddenFor(f => f.IngredientsList, new { id = "hidden" })*@
+                        <div class="input-group-append">
+                        </div>
+                    </div>
                 </div>
+
+                <div class="form-group" id="item-list-ingredients"></div>
+                <div id="newIngredient"></div>
+                <button id="addIngredient" type="button" class="btn btn-info">Add Ingredient</button>
             </div>
         </div>
     </div>
@@ -71,7 +79,7 @@
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 
-    <script src="~/js/recipes-functions.js"></script>
+    @*<script src="~/js/recipes-functions.js"></script>*@
     <script src="~/js/recipes-steps.js"></script>
     <script src="~/js/recipes-ingredient-add.js"></script>
 

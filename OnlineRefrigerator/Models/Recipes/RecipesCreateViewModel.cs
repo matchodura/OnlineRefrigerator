@@ -16,6 +16,13 @@ namespace OnlineRefrigerator.Models
 
     }
 
+    public class Ingredient
+    {
+        public int Id{ get; set; }
+
+        public string Name { get; set; }
+
+    }
 
     public class RecipesCreateViewModel
     {
@@ -25,15 +32,17 @@ namespace OnlineRefrigerator.Models
 
         public int SelectedCategory { get; set; }
               
-
+      
 
         public List<Step> StepList{ get; set; }
 
+        public List<Ingredient> IngredientsList { get; set; }
 
         public RecipesCreateViewModel()
         {
 
             StepList = new List<Step>();
+            IngredientsList = new List<Ingredient>();
 
         }
 

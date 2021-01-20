@@ -1,7 +1,5 @@
-﻿$(document).ready(function () {
-   
-    $("#Name").autocomplete({
-        
+﻿$(document).ready(function () {   
+    $("#Name").autocomplete({        
         source: function (request, response) {
             $.ajax({
                 url: "/Calculator/Index",
@@ -25,7 +23,6 @@
             var id = ui.item.id;
             DisplayDetails(id);
         }
-
          
     });
 }) 

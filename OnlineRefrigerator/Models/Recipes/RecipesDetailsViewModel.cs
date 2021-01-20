@@ -12,5 +12,7 @@ namespace OnlineRefrigerator.Models
 
         public List<RecipesSteps> RecipesSteps { get; set; }
 
+        public List<IngredientsRecipes> IngredientsRecipes { get; set; }
+
     }
 }
