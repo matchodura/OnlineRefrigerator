@@ -44,7 +44,19 @@
 
         }
 
-      
+        @foreach (var item in Model.IngredientsUsed)
+        {
+
+          
+
+            <dt class="col-sm-2">
+              ingredients used: 
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(modelItem => item.Name)
+            </dd>
+
+        }
 
 
 

@@ -15,6 +15,8 @@
     <Compile Remove="Migrations\Ingredients\20210104184738_ServingsTypese.Designer.cs" />
     <Compile Remove="Migrations\Recipes\20201226183424_test.cs" />
     <Compile Remove="Migrations\Recipes\20201226183424_test.Designer.cs" />
+    <Compile Remove="Migrations\Recipes\20210121170919_ServingsRecipes.cs" />
+    <Compile Remove="Migrations\Recipes\20210121170919_ServingsRecipes.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

@@ -14,11 +14,11 @@ namespace OnlineRefrigerator.Controllers
     public class CalculatorController : Controller
     {
         private readonly IngredientsContext _context;
-        private readonly RecipesContext _recipesContext;
+        //private readonly RecipesContext _recipesContext;
 
-        public CalculatorController(IngredientsContext context, RecipesContext recipesContext)
+        public CalculatorController(IngredientsContext context)
         {
-            _recipesContext = recipesContext;
+            //_recipesContext = recipesContext;
             _context = context;
         }
 

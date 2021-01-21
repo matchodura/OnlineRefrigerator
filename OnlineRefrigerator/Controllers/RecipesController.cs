@@ -12,13 +12,13 @@ namespace OnlineRefrigerator.Controllers
 {
     public class RecipesController : Controller
     {
-        private readonly RecipesContext _context;
-        private readonly IngredientsContext _ingredientsContext;
+        //private readonly RecipesContext _context;
+        private readonly IngredientsContext _context;
 
-        public RecipesController(RecipesContext context, IngredientsContext ingredientsContext)
+        public RecipesController(IngredientsContext context)
         {
             _context = context;
-            _ingredientsContext = ingredientsContext;
+            //_ingredientsContext = ingredientsContext;
         }
 
         // GET: Recipes
@@ -70,6 +70,17 @@ namespace OnlineRefrigerator.Controllers
 
             var steps = _context.RecipesSteps.Where(s => s.RecipeId == id).ToList();
 
+
+
+
+            var ingredients = (from s in _context.Ingredients
+                        join c in _context.IngredientsRecipes on s.Id equals c.IngredientId
+                        where c.RecipeId == id
+                        select s).ToList();
+
+
+
+            
            
 
             if (recipe == null)
@@ -77,6 +88,7 @@ namespace OnlineRefrigerator.Controllers
                 return NotFound();
             }
 
+            vm.IngredientsUsed = ingredients;
             vm.Recipe = recipe;
             vm.RecipesSteps = steps;
 
@@ -98,8 +110,8 @@ namespace OnlineRefrigerator.Controllers
                                         Text = a.Name,
                                         Value = a.Id.ToString()
                                     }).ToList();
+                                
 
-        
             return View(vm);
         }
 
@@ -109,43 +121,16 @@ namespace OnlineRefrigerator.Controllers
         public JsonResult Autocomplete(string prefix)
         {
 
-            var ingredients = from m in _ingredientsContext.Ingredients.Include(x => x.Category)
+            var ingredients = from m in _context.Ingredients.Include(x => x.Category)
                               where m.Name.StartsWith(prefix)
                               select new { m.Name, m.Id }; ;
 
+
+
+
+
             return Json(ingredients);
         }
-
-
-        //public RecipesCreateViewModel GetIngredients(IngredientsFilter filters)
-        //{
-
-        //    var vm = new RecipesCreateViewModel();
-
-
-
-
-        //    //if (!string.IsNullOrEmpty(filters.IngredientName))
-        //    //    vm.Ingredients = ingredientCategoryVM.Ingredients.Where(s => s.Name.ToLower().StartsWith(filters.IngredientName.ToLower())).ToList();
-
-
-
-        //    return vm;
-
-        //}
-
-
-
-        //[HttpPost]
-        //public IActionResult ShowIngredients(IngredientsFilter filters)
-        //{
-
-        //    var partialViewModel = GetIngredients(filters);
-
-        //    return PartialView("~/Views/Recipes/_RecipesIngredientsChoosePartial.cshtml", partialViewModel);
-
-        //}
-
 
 
         // POST: Recipes/Create

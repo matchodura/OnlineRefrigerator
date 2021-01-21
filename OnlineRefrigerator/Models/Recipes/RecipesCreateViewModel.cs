@@ -11,7 +11,7 @@ namespace OnlineRefrigerator.Models
 
     public class Step
     {
-        [Required(ErrorMessage = "Name must be provided")]
+      
         public string Text{ get; set; }
 
     }
@@ -21,7 +21,7 @@ namespace OnlineRefrigerator.Models
         public int Id{ get; set; }
 
         public string Name { get; set; }
-
+               
     }
 
     public class RecipesCreateViewModel
@@ -30,14 +30,13 @@ namespace OnlineRefrigerator.Models
 
         public List<SelectListItem> Categories { get; set; }
 
-        public int SelectedCategory { get; set; }
-              
+        public int SelectedCategory { get; set; }              
       
-
         public List<Step> StepList{ get; set; }
 
         public List<Ingredient> IngredientsList { get; set; }
 
+    
         public RecipesCreateViewModel()
         {
 
@@ -46,10 +45,6 @@ namespace OnlineRefrigerator.Models
 
         }
 
-
-
-        //TODO: image upload dla przepisu
-        //public IFormFile Image { get; set; }
     }
 
 
