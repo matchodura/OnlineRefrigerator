@@ -10,57 +10,83 @@
 <div>
     <h4>Recipes</h4>
     <hr />
-    <dl class="row">
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Recipe.Name)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Recipe.Name)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Recipe.Type)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Recipe.Type.Name)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Recipe.PreparationTime)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Recipe.PreparationTime)
-        </dd>
+    <div class="row">
+        <div class="col-md-6">
+            <dl class="column">
+                <dt class="col-sm">
+                    @Html.DisplayNameFor(model => model.Recipe.Name)
+                </dt>
+                <dd class="col-sm">
+                    @Html.DisplayFor(model => model.Recipe.Name)
+                </dd>
+                <dt class="col-sm">
+                    @Html.DisplayNameFor(model => model.Recipe.Type)
+                </dt>
+                <dd class="col-sm">
+                    @Html.DisplayFor(model => model.Recipe.Type.Name)
+                </dd>
+                <dt class="col-sm">
+                    @Html.DisplayNameFor(model => model.Recipe.PreparationTime)
+                </dt>
+                <dd class="col-sm">
+                    @Html.DisplayFor(model => model.Recipe.PreparationTime)
+                </dd>
+            </dl>
+        </div>
+        <div class="col-md-6">
+            <dl class="column">              
 
-        @foreach (var item in Model.RecipesSteps)
-        {
+                @foreach (var item in Model.RecipesSteps)
+                {
 
-            var step = item.StepNumber + 1;
+                    var step = item.StepNumber + 1;
 
-            <dt class="col-sm-2">
-                @Html.DisplayNameFor(modelItem => item.StepNumber) @Html.DisplayFor(modelItem => step)
-            </dt>
-            <dd class="col-sm-10">
-                @Html.DisplayFor(modelItem => item.Text)
-            </dd>
+                    <dt class="col-sm">
+                        @Html.DisplayNameFor(modelItem => item.StepNumber) @Html.DisplayFor(modelItem => step)
+                    </dt>
+                    <dd class="col-sm">
+                        @Html.DisplayFor(modelItem => item.Text)
+                    </dd>
 
-        }
+                }
+            </dl>
+        </div>
+        <div class="col-md-6">
+            <dl class="row">
 
-        @foreach (var item in Model.IngredientsUsed)
-        {
+                @foreach (var item in Model.IngredientsUsed)
+                {
 
-          
-
-            <dt class="col-sm-2">
-              ingredients used: 
-            </dt>
-            <dd class="col-sm-10">
-                @Html.DisplayFor(modelItem => item.Name)
-            </dd>
-
-        }
+                    <dt class="col-sm-2">
+                        Ingredient:
+                    </dt>
+                    <dd class="col-sm-6">
+                        @Html.DisplayFor(modelItem => item.Name)
+                    </dd>
 
 
+                    <dt class="col-sm-2">
+                        Serving:
+                    </dt>
 
-    </dl>
+                    <dd class="col-sm-6">
+                        @Html.DisplayFor(modelItem => item.Type)
+                    </dd>
+
+                    <dt class="col-sm-2">
+                        Quantity:
+                    </dt>
+
+                    <dd class="col-sm06">
+                        @Html.DisplayFor(modelItem => item.Quantity)
+                    </dd>
+
+                }
+            </dl>
+        </div>
+    </div>
+  
+   
 </div>
 <div>
     <a asp-action="Edit" asp-route-id="@Model.Recipe.Id">Edit</a> |

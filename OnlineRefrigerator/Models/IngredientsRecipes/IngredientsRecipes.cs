@@ -14,5 +14,9 @@ namespace OnlineRefrigerator.Models
 
         public int? IngredientId { get; set; }
 
+        public int ServingType{ get; set; }
+
+        public int? ServingQuantity { get; set; }
+
     }
 }

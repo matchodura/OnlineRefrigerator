@@ -1,5 +1,8 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using OnlineRefrigerator.Data;
+using OnlineRefrigerator.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +12,54 @@ namespace OnlineRefrigerator.Controllers
 {
     public class FinderController : Controller
     {
+
+
+        private readonly IngredientsContext _context;
+
+
+        public FinderController(IngredientsContext context)
+        {
+            _context = context;
+           
+        }
+
+
+        [HttpPost]
+        public JsonResult Autocomplete(string prefix)
+        {
+
+            var ingredients = from m in _context.Ingredients.Include(x => x.Category)
+                              where m.Name.StartsWith(prefix)
+                              select new { m.Name, m.Id }; ;
+
+
+            return Json(ingredients);
+        }
+
+        [HttpPost]
+        public IActionResult DisplayRecipes()
+        {
+
+            var partialViewModel = GetRecipes();
+            return PartialView("~/Views/Finder/_FinderDisplayRecipesPartial.cshtml", partialViewModel);
+
+
+        }
+
+
+        public FinderViewModel GetRecipes()
+        {
+
+            FinderViewModel vm = new FinderViewModel()
+            {
+                Recipes = _context.Recipes.ToList()
+            };
+          
+            
+            return vm;
+
+        }
+
         // GET: RecipeFinder
         public ActionResult Index()
         {

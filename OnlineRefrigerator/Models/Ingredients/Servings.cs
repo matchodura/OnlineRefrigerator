@@ -14,7 +14,14 @@ namespace OnlineRefrigerator.Models
         public int? ServingValue { get; set; }
         public virtual ICollection<Ingredients> Ingredient { get; set; }
 
-
-
     }
+
+    public class ServingDropdownListItem
+    {
+        public string name { get; set; }
+
+        public int id { get; set; }
+    
+    }
+
 }

@@ -1,10 +1,13 @@
 ﻿    $("#addRow").click(function () {
 
         var numberOfElements = $(".form-control.m-input").length;
-      //  form - control m - input
+        //  form - control m - input
+        var counter = numberOfElements + 1;
         var html = '';
+      
         html += '<div id="inputFormRow">';
         html += '<div class="input-group mb-3">';
+        html += '<p>krok numba: ' + counter + '</p>';
         html += '<input type="text" name="StepList[' + numberOfElements + '].Text" class="form-control m-input" placeholder="Enter information" autocomplete="off">';
         html += '<div class="input-group-append">';
         html += '<button id="removeRow" type="button" class="btn btn-danger">Remove</button>';

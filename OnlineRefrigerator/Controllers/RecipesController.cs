@@ -55,7 +55,8 @@ namespace OnlineRefrigerator.Controllers
             return View(recipesCategoryVM);
         }
 
-        // GET: Recipes/Details/5
+
+        // GET: Recipes/Details
         public async Task<IActionResult> Details(int? id)
         {
             var vm = new RecipesDetailsViewModel();
@@ -70,23 +71,34 @@ namespace OnlineRefrigerator.Controllers
 
             var steps = _context.RecipesSteps.Where(s => s.RecipeId == id).ToList();
 
+            //var ingredients = (from s in _context.Ingredients
+            //                   join c in _context.IngredientsRecipes on s.Id equals c.IngredientId
+            //                   join k in _context.Servings on s.ServingId equals k.Id
+            //                   where c.RecipeId == id
+            //                   select s).ToList();
+
+
+            List<IngredientsData> ingredients = (from s in _context.IngredientsRecipes
+                                                join c in _context.Ingredients on s.IngredientId equals c.Id
+                                                join k in _context.Servings on s.ServingType equals k.Id
+                                                where s.RecipeId == id
+                                                select new IngredientsData { Name = c.Name, Quantity = s.ServingQuantity, Type = k.ServingType }).ToList();
+                                                 //select new IngredientsData { Name = c.Name, Quantity = s.ServingQuantity, Type = k.ServingType}));
+
+                                                 //select new { Name = c.Name, Type = k.ServingType, Quantity = s.ServingQuantity }).ToList();
+                                                 //if (recipe == null)
+                                                 //{
+                                                 //    return NotFound();
+                                                 //}
 
 
 
-            var ingredients = (from s in _context.Ingredients
-                        join c in _context.IngredientsRecipes on s.Id equals c.IngredientId
-                        where c.RecipeId == id
-                        select s).ToList();
+
+
+                                                 //vm.IngredientsUsed = ingredients;
 
 
 
-            
-           
-
-            if (recipe == null)
-            {
-                return NotFound();
-            }
 
             vm.IngredientsUsed = ingredients;
             vm.Recipe = recipe;
@@ -95,9 +107,6 @@ namespace OnlineRefrigerator.Controllers
 
             return View(vm);
         }
-
-
-
 
 
         public IActionResult Create()
@@ -125,13 +134,28 @@ namespace OnlineRefrigerator.Controllers
                               where m.Name.StartsWith(prefix)
                               select new { m.Name, m.Id }; ;
 
-
-
-
-
             return Json(ingredients);
         }
 
+
+        //get declared servings for selected ingredient
+        [HttpPost]
+        public JsonResult GetServingTypes(int id)
+        {
+
+            var ingredients = _context.Ingredients.Include(x => x.Category).Include(x => x.Serving)
+                .FirstOrDefault(m => m.Id == id);
+
+            var originalServing = ingredients.Serving;
+
+            var serving = new List<ServingDropdownListItem>();
+
+            serving.Add(new ServingDropdownListItem() { name = originalServing.ServingType, id = originalServing.Id });
+            serving.Add(new ServingDropdownListItem() { name = "Grams", id = 5 });
+
+
+            return Json(serving);
+        }
 
         // POST: Recipes/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
@@ -142,7 +166,6 @@ namespace OnlineRefrigerator.Controllers
         {
 
             Recipes recipe = model.Recipe;
-
             recipe.TypeId = model.SelectedCategory;            
 
             if (ModelState.IsValid)
@@ -150,8 +173,7 @@ namespace OnlineRefrigerator.Controllers
 
                 _context.Add(recipe);
                 await _context.SaveChangesAsync();
-
-              
+                              
                              
                 for(int i = 0; i<model.StepList.Count; i++)
                 {
@@ -174,19 +196,23 @@ namespace OnlineRefrigerator.Controllers
 
                     ingredientsRecipes.RecipeId = recipe.Id;
                     ingredientsRecipes.IngredientId = model.IngredientsList[i].Id;
-                 
+                    ingredientsRecipes.ServingType = model.IngredientsList[i].ServingId;
+                    ingredientsRecipes.ServingQuantity = model.IngredientsList[i].ServingQuantity;
 
                     _context.Add(ingredientsRecipes);
 
                 }
+                //watiting for other queries to update date before inserting into main Recipes table
                 await _context.SaveChangesAsync();
 
-
-
+                
                 return RedirectToAction(nameof(Index));
             }
+
+
             return View(recipe);
         }
+
 
         // GET: Recipes/Edit/5
         public async Task<IActionResult> Edit(int? id)
@@ -239,6 +265,7 @@ namespace OnlineRefrigerator.Controllers
             return View(recipes);
         }
 
+
         // GET: Recipes/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
@@ -256,6 +283,7 @@ namespace OnlineRefrigerator.Controllers
 
             return View(recipes);
         }
+
 
         // POST: Recipes/Delete/5
         [HttpPost, ActionName("Delete")]

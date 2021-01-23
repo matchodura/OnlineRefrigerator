@@ -1,0 +1,81 @@
+﻿@model OnlineRefrigerator.Models.FinderViewModel
+
+<div class="ingredients-table-results">
+    <table class="table">
+        <thead>
+            <tr id="rowLabels">
+                <th id="CategoryId">
+                    <div class="row">
+                        <div class="column">@Html.DisplayNameFor(model => model.Recipes[0].Name) </div>
+                        <div class="column">
+                            <div class="btnHover">
+                                <i class="fas fa-sort"></i>
+                            </div>
+                        </div>
+                    </div>
+                </th>
+
+
+                <th id="Name">
+                    <div class="row">
+                        <div class="column">@Html.DisplayNameFor(model => model.Recipes[0].PreparationTime) </div>
+                        <div class="column">
+                            <div class="btnHover">
+                                <i class="fas fa-sort"></i>
+                            </div>
+                        </div>
+                    </div>
+                </th>
+
+            
+                <th id="Carbs">
+                    <div class="row">
+                        <div class="column">@Html.DisplayNameFor(model => model.Recipes[0].Type) </div>
+                        <div class="column">
+                            <div class="btnHover">
+                                <i class="fas fa-sort"></i>
+                            </div>
+                        </div>
+                    </div>
+                </th>
+                             
+
+                
+            </tr>
+        </thead>
+        <tbody class="ingredientsResults">
+            @foreach (var item in Model.Recipes)
+            {
+                <tr>
+                  
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.PreparationTime)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Type.Name)
+                    </td>
+                   
+                    <td>
+                        @if (this.User.Identity.IsAuthenticated)
+                        {
+                            <a asp-action="Edit" asp-route-id="@item.Id">Edit</a>
+                            <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                        }
+
+                        <a asp-action="Details" asp-controller = "Recipes" asp-route-id="@item.Id">Details</a>
+
+                    </td>
+                </tr>
+            }
+        </tbody>
+
+    </table>
+</div>
+
+
+    @section Scripts{
+        <script src="~/js/finder-display.js"></script>
+    }
