@@ -35,19 +35,41 @@
             //alert(ui.item ? ("You picked '" + ui.item.label + "' with an ID of " + ui.item.id)
             //    : "Nothing selected, input was " + this.value);
 
-            console.log(ui.item.id);
+            
             $("#ingredient-id-" + numberOfIngredients).val(ui.item.id);
+            console.log(ui.item.id);
+            GetRecipes(ui.item.id);
         }
 
     });
 });
 
 
-
-
-
-
 // remove row
 $(document).on('click', '#removeRow', function () {
     $(this).closest('#inputIngredientsRow').remove();
 });
+
+function GetRecipes(ingredientId) {
+    $.ajax({
+        url: '/Finder/DisplayRecipes',
+        type: 'POST',
+        cache: false,
+        async: true,
+        dataType: 'html',
+        data: {
+            id: ingredientId
+        }
+    })
+        .done(function (result) {
+            $('#displayRecipes')
+                .html(result)
+                .hide()
+                .slideDown('slow');
+
+        }).fail(function (xhr) {
+            console.log('error: ' + xhr.status + ' - '
+                + xhr.statusText + ' - ' + xhr.responseText);
+        });
+
+}
