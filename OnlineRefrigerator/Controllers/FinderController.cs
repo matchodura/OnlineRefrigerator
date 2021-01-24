@@ -57,8 +57,7 @@ namespace OnlineRefrigerator.Controllers
             {
                 Recipes = (from r in _context.IngredientsRecipes
                            join k in _context.Ingredients on r.IngredientId equals k.Id
-                           join l in _context.Recipes on r.RecipeId equals l.Id
-                          
+                           join l in _context.Recipes on r.RecipeId equals l.Id                          
                            where r.IngredientId == id
                            select l).Include(a=>a.Type).ToList()
 

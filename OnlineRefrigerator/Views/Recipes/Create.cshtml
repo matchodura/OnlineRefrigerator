@@ -45,12 +45,18 @@
                 <button id="addRow" type="button" class="btn btn-info">Add Step</button>
             </div>
         </div>
-
+        
         <div class="col-md-4">
+            <div class="missingIngredient">
+                <p>missing ingredient? <a asp-controller="Ingredients" asp-action="Create">create new </a></p>
+            </div>
+            
+            @*<button id="addNewIngredient" type="button" class="btn btn-info">Create missing ingredient</button>*@
+
             <div class="form-group-ingredients">
                 <div id="inputIngredientsRow">
                     <div class="input-group mb-3">
-                    
+
                         @Html.EditorFor(f => f.IngredientsList)
                         @*@Html.HiddenFor(f => f.IngredientsList, new { id = "hidden" })*@
                         <div class="input-group-append">

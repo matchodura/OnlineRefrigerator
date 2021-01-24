@@ -71,11 +71,7 @@ namespace OnlineRefrigerator.Controllers
 
             var steps = _context.RecipesSteps.Where(s => s.RecipeId == id).ToList();
 
-            //var ingredients = (from s in _context.Ingredients
-            //                   join c in _context.IngredientsRecipes on s.Id equals c.IngredientId
-            //                   join k in _context.Servings on s.ServingId equals k.Id
-            //                   where c.RecipeId == id
-            //                   select s).ToList();
+          
 
 
             List<IngredientsData> ingredients = (from s in _context.IngredientsRecipes
@@ -83,22 +79,7 @@ namespace OnlineRefrigerator.Controllers
                                                 join k in _context.Servings on s.ServingType equals k.Id
                                                 where s.RecipeId == id
                                                 select new IngredientsData { Name = c.Name, Quantity = s.ServingQuantity, Type = k.ServingType }).ToList();
-                                                 //select new IngredientsData { Name = c.Name, Quantity = s.ServingQuantity, Type = k.ServingType}));
-
-                                                 //select new { Name = c.Name, Type = k.ServingType, Quantity = s.ServingQuantity }).ToList();
-                                                 //if (recipe == null)
-                                                 //{
-                                                 //    return NotFound();
-                                                 //}
-
-
-
-
-
-                                                 //vm.IngredientsUsed = ingredients;
-
-
-
+                                              
 
             vm.IngredientsUsed = ingredients;
             vm.Recipe = recipe;
