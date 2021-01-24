@@ -48,7 +48,9 @@
         
         <div class="col-md-4">
             <div class="missingIngredient">
-                <p>missing ingredient? <a asp-controller="Ingredients" asp-action="Create">create new </a></p>
+                <p>missing ingredient? <input type="button" value="Create new!" class="btn btn-info" onclick="location.href='@Url.Action("Create", "Ingredients")'" /> </p>
+                
+              
             </div>
             
             @*<button id="addNewIngredient" type="button" class="btn btn-info">Create missing ingredient</button>*@
