@@ -43,29 +43,17 @@ namespace OnlineRefrigerator
 
             var categories = from m in _context.Categories
                            select m;
-
-
-            //var servings = from m in _context.Servings.Include(x => x.ServingType)
-            //               select m;
-
-
+                            
 
             var ingredientCategoryVM = new IngredientsCategoryViewModel
             {
-
-                //Categories = _context.Categories
-                //                    .Select(a => new SelectListItem()
-                //                    {
-                //                        Text = a.Name,
-                //                        Value = a.Id.ToString()
-                //                    }).ToList(),
+                             
 
                 Categories = categories.ToList(),
 
 
                 Ingredients = ingredients.ToList()
-
-                //Servings = servings.ToList()
+                          
 
             };
 
@@ -101,7 +89,6 @@ namespace OnlineRefrigerator
         }
 
 
-
         [HttpPost]
         public JsonResult Autocomplete(string prefix)
         {
@@ -115,10 +102,7 @@ namespace OnlineRefrigerator
         }
 
 
-
-
         // GET: Ingredients
-
         public IActionResult Index()
         {
                        
@@ -135,8 +119,6 @@ namespace OnlineRefrigerator
             return PartialView("~/Views/_IngredientsResultsPartial.cshtml", partialViewModel);
                      
         }
-
-
 
 
         public ActionResult GetImage(int id)

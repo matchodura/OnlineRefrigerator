@@ -1,0 +1,88 @@
+﻿@model OnlineRefrigerator.Models.RecipesCategoryViewModel
+
+<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+
+<div class="ingredients-table-results">
+    <table class="table">
+        <thead>
+            <tr id="rowLabels">
+                <th id="Name">
+                    <div class="row">
+                        <div class="column">@Html.DisplayNameFor(model => model.Recipes[0].Name) </div>
+                        <div class="column">
+                            <div class="btnHover">
+                                <i class="fas fa-sort"></i>
+                            </div>
+                        </div>
+                    </div>
+                </th>
+
+
+                <th id="PreparationTime">
+                    <div class="row">
+                        <div class="column">@Html.DisplayNameFor(model => model.Recipes[0].PreparationTime) </div>
+                        <div class="column">
+                            <div class="btnHover">
+                                <i class="fas fa-sort"></i>
+                            </div>
+                        </div>
+                    </div>
+                </th>
+
+                <th id="DishType">
+                    <div class="row">
+                        <div class="column">@Html.DisplayNameFor(model => model.Recipes[0].Type.Name) </div>
+                        <div class="column">
+                            <div class="btnHover">
+                                <i class="fas fa-sort"></i>
+                            </div>
+                        </div>
+                    </div>
+                </th>
+
+               
+                @* tables for images and details *@
+                <th></th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody class="ingredientsResults">
+            @foreach (var item in Model.Recipes)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.PreparationTime)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Type.Name)
+                    </td>
+                  
+
+                    @*<td>
+
+                        <img class="ingredients-table-img" src="@Url.Action("GetImage", new { id = item.ImageId })" />
+
+                    </td>*@
+
+                    <td>
+                        @if (this.User.Identity.IsAuthenticated)
+                        {
+                            <a asp-action="Edit" asp-route-id="@item.Id">Edit</a>
+                            <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                        }
+
+                        <a asp-action="Details" asp-route-id="@item.Id">Details</a>
+
+                    </td>
+                </tr>
+            }
+        </tbody>
+
+    </table>
+</div>
+@section Scripts{
+    <script src="~/js/recipes-display.js"></script>
+}

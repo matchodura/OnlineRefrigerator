@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -17,43 +18,105 @@ namespace OnlineRefrigerator.Controllers
 
         public RecipesController(IngredientsContext context)
         {
-            _context = context;
-            //_ingredientsContext = ingredientsContext;
+            _context = context;           
         }
 
-        // GET: Recipes
-        public async Task<IActionResult> Index(int SelectedCategory)
+        // GET: Recipes       
+        public IActionResult Index()
+        {
+
+            return View();
+
+        }
+
+
+        //returns ingredient names from database as json objects for autocomplete searching
+        [HttpPost]
+        public JsonResult Autocomplete(string prefix)
         {
 
             var recipes = from m in _context.Recipes.Include(x => x.Type)
-                          select m;
+                              where m.Name.StartsWith(prefix)
+                              select new { m.Name, m.Id }; ;
+
+            return Json(recipes);
+        }
 
 
+        /// <summary>
+        /// returns partial view with viewmodel of recipes and categories
+        /// </summary>
+        /// <returns></returns>
+        ///    
+        public RecipesCategoryViewModel GetRecipes(RecipesFilter filters)
+        {
 
-            if (SelectedCategory != 0)
+
+            var recipes = from m in _context.Recipes.Include(x => x.Type)
+                              select m;
+
+            var categories = from m in _context.RecipesCategories
+                             select m;
+
+
+          
+
+            var recipeVM = new RecipesCategoryViewModel
             {
-                recipes = recipes.Where(x => x.Type.Id == SelectedCategory);
-            }
 
-            var recipesCategoryVM = new RecipesCategoryViewModel
-            {
+             
+                Categories = categories.ToList(),
 
-                Categories = _context.RecipesCategories
-                                    .Select(a => new SelectListItem()
-                                    {
-                                        Text = a.Name,
-                                        Value = a.Id.ToString()
-                                    }).ToList(),
 
-                Recipes = await recipes.ToListAsync()
+                Recipes = recipes.ToList()
 
+              
 
             };
 
 
+            if (!string.IsNullOrEmpty(filters.RecipeName))
+                recipeVM.Recipes = recipeVM.Recipes.Where(s => s.Name.ToLower().StartsWith(filters.RecipeName.ToLower())).ToList();
 
-            return View(recipesCategoryVM);
+            if (filters.CategoryId != 0)
+                recipeVM.Recipes = recipeVM.Recipes.Where(s => s.TypeId == filters.CategoryId).ToList();
+
+
+            if (filters.ColumnName != null)
+            {
+                //geting property name of ingredient class, selected by clicking on the sort button of specified column name in partial view
+                PropertyInfo orderByProperty = typeof(Recipes).GetProperties().SingleOrDefault(property => property.Name == filters.ColumnName);
+
+                if (filters.SortOrder)
+                {
+                    var result = recipeVM.Recipes.OrderByDescending(s => orderByProperty.GetValue(s)).ToList();
+                    recipeVM.Recipes = result;
+                }
+
+                else if (!filters.SortOrder)
+                {
+                    var result = recipeVM.Recipes.OrderBy(s => orderByProperty.GetValue(s)).ToList();
+                    recipeVM.Recipes = result;
+                }
+
+            }
+
+            return recipeVM;
+
         }
+
+
+
+        [HttpPost]
+        public IActionResult ShowRecipes(RecipesFilter filters)
+        {
+
+            var partialViewModel = GetRecipes(filters);
+
+            return PartialView("~/Views/Recipes/_RecipesResultsPartial.cshtml", partialViewModel);
+
+        }
+
 
 
         // GET: Recipes/Details
@@ -105,19 +168,7 @@ namespace OnlineRefrigerator.Controllers
             return View(vm);
         }
 
-
-        //returns ingredient names from database as json objects for autocomplete searching
-        [HttpPost]
-        public JsonResult Autocomplete(string prefix)
-        {
-
-            var ingredients = from m in _context.Ingredients.Include(x => x.Category)
-                              where m.Name.StartsWith(prefix)
-                              select new { m.Name, m.Id }; ;
-
-            return Json(ingredients);
-        }
-
+               
 
         //get declared servings for selected ingredient
         [HttpPost]

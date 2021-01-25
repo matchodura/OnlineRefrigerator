@@ -10,7 +10,7 @@ namespace OnlineRefrigerator.Models
     {
         public List<Recipes> Recipes { get; set; }
 
-        public List<SelectListItem> Categories { get; set; }
+        public List<RecipesCategories> Categories { get; set; }
 
         public int SelectedCategory { get; set; }
 

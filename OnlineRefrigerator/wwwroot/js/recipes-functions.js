@@ -1,23 +1,23 @@
-﻿//function GetIngredients(filters) {
+﻿function GetRecipes(filters) {
 
-//    $.ajax({
-//        url: '/Recipes/ShowIngredients',
-//        type: 'POST',
-//        cache: false,
-//        async: true,
-//        dataType: "html",
-//        data: filters
+    $.ajax({
+        url: '/Recipes/ShowRecipes',
+        type: 'POST',
+        cache: false,
+        async: true,
+        dataType: "html",
+        data: filters
 
-//    })
-//        .done(function (result) {
-//            $('#ingredientsCreation')
-//                .html(result)
+    })
+        .done(function (result) {
+            $('#displayRecipes')
+                .html(result)
+                .hide()
+                .slideDown('slow');            
+                     
+        }).fail(function (xhr) {
+            console.log('error: ' + xhr.status + ' - '
+                + xhr.statusText + ' - ' + xhr.responseText);
+        });
 
-
-
-//        }).fail(function (xhr) {
-//            console.log('error: ' + xhr.status + ' - '
-//                + xhr.statusText + ' - ' + xhr.responseText);
-//        });
-
-//}
+}
