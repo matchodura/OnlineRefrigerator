@@ -101,8 +101,24 @@ namespace OnlineRefrigerator
         }
 
 
+
+        [HttpPost]
+        public JsonResult Autocomplete(string prefix)
+        {
+
+            var ingredients = from m in _context.Ingredients.Include(x => x.Category)
+                              where m.Name.StartsWith(prefix)
+                              select new { m.Name, m.Id }; ;
+
+
+            return Json(ingredients);
+        }
+
+
+
+
         // GET: Ingredients
-       
+
         public IActionResult Index()
         {
                        
