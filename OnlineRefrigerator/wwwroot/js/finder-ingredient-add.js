@@ -1,4 +1,12 @@
-﻿$("#addIngredient").click(function () {
+﻿var ingredients = [];
+
+
+$(document).ready(function () {
+    GetRecipes();
+});
+
+
+$("#addIngredient").click(function () {
 
     var numberOfIngredients = $(".form-control.m-input.xd").length;
 
@@ -37,8 +45,11 @@
 
             
             $("#ingredient-id-" + numberOfIngredients).val(ui.item.id);
-            console.log(ui.item.id);
-            GetRecipes(ui.item.id);
+            //console.log(ui.item.id);
+            var ingredientId = ui.item.id;
+            ingredients.push(ingredientId);       
+            
+            GetRecipes(ingredients);
         }
 
     });
@@ -48,9 +59,13 @@
 // remove row
 $(document).on('click', '#removeRow', function () {
     $(this).closest('#inputIngredientsRow').remove();
+    ingredients.pop();
+    GetRecipes(ingredients);
 });
 
-function GetRecipes(ingredientId) {
+function GetRecipes(ingredients) {
+
+    
     $.ajax({
         url: '/Finder/DisplayRecipes',
         type: 'POST',
@@ -58,7 +73,7 @@ function GetRecipes(ingredientId) {
         async: true,
         dataType: 'html',
         data: {
-            id: ingredientId
+            ids: ingredients
         }
     })
         .done(function (result) {

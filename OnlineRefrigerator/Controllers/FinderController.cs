@@ -37,38 +37,41 @@ namespace OnlineRefrigerator.Controllers
         }
 
         [HttpPost]
-        public IActionResult DisplayRecipes(int id)
+        public IActionResult DisplayRecipes(int[] ids)
         {
 
-            var partialViewModel = GetRecipes(id);
+            var partialViewModel = GetRecipes(ids);
             return PartialView("~/Views/Finder/_FinderDisplayRecipesPartial.cshtml", partialViewModel);
 
 
         }
 
-        
 
 
 
-        public FinderViewModel GetRecipes(int id)
+
+        public FinderViewModel GetRecipes(int[] ids)
         {
+
+            var query = _context.IngredientsRecipes.ToList();
+                                 
+
+            var results = query
+                .GroupBy(k => k.RecipeId)
+                .Where(g => ids.All(w => g.Any(k => w.Equals(k.IngredientId))))
+                .Select(g => g.Key);
+
+
+
 
             FinderViewModel vm = new FinderViewModel()
             {
-                Recipes = (from r in _context.IngredientsRecipes
-                           join k in _context.Ingredients on r.IngredientId equals k.Id
-                           join l in _context.Recipes on r.RecipeId equals l.Id                          
-                           where r.IngredientId == id
-                           select l).Include(a=>a.Type).ToList()
+
+                Recipes = _context.Recipes.Where(r => results.Contains(r.Id)).Include(a => a.Type).ToList()
 
             };
 
-            //FinderViewModel vm = new FinderViewModel()
-            //{
-            //    Recipes = _context.Recipes.ToList()
-
-            //};
-
+      
 
             return vm;
 
