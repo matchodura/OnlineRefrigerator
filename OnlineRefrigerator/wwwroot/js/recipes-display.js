@@ -32,7 +32,7 @@ $('#recipes').on('keyup', function (e) {
 $("#recipes").autocomplete({
     source: function (request, response) {
         $.ajax({
-            url: "/Recipes/Autocomplete",
+            url: "/Recipes/AutocompleteFindRecipe",
             type: "POST",
             dataType: "json",
             data: { Prefix: request.term },

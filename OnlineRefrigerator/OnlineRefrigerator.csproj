@@ -15,6 +15,8 @@
     <Compile Remove="Migrations\Ingredients\20210104184738_ServingsTypese.Designer.cs" />
     <Compile Remove="Migrations\Ingredients\20210122174705_RecipesServings.cs" />
     <Compile Remove="Migrations\Ingredients\20210122174705_RecipesServings.Designer.cs" />
+    <Compile Remove="Migrations\Ingredients\20210125195325_RecipeVotes.cs" />
+    <Compile Remove="Migrations\Ingredients\20210125195325_RecipeVotes.Designer.cs" />
     <Compile Remove="Migrations\Recipes\20201226183424_test.cs" />
     <Compile Remove="Migrations\Recipes\20201226183424_test.Designer.cs" />
     <Compile Remove="Migrations\Recipes\20210121170919_ServingsRecipes.cs" />

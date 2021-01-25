@@ -33,7 +33,7 @@ $("#addIngredient").click(function () {
     $("#autocomplete-" + numberOfIngredients).autocomplete({
         source: function (request, response) {
             $.ajax({
-                url: "/Recipes/Autocomplete",
+                url: "/Recipes/AutocompleteFindIngredient",
                 type: "POST",
                 dataType: "json",
                 data: { Prefix: request.term },

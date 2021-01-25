@@ -31,6 +31,21 @@
                 <dd class="col-sm">
                     @Html.DisplayFor(model => model.Recipe.PreparationTime)
                 </dd>
+
+                <dt class="col-sm">
+                    @Html.DisplayNameFor(model => model.Recipe.VoteCounts)
+                </dt>
+                <dd class="col-sm">
+                    @Html.DisplayFor(model => model.Recipe.VoteCounts)
+                </dd>
+
+                <dt class="col-sm">
+                    @Html.DisplayNameFor(model => model.Recipe.VoteValue)
+                </dt>
+                <dd class="col-sm">
+                    @Html.DisplayFor(model => model.Recipe.VoteValue)
+                </dd>
+
             </dl>
         </div>
         <div class="col-md-6">
@@ -88,7 +103,12 @@
   
    
 </div>
+
+<div class="voting">
+    dupa dupa
+   <a asp-action="AddVote" asp-route-id="@Model.Recipe.Id">Vote for 5</a>
+</div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model.Recipe.Id">Edit</a> |
+    <a asp-action="Edit" asp-route-id="@Model.Recipe.Id">Edit</a> 
     <a asp-action="Index">Back to List</a>
 </div>

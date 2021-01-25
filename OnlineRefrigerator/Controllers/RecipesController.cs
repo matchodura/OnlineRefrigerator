@@ -32,7 +32,7 @@ namespace OnlineRefrigerator.Controllers
 
         //returns ingredient names from database as json objects for autocomplete searching
         [HttpPost]
-        public JsonResult Autocomplete(string prefix)
+        public JsonResult AutocompleteFindRecipe(string prefix)
         {
 
             var recipes = from m in _context.Recipes.Include(x => x.Type)
@@ -42,6 +42,18 @@ namespace OnlineRefrigerator.Controllers
             return Json(recipes);
         }
 
+
+
+        [HttpPost]
+        public JsonResult AutocompleteFindIngredient(string prefix)
+        {
+
+            var ingredients = from m in _context.Ingredients
+                          where m.Name.StartsWith(prefix)
+                          select new { m.Name, m.Id }; ;
+
+            return Json(ingredients);
+        }
 
         /// <summary>
         /// returns partial view with viewmodel of recipes and categories
@@ -152,6 +164,63 @@ namespace OnlineRefrigerator.Controllers
             return View(vm);
         }
 
+
+
+    
+
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        public async Task<IActionResult> AddVote(int? id)
+        {
+
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var recipes = await _context.Recipes.FindAsync(id);
+
+
+            if (recipes == null)
+            {
+                return NotFound();
+            }
+
+
+
+
+
+            recipes.VoteCounts = recipes.VoteCounts + 1;
+            recipes.VoteValue = recipes.VoteValue + 5;
+
+
+            if (id != recipes.Id)
+            {
+                return NotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    _context.Update(recipes);
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!RecipesExists(recipes.Id))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return RedirectToAction(nameof(Index));
+            }
+            return View(recipes);
+        }
 
         public IActionResult Create()
         {

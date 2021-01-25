@@ -20,7 +20,6 @@ namespace OnlineRefrigerator.Models
         public string Name { get; set; }
 
 
-        
         [ForeignKey("Type")]
         public int? TypeId { get; set; }
 
@@ -37,11 +36,13 @@ namespace OnlineRefrigerator.Models
         
         //public int StepId { get; set; }
         //public virtual RecipesSteps Step { get; set; }
-
-               
+        //TODO
         public virtual RecipesImages Image { get; set; }
 
 
+        public int? VoteValue { get; set; }
+
+        public int? VoteCounts { get; set; }
 
     }
 }
