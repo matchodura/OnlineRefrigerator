@@ -32,6 +32,28 @@ a.navbar-brand {
 }
 
 
+/*text on top of carousel image*/
+.text-box-carousel {
+    /*opacity: 0.5;*/
+    text-align: center;
+    position: absolute;
+    padding: 20px;
+    height: auto;
+    width: auto;
+    left: 30%;
+    right: 30%;
+    top: 20%;
+    bottom: 20%;
+
+    /*margin-left: -50px;
+    margin-top: -50px;*/
+    background: rgba(255,255,255,0.8);
+}
+
+
+.text-box-content{
+    font-size: 12px;
+}
 
 /* Provide sufficient contrast against white background */
 a {

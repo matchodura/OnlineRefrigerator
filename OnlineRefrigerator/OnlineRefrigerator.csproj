@@ -25,7 +25,6 @@
 
   <ItemGroup>
     <None Include="wwwroot\Images\1.jpg" />
-    <None Include="wwwroot\Images\2.jpg" />
     <None Include="wwwroot\Images\3.jpg" />
   </ItemGroup>
 
@@ -45,14 +44,14 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="wwwroot\Images\items\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Content Update="Views\Ingredients\Index.cshtml">
       <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\Images\items\" />
   </ItemGroup>
 
 </Project>

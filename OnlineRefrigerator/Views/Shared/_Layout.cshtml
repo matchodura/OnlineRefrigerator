@@ -33,9 +33,6 @@
                             <a class="nav-link text-dark" asp-area="" asp-controller="Recipes" asp-action="Index">Recipes</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Calculator" asp-action="Index">Calculator</a>
-                        </li>
-                        <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Ingredients" asp-action="Index">Ingredients</a>
                         </li>
                         <li class="nav-item">
@@ -43,6 +40,9 @@
                         </li>
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Ranking" asp-action="Index">Ranking</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Calculator" asp-action="Index">Calculator</a>
                         </li>
                     </ul>
                 </div>
@@ -58,20 +58,24 @@
         <main role="main" class="pb-3">
 
             @RenderBody()
-            <script src="~/lib/jquery/dist/jquery.min.js"></script>
-            <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-            <script src="~/js/site.js" asp-append-version="true"></script>
-            <script src="~/lib/jquery/dist/jquery.js"></script>
+
             <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+            <script src="~/lib/jquery/dist/jquery.js"></script>
             <script src="//code.jquery.com/jquery-1.10.2.js"></script>
             <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+            <script src="~/lib/jquery/dist/jquery.min.js"></script>
+            <script src="~/js/site.js" asp-append-version="true"></script>
+
+            <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+
+
 
         </main>
     </div>
 
     <footer class="border-top footer text-muted">
         <div class="container">
-            &copy; 2020 - OnlineRefrigerator - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            &copy; 2021 - OnlineRefrigerator - <a asp-area="" asp-controller="Home" asp-action="Contact">Contact</a>
         </div>
     </footer>
     @RenderSection("Scripts", required: false)
