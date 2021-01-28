@@ -5,99 +5,91 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Create</h1>
+<div class="jumbotron">
+    <h1 class="display-3">@ViewData["Title"]</h1>
+    <hr class="my-4">
 
-<h4>Ingredients</h4>
-<hr />
+    <form asp-action="Create" enctype="multipart/form-data">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label asp-for="@Model.Ingredient.Name" class="control-label"></label>
+                    <input asp-for="@Model.Ingredient.Name" class="form-control" />
+                    <span asp-validation-for="@Model.Ingredient.Name" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="@Model.Ingredient.Description" class="control-label"></label>
+                    <input asp-for="@Model.Ingredient.Description" class="form-control" />
+                    <span asp-validation-for="@Model.Ingredient.Description" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="@Model.Ingredient.Fat" class="control-label"></label>
+                    <input asp-for="@Model.Ingredient.Fat" class="form-control" />
+                    <span asp-validation-for="@Model.Ingredient.Fat" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="@Model.Ingredient.Carbs" class="control-label"></label>
+                    <input asp-for="@Model.Ingredient.Carbs" class="form-control" />
+                    <span asp-validation-for="@Model.Ingredient.Carbs" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="@Model.Ingredient.Protein" class="control-label"></label>
+                    <input asp-for="@Model.Ingredient.Protein" class="form-control" />
+                    <span asp-validation-for="@Model.Ingredient.Protein" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="@Model.Ingredient.Energy" class="control-label"></label>
+                    <input asp-for="@Model.Ingredient.Energy" class="form-control" />
+                    <span asp-validation-for="@Model.Ingredient.Energy" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="@Model.Ingredient.Image" class="control-label"></label>
+                    <input asp-for="Image" type="file" />
+                </div>
+
+                <div class="form-group">
+                    <input type="submit" value="Create" class="btn btn-success" />
+                </div>
+
+                <div>
+                    <a class="btn btn-primary" asp-action="Index">Back to List</a>
+                </div>
 
 
-<form asp-action="Create" enctype="multipart/form-data">
-    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-    <div class="row">
-        <div class="col-md-4">
-
-
-            <div class="form-group">
-                <label asp-for="@Model.Ingredient.Name" class="control-label"></label>
-                <input asp-for="@Model.Ingredient.Name" class="form-control" />
-                <span asp-validation-for="@Model.Ingredient.Name" class="text-danger"></span>
             </div>
 
-            <div class="form-group">
-                <label asp-for="@Model.Ingredient.Description" class="control-label"></label>
-                <input asp-for="@Model.Ingredient.Description" class="form-control" />
-                <span asp-validation-for="@Model.Ingredient.Description" class="text-danger"></span>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label asp-for="@Model.Categories" class="control-label"></label>
+                    @Html.DropDownListFor(s => s.SelectedCategory, Model.Categories, htmlAttributes: new { @class = "form-control" })
+                </div>
             </div>
 
-            <div class="form-group">
-                <label asp-for="@Model.Ingredient.Fat" class="control-label"></label>
-                <input asp-for="@Model.Ingredient.Fat" class="form-control" />
-                <span asp-validation-for="@Model.Ingredient.Fat" class="text-danger"></span>
-            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label asp-for="@Model.Servings" class="control-label"></label>
+                    @Html.DropDownListFor(s => s.SelectedServing, Model.Servings, htmlAttributes: new { @class = "form-control" })
+                </div>
 
-            <div class="form-group">
-                <label asp-for="@Model.Ingredient.Carbs" class="control-label"></label>
-                <input asp-for="@Model.Ingredient.Carbs" class="form-control" />
-                <span asp-validation-for="@Model.Ingredient.Carbs" class="text-danger"></span>
-            </div>
-
-            <div class="form-group">
-                <label asp-for="@Model.Ingredient.Protein" class="control-label"></label>
-                <input asp-for="@Model.Ingredient.Protein" class="form-control" />
-                <span asp-validation-for="@Model.Ingredient.Protein" class="text-danger"></span>
-            </div>
-
-            <div class="form-group">
-                <label asp-for="@Model.Ingredient.Energy" class="control-label"></label>
-                <input asp-for="@Model.Ingredient.Energy" class="form-control" />
-                <span asp-validation-for="@Model.Ingredient.Energy" class="text-danger"></span>
-            </div>
-
-            <div class="form-group">
-                <label asp-for="@Model.Ingredient.Image" class="control-label"></label>
-                <input asp-for="Image" type="file" />
-            </div>
-
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-
-            @*<div class="form-group">
-            <label asp-for="Image" class="control-label"></label>
-            <input asp-for="Image" type="file" class="form-control" />
-            <span asp-validation-for="Image" class="text-danger"></span>
-        </div>*@
-
-
-
-        </div>
-
-        <div class="col-md-4">
-            <div class="form-group">
-                <label asp-for="@Model.Categories" class="control-label"></label>
-                @Html.DropDownListFor(s => s.SelectedCategory, Model.Categories, htmlAttributes: new { @class = "form-control" })
-            </div>
-        </div>
-
-        <div class="col-md-4">
-            <div class="form-group">
-                <label asp-for="@Model.Servings" class="control-label"></label>
-                @Html.DropDownListFor(s => s.SelectedServing, Model.Servings, htmlAttributes: new { @class = "form-control" })
-            </div>
-
-            <div class="form-group">
-                <label asp-for="@Model.ServingValue" class="control-label"></label>
-                <input asp-for="@Model.ServingValue" class="form-control" />
-                <span asp-validation-for="@Model.ServingValue" class="text-danger"></span>
+                <div class="form-group">
+                    <label asp-for="@Model.ServingValue" class="control-label"></label>
+                    <input asp-for="@Model.ServingValue" class="form-control" />
+                    <span asp-validation-for="@Model.ServingValue" class="text-danger"></span>
+                </div>
             </div>
         </div>
-    </div>
-</form>
+    </form>
 
-<div>
-    <a asp-action="Index">Back to List</a>
+    
+
+    @section Scripts {
+        @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    }
 </div>
-
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}

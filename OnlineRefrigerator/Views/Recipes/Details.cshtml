@@ -5,110 +5,68 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Details</h1>
+<div class="jumbotron">
+    <h1 class="display-3">@ViewData["Title"]</h1>
+    <hr class="my-4">
+    <!--<div class="voting">
+        dupa dupa
+        <a asp-action="AddVote" asp-route-id="@Model.Recipe.Id">Vote for 5</a>
+    </div>
+    <div>-->
+    @*<a asp-action="Edit" asp-route-id="@Model.Recipe.Id">Edit</a>*@
+    <!--<a asp-action="Index">Back to List</a>
+    </div>-->
 
-<div>
-    <h4>Recipes</h4>
-    <hr />
-    <div class="row">
-        <div class="col-md-6">
-            <dl class="column">
-                <dt class="col-sm">
-                    @Html.DisplayNameFor(model => model.Recipe.Name)
-                </dt>
-                <dd class="col-sm">
-                    @Html.DisplayFor(model => model.Recipe.Name)
-                </dd>
-                <dt class="col-sm">
-                    @Html.DisplayNameFor(model => model.Recipe.Type)
-                </dt>
-                <dd class="col-sm">
-                    @Html.DisplayFor(model => model.Recipe.Type.Name)
-                </dd>
-                <dt class="col-sm">
-                    @Html.DisplayNameFor(model => model.Recipe.PreparationTime)
-                </dt>
-                <dd class="col-sm">
-                    @Html.DisplayFor(model => model.Recipe.PreparationTime)
-                </dd>
 
-                <dt class="col-sm">
-                    @Html.DisplayNameFor(model => model.Recipe.VoteCounts)
-                </dt>
-                <dd class="col-sm">
-                    @Html.DisplayFor(model => model.Recipe.VoteCounts)
-                </dd>
-
-                <dt class="col-sm">
-                    @Html.DisplayNameFor(model => model.Recipe.VoteValue)
-                </dt>
-                <dd class="col-sm">
-                    @Html.DisplayFor(model => model.Recipe.VoteValue)
-                </dd>
-
-            </dl>
+    <div class="card mb-3">
+        <h3 class="card-header">@Html.DisplayFor(model => model.Recipe.Name)</h3>
+        <div class="card-body">
+            <h5 class="card-title">@Html.DisplayFor(model => model.Recipe.Type.Name)</h5>
+            <h5 class="card-title">@Html.DisplayFor(model => model.Recipe.PreparationTime) minutes</h5>
+            @*<h6 class="card-subtitle text-muted">Support card subtitle</h6>*@
         </div>
-        <div class="col-md-6">
-            <dl class="column">              
 
+        <svg xmlns="http://www.w3.org/2000/svg" class="d-block user-select-none" width="100%" height="200" aria-label="Placeholder: Image cap" focusable="false" role="img" preserveAspectRatio="xMidYMid slice" viewBox="0 0 318 180" style="font-size:1.125rem;text-anchor:middle">
+            <rect width="100%" height="100%" fill="#868e96"></rect>
+            <text x="50%" y="50%" fill="#dee2e6" dy=".3em">Image cap</text>
+        </svg>
+    </div>
+
+    <div class="card">
+        <div class="card-body">
+            <ul class="list-group list-group-flush">
                 @foreach (var item in Model.RecipesSteps)
                 {
 
                     var step = item.StepNumber + 1;
 
-                    <dt class="col-sm">
-                        @Html.DisplayNameFor(modelItem => item.StepNumber) @Html.DisplayFor(modelItem => step)
-                    </dt>
-                    <dd class="col-sm">
-                        @Html.DisplayFor(modelItem => item.Text)
-                    </dd>
-
+                    <li class="list-group-item">
+                        <h5> @Html.DisplayNameFor(modelItem => item.StepNumber) @Html.DisplayFor(modelItem => step) </h5> @Html.DisplayFor(modelItem => item.Text)
+                    </li>
                 }
-            </dl>
-        </div>
-        <div class="col-md-6">
-            <dl class="row">
 
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-body">
+            <ul class="list-group list-group-flush">
                 @foreach (var item in Model.IngredientsUsed)
                 {
 
-                    <dt class="col-sm-2">
-                        Ingredient:
-                    </dt>
-                    <dd class="col-sm-6">
-                        @Html.DisplayFor(modelItem => item.Name)
-                    </dd>
-
-
-                    <dt class="col-sm-2">
-                        Serving:
-                    </dt>
-
-                    <dd class="col-sm-6">
-                        @Html.DisplayFor(modelItem => item.Type)
-                    </dd>
-
-                    <dt class="col-sm-2">
-                        Quantity:
-                    </dt>
-
-                    <dd class="col-sm06">
-                        @Html.DisplayFor(modelItem => item.Quantity)
-                    </dd>
-
+                    <li class="list-group-item">
+                        <h5> @Html.DisplayFor(modelItem => item.Name)</h5>   @Html.DisplayFor(modelItem => item.Type)  @Html.DisplayFor(modelItem => item.Quantity)
+                    </li>
                 }
-            </dl>
+
+            </ul>
         </div>
     </div>
-  
-   
-</div>
 
-<div class="voting">
-    dupa dupa
-   <a asp-action="AddVote" asp-route-id="@Model.Recipe.Id">Vote for 5</a>
-</div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model.Recipe.Id">Edit</a> 
-    <a asp-action="Index">Back to List</a>
+    <div class="card">
+        <div class="card-body">
+            <a class="btn btn-primary" asp-action="Index">Back to List</a>
+        </div>
+    </div>   
 </div>

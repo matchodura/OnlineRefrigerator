@@ -4,13 +4,9 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Calculator</h1>
-
-
-
-<div>
-    <h1>Calculate things</h1>
-    <br />
+<div class="jumbotron">
+    <h1 class="display-3">@ViewData["Title"]</h1>
+    <hr class="my-4">
     <form>
         <div class="column">
             @using (Html.BeginForm(new { @id = "modelForm" }))
@@ -19,13 +15,11 @@
 
                 <div class="form-horizontal">
 
-                    <hr />
-
                     <div class="form-group">
 
                         <div class="col-md-12">
 
-                            @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control", placeholder = "Write ingredient name" } } ) 
 
                         </div>
                     </div>

@@ -1,97 +1,90 @@
 ﻿@model OnlineRefrigerator.Models.RecipesCreateViewModel
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Create Recipe";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Create</h1>
+<div class="jumbotron">
+    <h1 class="display-3">@ViewData["Title"]</h1>
+    <hr class="my-4">
+    <form asp-action="Create" method="post">
+        <div class="row">
+            <div class="col-md-4">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                @Html.DropDownListFor(s => s.SelectedCategory, Model.Categories, htmlAttributes: new { @class = "form-control" })
 
-<h4>Recipes</h4>
-<hr />
-
-
-<form asp-action="Create" method="post">
-    <div class="row">
-        <div class="col-md-4">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            @Html.DropDownListFor(s => s.SelectedCategory, Model.Categories, htmlAttributes: new { @class = "form-control" })
-
-            <div class="form-group">
-                <label asp-for="@Model.Recipe.Name" class="control-label"></label>
-                <input asp-for="@Model.Recipe.Name" class="form-control" />
-                <span asp-validation-for="@Model.Recipe.Name" class="text-danger"></span>
-            </div>
-
-
-            <div class="form-group">
-                <label asp-for="@Model.Recipe.PreparationTime" class="control-label"></label>
-                <input asp-for="@Model.Recipe.PreparationTime" class="form-control" />
-                <span asp-validation-for="@Model.Recipe.PreparationTime" class="text-danger"></span>
-            </div>
-
-        </div>
-        <div class="col-md-4">
-            <div class="form-group-steps">
-                <div id="inputFormRow">
-                    <div class="input-group mb-3">
-                        @Html.EditorFor(f => f.StepList)                   
-                        <div class="input-group-append">                       
-                        </div>
-                    </div>
+                <div class="form-group">
+                    <label asp-for="@Model.Recipe.Name" class="control-label"></label>
+                    <input asp-for="@Model.Recipe.Name" class="form-control" />
+                    <span asp-validation-for="@Model.Recipe.Name" class="text-danger"></span>
                 </div>
 
-                <div class="form-group" id="item-list-steps"></div>
-                <div id="newRow"></div>
-                <button id="addRow" type="button" class="btn btn-info">Add Step</button>
+
+                <div class="form-group">
+                    <label asp-for="@Model.Recipe.PreparationTime" class="control-label"></label>
+                    <input asp-for="@Model.Recipe.PreparationTime" class="form-control" />
+                    <span asp-validation-for="@Model.Recipe.PreparationTime" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <input type="submit" value="Create" class="btn btn-success" />
+                </div>
+
+                <div>
+                    <a class="btn btn-primary" asp-action="Index">Back to List</a>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="form-group-steps">
+                    <div id="inputFormRow">
+                        <div class="input-group mb-3">
+                            @Html.EditorFor(f => f.StepList)
+                            <div class="input-group-append">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group" id="item-list-steps"></div>
+                    <div id="newRow"></div>
+                    <button id="addRow" type="button" class="btn btn-warning">Add Step</button>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="form-group-ingredients">
+                    <div id="inputIngredientsRow">
+                        <div class="input-group mb-3">
+                            @Html.EditorFor(f => f.IngredientsList)
+                            <div class="input-group-append">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group" id="item-list-ingredients"></div>
+                    <div id="newIngredient"></div>
+                    <button id="addIngredient" type="button" class="btn btn-warning">Add Ingredient</button>
+                </div>
+                <div class="missingIngredient">
+                    <p>missing ingredient? <input type="button" value="Create new!" class="btn btn-info" onclick="location.href='@Url.Action("Create", "Ingredients")'" /> </p>
+                </div>
             </div>
         </div>
+
+
         
-        <div class="col-md-4">
-            <div class="missingIngredient">
-                <p>missing ingredient? <input type="button" value="Create new!" class="btn btn-info" onclick="location.href='@Url.Action("Create", "Ingredients")'" /> </p>
-                
-              
-            </div>
-            
-            @*<button id="addNewIngredient" type="button" class="btn btn-info">Create missing ingredient</button>*@
 
-            <div class="form-group-ingredients">
-                <div id="inputIngredientsRow">
-                    <div class="input-group mb-3">
 
-                        @Html.EditorFor(f => f.IngredientsList)
-                        @*@Html.HiddenFor(f => f.IngredientsList, new { id = "hidden" })*@
-                        <div class="input-group-append">
-                        </div>
-                    </div>
-                </div>
 
-                <div class="form-group" id="item-list-ingredients"></div>
-                <div id="newIngredient"></div>
-                <button id="addIngredient" type="button" class="btn btn-info">Add Ingredient</button>
-            </div>
-        </div>
-    </div>
+    </form>
+    @section Scripts {
+        @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 
-    <div class="row">
-        <div class="form-group">
-            <input type="submit" value="Create" class="btn btn-primary" />
-        </div>
-    </div>
-</form>
+        @*<script src="~/js/recipes-functions.js"></script>*@
+        <script src="~/js/recipes-steps.js"></script>
+        <script src="~/js/recipes-ingredient-add.js"></script>
 
-<div>
-    <a asp-action="Index">Back to List</a>
+
+    }
+
 </div>
-
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-
-    @*<script src="~/js/recipes-functions.js"></script>*@
-    <script src="~/js/recipes-steps.js"></script>
-    <script src="~/js/recipes-ingredient-add.js"></script>
-
-
-}
-
-
