@@ -84,9 +84,10 @@ namespace OnlineRefrigerator.Controllers
         }
 
         // GET: RecipeFinder/Details/5
-        public ActionResult Details(int id)
+        public ActionResult Details(int? id)
         {
-            return View();
+            //return View();
+            return RedirectToAction("Details", "Recipes", new { id = id});
         }
 
         // GET: RecipeFinder/Create

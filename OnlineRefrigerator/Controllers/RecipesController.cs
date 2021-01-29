@@ -166,61 +166,72 @@ namespace OnlineRefrigerator.Controllers
 
 
 
-    
 
         //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        public async Task<IActionResult> AddVote(int? id)
+        //public IActionResult CastVote(int vote, int id)
+        //{
+
+        //   var result = AddVote(vote, id);
+
+
+
+        //    return RedirectToAction("Details",id);
+        //}
+
+
+
+       
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> CastVote(RecipesDetailsViewModel model)
         {
+          
 
-            if (id == null)
+
+            var recipes = await _context.Recipes.FindAsync(model.Recipe.Id);
+
+            if (recipes.VoteCounts == null)
             {
-                return NotFound();
+                var voteCounts = 0;
+                var voteValue = 0;
+
+                voteCounts += 0;
+                voteValue = voteValue + model.VoteValue;
+
+                recipes.VoteCounts = voteCounts;
+                recipes.VoteValue = voteValue;
+
             }
 
-            var recipes = await _context.Recipes.FindAsync(id);
-
-
-            if (recipes == null)
+            else
             {
-                return NotFound();
+                var voteCounts = recipes.VoteCounts;
+                var voteValue = recipes.VoteValue;
+
+                voteValue = voteValue + model.VoteValue;
+                voteCounts += 1;
+
+                recipes.VoteCounts = voteCounts;
+                recipes.VoteValue = voteValue;
             }
+                
+            
+
+
+         
+
+
+            _context.Recipes.Update(recipes);
+            await _context.SaveChangesAsync();
 
 
 
-
-
-            recipes.VoteCounts = recipes.VoteCounts + 1;
-            recipes.VoteValue = recipes.VoteValue + 5;
-
-
-            if (id != recipes.Id)
-            {
-                return NotFound();
-            }
-
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(recipes);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!RecipesExists(recipes.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            return View(recipes);
+            return RedirectToAction("Details", new { id = model.Recipe.Id });
         }
+
+
+
 
         public IActionResult Create()
         {

@@ -16,7 +16,7 @@ namespace OnlineRefrigerator.Models
 
         public List<IngredientsData> IngredientsUsed { get; set; }
 
-        
+        public int VoteValue { get; set; }
     }
 
     public class IngredientsData
