@@ -3,7 +3,7 @@
 
 $(document).on("click", ".fa-sort ", function (e) {
 
-    
+
     sortOrder = !sortOrder;
 
 
@@ -14,22 +14,22 @@ $(document).on("click", ".fa-sort ", function (e) {
     e.preventDefault();
 
     //var columnName= $(this).id;
-    
+
 
     var filters = {
-        ingredientName: $('#ingredient').val(),
+        recipeName: $('#recipes').val(),
         categoryId: $('#category').val(),
         sortOrder: sortOrder,
         columnName: columnName
     };
 
-    
+
 
 
     console.log(columnName);
-   
-    GetIngredients(filters);
-   
-     
+
+    GetRecipes(filters);
+
+
 });
 

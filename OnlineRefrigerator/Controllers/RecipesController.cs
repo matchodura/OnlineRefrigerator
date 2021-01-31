@@ -196,7 +196,7 @@ namespace OnlineRefrigerator.Controllers
                 var voteCounts = 0;
                 var voteValue = 0;
 
-                voteCounts += 0;
+                voteCounts += 1;
                 voteValue = voteValue + model.VoteValue;
 
                 recipes.VoteCounts = voteCounts;

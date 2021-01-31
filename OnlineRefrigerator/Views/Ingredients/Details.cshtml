@@ -6,89 +6,6 @@
 }
 
 
-
-@*<div>
-    <h4>Ingredients</h4>
-    <hr />
-    <div class="row">
-        <div class="coumn col-md-6">
-
-        <dl class="row">
-            <dt class="col-sm-2">
-                @Html.DisplayNameFor(model => model.Category)
-            </dt>
-            <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.Category.Name)
-            </dd>
-            <dt class="col-sm-2">
-                @Html.DisplayNameFor(model => model.Name)
-            </dt>
-            <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.Name)
-            </dd>
-            <dt class="col-sm-2">
-                @Html.DisplayNameFor(model => model.Fat)
-            </dt>
-            <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.Fat)
-            </dd>
-            <dt class="col-sm-2">
-                @Html.DisplayNameFor(model => model.Carbs)
-            </dt>
-            <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.Carbs)
-            </dd>
-            <dt class="col-sm-2">
-                @Html.DisplayNameFor(model => model.Protein)
-            </dt>
-            <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.Protein)
-            </dd>
-            <dt class="col-sm-2">
-                @Html.DisplayNameFor(model => model.Energy)
-            </dt>
-            <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.Energy)
-            </dd>
-
-            <dt class="col-sm-2">
-                @Html.DisplayNameFor(model => model.Serving)
-            </dt>
-            <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.Serving.ServingType)
-            </dd>
-
-            <dt class="col-sm-2">
-                @Html.DisplayNameFor(model => model.ServingValue)
-            </dt>
-            <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.ServingValue)
-            </dd>
-
-
-
-
-
-        </dl>
-        </div>
-        <div class="coumn col-md-6">
-            <dd class="col-sm-10">
-                <img class="ingredients-details-img" src="@Url.Action("GetImage", new { id = Model.ImageId })" />
-            </dd>
-        </div>
-
-    </div>
-
-    
-</div>
-<div>
-    @if (this.User.Identity.IsAuthenticated)
-    {
-        <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a>
-        }
-<a asp-action="Index">Back to List</a>
-</div>*@
-
 <div class="jumbotron">
     <h1 class="display-3">@ViewData["Title"]</h1>
     <hr class="my-4">
@@ -102,7 +19,7 @@
     </div>-->
 
 
-<div class="card mb-3">
+  <div class="card text-center mb-3" >
     <h3 class="card-header">@Html.DisplayFor(model => model.Name)</h3>
     <div class="card-body">
         <h5 class="card-title">@Html.DisplayFor(model => model.Category.Name)</h5>
@@ -161,4 +78,4 @@
         </div>
     </div>
 </div>
-    </div>
+</div>

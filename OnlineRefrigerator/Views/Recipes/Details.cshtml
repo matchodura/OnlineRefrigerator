@@ -10,7 +10,7 @@
 <div class="jumbotron">
     <h1 class="display-3">@ViewData["Title"]</h1>
     <hr class="my-4">
-    <div class="card mb-3">
+    <div class="card text-center mb-3">
         <h3 class="card-header">@Html.DisplayFor(model => model.Recipe.Name)</h3>
         <div class="card-body">
             <h5 class="card-title">@Html.DisplayFor(model => model.Recipe.Type.Name)</h5>
@@ -24,7 +24,7 @@
         </svg>
     </div>
 
-    <div class="card">
+    <div class="card text-center">
         <div class="card-body">
             <ul class="list-group list-group-flush">
                 @foreach (var item in Model.RecipesSteps)
@@ -41,7 +41,7 @@
         </div>
     </div>
 
-    <div class="card">
+    <div class="card text-center">
         <div class="card-body">
             <ul class="list-group list-group-flush">
                 @foreach (var item in Model.IngredientsUsed)
@@ -56,22 +56,22 @@
         </div>
     </div>
 
-    <div class="card">
+    <div class="card text-center">
         <div class="card-body">
 
 
             @*<button data-option="1" class="btn btn-primary" value="1">1</button>
-        <button data-option="2" class="btn btn-primary" value="2">2</button>
-        <button data-option="3" class="btn btn-primary" value="3">3</button>
-        <button data-option="4" class="btn btn-primary" value="4">4</button>
-        <button data-option="5" class="btn btn-primary" value="5">5</button>
+                <button data-option="2" class="btn btn-primary" value="2">2</button>
+                <button data-option="3" class="btn btn-primary" value="3">3</button>
+                <button data-option="4" class="btn btn-primary" value="4">4</button>
+                <button data-option="5" class="btn btn-primary" value="5">5</button>
 
-        <p>current recipe: </p> <div id="currentRecipe">@Model.Recipe.Id</div>*@
+                <p>current recipe: </p> <div id="currentRecipe">@Model.Recipe.Id</div>*@
             <form asp-action="CastVote">
                 <div class="form-group">
                     @*<label asp-for="VoteValue" class="control-label"></label>
-                    <input asp-for="VoteValue" class="form-control" />
-                    <span asp-validation-for="VoteValue" class="text-danger"></span>*@
+                        <input asp-for="VoteValue" class="form-control" />
+                        <span asp-validation-for="VoteValue" class="text-danger"></span>*@
                     1
                     @Html.RadioButtonFor(model => model.VoteValue, "1")
                     2
@@ -112,7 +112,7 @@
         </div>
     </div>
 
-    <div class="card">
+    <div class="card text-center">
         <div class="card-body">
             <a class="btn btn-primary" asp-action="Index">Back to List</a>
         </div>
@@ -122,7 +122,7 @@
 
     @*@section Scripts{
 
-        
-        <script src="~/js/ranking-voting.js"></script>
-    }*@
+
+            <script src="~/js/ranking-voting.js"></script>
+        }*@
 </div>

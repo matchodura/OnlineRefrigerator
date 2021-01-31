@@ -72,7 +72,7 @@ namespace OnlineRefrigerator
 
                 if (filters.SortOrder)
                 {
-                    var result = ingredientCategoryVM.Ingredients.OrderByDescending(s => orderByProperty.GetValue(s)).ToList();
+                    var result = ingredientCategoryVM.Ingredients.OrderByDescending(s => orderByProperty.GetValue(s)).ToList();                   
                     ingredientCategoryVM.Ingredients = result;
                 }
 

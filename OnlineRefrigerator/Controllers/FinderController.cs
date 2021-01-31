@@ -37,10 +37,10 @@ namespace OnlineRefrigerator.Controllers
         }
 
         [HttpPost]
-        public IActionResult DisplayRecipes(int[] ids)
+        public IActionResult DisplayRecipes(int[] ids, bool displayMissing, bool ignoreHerbs)
         {
 
-            var partialViewModel = GetRecipes(ids);
+            var partialViewModel = GetRecipes(ids, displayMissing, ignoreHerbs);
             return PartialView("~/Views/Finder/_FinderDisplayRecipesPartial.cshtml", partialViewModel);
 
 
@@ -49,34 +49,76 @@ namespace OnlineRefrigerator.Controllers
 
 
 
-
-        public FinderViewModel GetRecipes(int[] ids)
+        public FinderViewModel GetRecipes(int[] ids, bool displayMissing, bool ignoreHerbs)
         {
 
             var query = _context.IngredientsRecipes.ToList();
-                                 
+
+
+            var herbsList = _context.Ingredients.Include(x => x.Category)
+                               .Where(h => h.Category.Name == "Herbs")
+                               .Select(a => a.Id)
+                               .ToList();
+
+                        
+
+
+            //var test = _context.IngredientsRecipes.Where(x => !herbsList.Contains(x.IngredientId)).ToList();
+
+            //var test = query
+            // .GroupBy(k => k.RecipeId)
+            // .Where(g => ids.All(w => g.Any(k => w.Equals(_context.IngredientsRecipes.Where(x => !herbsList.Contains(x.IngredientId))))))
+            // .Select(g => g.Key).ToList();
+
+
 
             var results = query
-                .GroupBy(k => k.RecipeId)
-                .Where(g => ids.All(w => g.Any(k => w.Equals(k.IngredientId))))
-                .Select(g => g.Key);
+              .GroupBy(k => k.RecipeId)
+              .Where(g => ids.All(w => g.Any(k => w.Equals(k.IngredientId))))
+              .Select(g => g.Key);
+
+
+            //var test = query
+            // .GroupBy(k => k.RecipeId)
+            // .Where(g => ids.All(w => g.Any(k => w.Equals(!herbsList.Contains())))
+            // .Select(g => g.Key).ToList();
+
+            //var test = results.Where(x=> )
+
+
+            var value = new List<Recipes>();
+
+
+            if (displayMissing == true)
+            {
+                value = (from r in _context.IngredientsRecipes
+                         join k in _context.Ingredients on r.IngredientId equals k.Id
+                         join l in _context.Recipes on r.RecipeId equals l.Id
+
+                         //where r.IngredientId == ids[]
+                         where ids.Contains(r.IngredientId)
+
+                         select l).Include(a => a.Type).ToList();
+            }
+
+            else
+            {
+                 value = _context.Recipes.Where(r => results.Contains(r.Id)).Include(a => a.Type).ToList();
+            }
 
 
 
 
             FinderViewModel vm = new FinderViewModel()
             {
-
-                Recipes = _context.Recipes.Where(r => results.Contains(r.Id)).Include(a => a.Type).ToList()
-
+                Recipes = value
             };
 
-      
 
             return vm;
-
         }
 
+       
         // GET: RecipeFinder
         public ActionResult Index()
         {

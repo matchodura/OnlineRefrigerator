@@ -1,14 +1,38 @@
 ﻿var ingredients = [];
-
+var missingIngredientsOn;
+var ignoreHerbs;
 
 $(document).ready(function () {
     GetRecipes();
+});
+
+$(document).on("click", "#customSwitch1", function () {
+    if ($(this).is(':checked'))
+        missingIngredientsOn = true;
+
+    else
+        missingIngredientsOn = false;
+});
+
+
+$(document).on("click", "#customSwitch2", function () {
+    if ($(this).is(':checked'))
+        ignoreHerbs = true;
+
+    else
+        ignoreHerbs = false;
+});
+
+
+$(".custom-control.custom-switch").change(function () {
+    GetRecipes(ingredients, missingIngredientsOn, ignoreHerbs);
 });
 
 
 $("#addIngredient").click(function () {
 
     var numberOfIngredients = $(".form-control.m-input.xd").length;
+     
 
     var html = '';
     html += '<div id="inputIngredientsRow">';
@@ -22,6 +46,8 @@ $("#addIngredient").click(function () {
 
     $('#item-list-ingredients').append(html);
     //id = "test-' + numberOfElements +
+
+
     $("#test-" + numberOfIngredients).autocomplete({
         source: function (request, response) {
             $.ajax({
@@ -49,7 +75,7 @@ $("#addIngredient").click(function () {
             var ingredientId = ui.item.id;
             ingredients.push(ingredientId);       
             
-            GetRecipes(ingredients);
+            GetRecipes(ingredients, missingIngredientsOn, ignoreHerbs);
         }
 
     });
@@ -60,10 +86,10 @@ $("#addIngredient").click(function () {
 $(document).on('click', '#removeRow', function () {
     $(this).closest('#inputIngredientsRow').remove();
     ingredients.pop();
-    GetRecipes(ingredients);
+    GetRecipes(ingredients, missingIngredientsOn, ignoreHerbs);
 });
 
-function GetRecipes(ingredients) {
+function GetRecipes(ingredients, missingIngredientsOn, ignoreHerbs) {
 
     
     $.ajax({
@@ -73,7 +99,9 @@ function GetRecipes(ingredients) {
         async: true,
         dataType: 'html',
         data: {
-            ids: ingredients
+            ids: ingredients,
+            displayMissing: missingIngredientsOn,
+            ignoreHerbs: ignoreHerbs
         }
     })
         .done(function (result) {

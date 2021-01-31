@@ -13,16 +13,17 @@
     </p>
 
     <form>
-        <div class="form-row">
-            <div class="form-group col-md-6">
+        <div class="form-row" >
+            <div class="form-group col-md-6" style="margin-bottom:1rem">
                 @*<label for="Recipe"></label>*@
                 <input type="text" id="recipes" placeholder="Write recipe name" class="form-control">
             </div>
-            <div class="form-group col-md-6">
+            <div class="form-group col-md-6" style="margin-bottom:1rem">
                 @*<label for="Category">Category</label>*@
                 @* TODO: dodac opcje wyboru kategorii z bazy danych *@
                 <select class="form-control" id="category">
-                    <option value="1">All</option>
+                    <option value="0">All</option>
+                    <option value="1">Uncatogarized</option>
                     <option value="2">Vegan</option>
                     <option value="3">Vegetarian</option>
                     <option value="4">Halal</option>
@@ -37,7 +38,7 @@
 
         <script src="~/js/recipes-functions.js"></script>
         <script src="~/js/recipes-display.js"></script>
-        @*<script src="~/js/recipes-sort.js"></script>*@
+        <script src="~/js/recipes-sort.js"></script>
 
     }
 

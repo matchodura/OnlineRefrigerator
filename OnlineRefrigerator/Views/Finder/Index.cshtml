@@ -11,7 +11,7 @@
     <form asp-action="Create" method="post">
         <div class="row">
             <div class="col-md-4">
-                <div class="form-group-ingredients">
+                <div class="form-group" style="margin-bottom:1rem">
                     <div id="inputIngredientsRow">
                         <div class="input-group mb-3">
                             <div class="input-group-append">
@@ -22,6 +22,21 @@
                     <div class="form-group" id="item-list-ingredients"></div>
                     <div id="newIngredient"></div>
                     <button id="addIngredient" type="button" class="btn btn-primary">Add Ingredient</button>
+                </div>
+            </div>
+
+
+            <div class="col-md-4">
+                <div class="form-group">
+                    <div class="custom-control custom-switch">
+                        <input type="checkbox" class="custom-control-input" id="customSwitch1">
+                        <label class="custom-control-label" for="customSwitch1">Display recipes with missing ingredients</label>
+                    </div>
+                    @* todo: one day maybe *@
+                    @*<div class="custom-control custom-switch">
+                        <input type="checkbox" class="custom-control-input" id="customSwitch2">
+                        <label class="custom-control-label" for="customSwitch2">Ignore Herbs</label>
+                    </div>*@
                 </div>
             </div>
         </div>

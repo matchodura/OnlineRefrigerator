@@ -158,13 +158,14 @@ body {
 
 
 #myCarousel {
-    padding: 50px 50px 50px 50px;
+    /*padding: 50px 50px 50px 50px;*/
+    margin-top: 100px;
 }
 
 
 .jumbotron {
     width: 100%;
-    margin-top:50px;
+    margin-top:100px;
 }
 
 .pb-3 {
@@ -180,7 +181,7 @@ body {
 a{
     color: white;
     text-decoration: none;
-    text-align: center;
+    /*text-align: center;*/
 }
 
 .table td{
@@ -192,5 +193,16 @@ a{
 .table th {
     text-align: center;
     vertical-align: middle;
+}
+
+.form-group{
+    
+    margin-bottom:0;
+}
+
+
+.fa-sort:hover {
+    color: red;
+    cursor: pointer;
 }
 
