@@ -2,45 +2,46 @@
 
 <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
 
-<table class="table table-hover">
-    <thead>
-        <tr>
-            <th id="Name" scope="col">@Html.DisplayNameFor(model => model.Recipes[0].Name) <i class="fas fa-sort"></i></th>
-            <th id="PreparationTime" scope="col">@Html.DisplayNameFor(model => model.Recipes[0].PreparationTime) <i class="fas fa-sort"></i></th>
-            <th id="TypeId" scope="col">@Html.DisplayNameFor(model => model.Recipes[0].Type) <i class="fas fa-sort"></i></th>
-            <th></th>
-        </tr>        
-    </thead>
+<div class="table-responsive">
+    <table class="table table-hover table-striped">
+        <thead class="thead-dark">
+            <tr>
+                <th id="Name" scope="col">@Html.DisplayNameFor(model => model.Recipes[0].Name) <i class="fas fa-sort"></i></th>
+                <th id="PreparationTime" scope="col">@Html.DisplayNameFor(model => model.Recipes[0].PreparationTime) <i class="fas fa-sort"></i></th>
+                <th id="TypeId" scope="col">@Html.DisplayNameFor(model => model.Recipes[0].Type) <i class="fas fa-sort"></i></th>
+                <th></th>
+            </tr>
+        </thead>
 
-    <tbody>
-        @foreach (var item in Model.Recipes)
-        {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PreparationTime)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Type.Name)
-            </td>
+        <tbody>
+            @foreach (var item in Model.Recipes)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.PreparationTime)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Type.Name)
+                    </td>
 
-            <td>
-                @if (this.User.Identity.IsAuthenticated)
-                {
-                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a>
-                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-                }
-                @*<button type="button" class="btn btn-secondary">Secondary</button>*@
-                <a class="btn btn-primary" asp-action="Details" asp-route-id="@item.Id">Details</a>
-            </td>
-        </tr>
-        }
-    </tbody>
+                    <td>
+                        @if (this.User.Identity.IsAuthenticated)
+                        {
+                            <a asp-action="Edit" asp-route-id="@item.Id">Edit</a>
+                            <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                        }
+                        @*<button type="button" class="btn btn-secondary">Secondary</button>*@
+                        <a class="btn btn-primary" asp-action="Details" asp-route-id="@item.Id">Details</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
 
-</table>
-
-@section Scripts{
-    <script src="~/js/recipes-display.js"></script>
-}
+    </table>
+</div>
+    @section Scripts{
+        <script src="~/js/recipes-display.js"></script>
+    }

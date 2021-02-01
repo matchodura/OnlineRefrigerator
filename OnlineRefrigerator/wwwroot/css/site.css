@@ -124,7 +124,11 @@ body {
 @media (min-width: 576px) {
     .page-content {
         max-width: 540px;
+    }
 
+
+    .btn {
+        width: 8em;
     }
 }
 
@@ -132,6 +136,12 @@ body {
     .page-content {
         max-width: 720px;
     }
+
+    .btn {
+        width: 8em;
+    }
+
+
 }
 
 @media (min-width: 992px) {
@@ -139,11 +149,20 @@ body {
         max-width: 960px;
 
     }
+
+    .btn {
+        width: 10em;
+    }
+
 }
 
 @media (min-width: 1200px) {
     .page-content {
         max-width: 1140px;
+    }
+
+    .btn {
+        width: 12em;
     }
 }
 
@@ -206,3 +225,13 @@ a{
     cursor: pointer;
 }
 
+
+.btn {
+    width: 8em;
+}
+
+th:first-child, td:first-child {
+    position: sticky;
+    left: 0px;
+    background-color: grey;
+}

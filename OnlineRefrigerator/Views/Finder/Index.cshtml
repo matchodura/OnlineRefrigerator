@@ -7,13 +7,13 @@
 <div class="jumbotron">
     <h1 class="display-3">@ViewData["Title"]</h1>
     <hr class="my-4">
-  
+
     <form asp-action="Create" method="post">
         <div class="row">
             <div class="col-md-4">
-                <div class="form-group" style="margin-bottom:1rem">
+                <div class="form-group">
                     <div id="inputIngredientsRow">
-                        <div class="input-group mb-3">
+                        <div class="input-group">
                             <div class="input-group-append">
                             </div>
                         </div>
@@ -21,10 +21,10 @@
 
                     <div class="form-group" id="item-list-ingredients"></div>
                     <div id="newIngredient"></div>
-                    <button id="addIngredient" type="button" class="btn btn-primary">Add Ingredient</button>
+                    <button id="addIngredient" type="button" class="btn btn-primary" style="margin-bottom:1rem">Add Ingredient</button>
+
                 </div>
             </div>
-
 
             <div class="col-md-4">
                 <div class="form-group">
@@ -34,30 +34,31 @@
                     </div>
                     @* todo: one day maybe *@
                     @*<div class="custom-control custom-switch">
-                        <input type="checkbox" class="custom-control-input" id="customSwitch2">
-                        <label class="custom-control-label" for="customSwitch2">Ignore Herbs</label>
-                    </div>*@
+                            <input type="checkbox" class="custom-control-input" id="customSwitch2">
+                            <label class="custom-control-label" for="customSwitch2">Ignore Herbs</label>
+                        </div>*@
                 </div>
             </div>
         </div>
 
         <hr class="my-4">
 
-        <div id="displayRecipes">
-
-        </div>
+        <div id="displayRecipes"></div>
 
     </form>
 </div>
 
 
-    @section Scripts {
-        @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 
 
-        @*<script src="~/js/finder-functions.js"></script>
-            <script src="~/js/finder-display.js"></script>*@
-        <script src="~/js/finder-ingredient-add.js"></script>
+    @*<script src="~/js/finder-functions.js"></script>
+        <script src="~/js/finder-display.js"></script>*@
+    <script src="~/js/finder-ingredient-add.js"></script>
+    @*<script src="~/js/finder-functions.js"></script>*@
+
+    @*<script src="~/js/recipes-sort.js"></script>*@
 
 
-    }
+}

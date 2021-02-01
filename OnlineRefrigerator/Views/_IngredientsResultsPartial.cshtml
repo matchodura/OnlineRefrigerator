@@ -3,73 +3,76 @@
 <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
 
 
+<div class="table-responsive">
+    <table class="table table-hover table-striped table-bordered">
+        <thead class="thead-dark">
+            <tr>
+                <th id="Name" scope="col">@Html.DisplayNameFor(model => model.Ingredients[0].Name) <i class="fas fa-sort"></i></th>
+                <th id="CategoryId" scope="col"> @Html.DisplayNameFor(model => model.Ingredients[0].Category) <i class="fas fa-sort"></i></th>
 
-<table class="table table-hover">
-    <thead>
-        <tr>
-            <th id="CategoryId" scope="col"> @Html.DisplayNameFor(model => model.Ingredients[0].Category) <i class="fas fa-sort"></i></th>
-            <th id="Name" scope="col">@Html.DisplayNameFor(model => model.Ingredients[0].Name) <i class="fas fa-sort"></i></th>
-            <th id="Fat" scope="col">@Html.DisplayNameFor(model => model.Ingredients[0].Fat) <i class="fas fa-sort"></i></th>
-            <th id="Carbs" scope="col">@Html.DisplayNameFor(model => model.Ingredients[0].Carbs) <i class="fas fa-sort"></i></th>
-            <th id="Protein" scope="col">@Html.DisplayNameFor(model => model.Ingredients[0].Protein) <i class="fas fa-sort"></i></th>
-            <th id="Energy" scope="col">@Html.DisplayNameFor(model => model.Ingredients[0].Energy) <i class="fas fa-sort"></i></th>
-            <th id="ServingId" scope="col">@Html.DisplayNameFor(model => model.Ingredients[0].Serving) <i class="fas fa-sort"></i></th>
-            @*<th id="ServingValue" scope="col">@Html.DisplayNameFor(model => model.Ingredients[0].ServingValue) <div class="btnHover"><i class="fas fa-sort"></i> </div> </th>*@
-            <th id="ServingValue" scope="col">@Html.DisplayNameFor(model => model.Ingredients[0].ServingValue) <i class="fas fa-sort"></i></th>
-            <th></th>
-            <th></th>
-        </tr>
-       
-            <tbody class="ingredientsResults">
-                @foreach (var item in Model.Ingredients)
-                {
-                    <tr>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Category.Name)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Name)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Fat)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Carbs)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Protein)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Energy)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Serving.ServingType)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.ServingValue)
-                        </td>
+                <th id="Fat" scope="col">@Html.DisplayNameFor(model => model.Ingredients[0].Fat) <i class="fas fa-sort"></i></th>
+                <th id="Carbs" scope="col">@Html.DisplayNameFor(model => model.Ingredients[0].Carbs) <i class="fas fa-sort"></i></th>
+                <th id="Protein" scope="col">@Html.DisplayNameFor(model => model.Ingredients[0].Protein) <i class="fas fa-sort"></i></th>
+                <th id="Energy" scope="col">@Html.DisplayNameFor(model => model.Ingredients[0].Energy) <i class="fas fa-sort"></i></th>
+                <th id="ServingId" scope="col">@Html.DisplayNameFor(model => model.Ingredients[0].Serving) <i class="fas fa-sort"></i></th>
+                @*<th id="ServingValue" scope="col">@Html.DisplayNameFor(model => model.Ingredients[0].ServingValue) <div class="btnHover"><i class="fas fa-sort"></i> </div> </th>*@
+                <th id="ServingValue" scope="col">@Html.DisplayNameFor(model => model.Ingredients[0].ServingValue) <i class="fas fa-sort"></i></th>
+                <th></th>
+                <th></th>
+            </tr>
 
-                        <td>
+        <tbody class="ingredientsResults">
+            @foreach (var item in Model.Ingredients)
+            {
+            <tr>
 
-                            <img class="ingredients-table-img" src="@Url.Action("GetImage", new { id = item.ImageId })" />
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Category.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Fat)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Carbs)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Protein)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Energy)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Serving.ServingType)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ServingValue)
+                </td>
+
+                <td>
+
+                    <img class="ingredients-table-img" src="@Url.Action("GetImage", new { id = item.ImageId })" />
 
 
-                        </td>
-                        <td>
-                            @if (this.User.Identity.IsAuthenticated)
-                            {
-                                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a>
-                                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-                            }
+                </td>
+                <td>
+                    @if (this.User.Identity.IsAuthenticated)
+                    {
+                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a>
+                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                    }
 
-                            <a class="btn btn-primary" asp-action="Details" asp-route-id="@item.Id">Details</a>
-                        </td>
-                    </tr>
-                }
-            </tbody>
+                    <a class="btn btn-primary" asp-action="Details" asp-route-id="@item.Id">Details</a>
+                </td>
+            </tr>
+            }
+        </tbody>
 
-</table>
+    </table>
+</div>
 
-@section Scripts{
-    <script src="~/js/ingredients-display.js"></script>
-}
+    @section Scripts{
+        <script src="~/js/ingredients-display.js"></script>
+    }

@@ -1,50 +1,50 @@
 ﻿@model OnlineRefrigerator.Models.FinderViewModel
 
-<table class="table table-hover">
-    <thead>
-        <tr>
-
-            <th id="Name" scope="col">@Html.DisplayNameFor(model => model.Recipes[0].Name) </th>
-            @*<i class="fas fa-sort"></i>*@
-            @* todo: sorting in finder *@
-            <th id="PreparationTime" scope="col">@Html.DisplayNameFor(model => model.Recipes[0].PreparationTime)</th>
-            <th id="DishType" scope="col">@Html.DisplayNameFor(model => model.Recipes[0].Type) </th>
-            <th></th>
-        </tr>
-    </thead>
-
-    <tbody>
-        @foreach (var item in Model.Recipes)
-        {
+<div class="table-responsive">
+    <table class="table table-hover table-striped table-bordered">
+        <thead class="thead-dark">
             <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Name)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.PreparationTime)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Type.Name)
-                </td>
-
-                <td>
-                    @if (this.User.Identity.IsAuthenticated)
-                    {
-                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a>
-                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-                    }
-                    @*<button type="button" class="btn btn-secondary">Secondary</button>*@
-                    <a class="btn btn-primary" asp-action="Details" asp-route-id="@item.Id">Details</a>
-                </td>
+                <th id="Name" scope="col">@Html.DisplayNameFor(model => model.Recipes[0].Name) </th>
+                @*<i class="fas fa-sort"></i>*@
+                <th id="PreparationTime" scope="col">@Html.DisplayNameFor(model => model.Recipes[0].PreparationTime)</th>
+                <th id="TypeId" scope="col">@Html.DisplayNameFor(model => model.Recipes[0].Type)</th>
+                <th></th>
             </tr>
-        }
-    </tbody>
+        </thead>
 
-</table>
+        <tbody>
+            @foreach (var item in Model.Recipes)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.PreparationTime)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Type.Name)
+                    </td>
+
+                    <td>
+                        @if (this.User.Identity.IsAuthenticated)
+                        {
+                            <a asp-action="Edit" asp-route-id="@item.Id">Edit</a>
+                            <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                        }
+                        @*<button type="button" class="btn btn-secondary">Secondary</button>*@
+                        <a class="btn btn-primary" asp-action="Details" asp-route-id="@item.Id">Details</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+
+    </table>
+</div>
 
 
+@section Scripts{
+    <script src="~/js/finder-functions.js"></script>
+    <script src="~/js/finder-display.js"></script>
 
- @section Scripts{
-        <script src="~/js/finder-functions.js"></script>
-        <script src="~/js/finder-display.js"></script>
 }
