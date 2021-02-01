@@ -1,8 +1,24 @@
-﻿@{
+﻿@model IEnumerable<RankingViewModel>
+@*@model OnlineRefrigerator.Models.RankingViewModel*@
+
+@{
     ViewData["Title"] = "Ranking";
 }
 
 <div class="jumbotron">
     <h1 class="display-3">@ViewData["Title"]</h1>
-    <hr class="my-4">  
+    <hr class="my-4">
+
+    <div id="displayResults"></div>
+
+
+    @section Scripts{
+
+   
+        <script src="~/js/ranking-functions.js"></script>
+        <script src="~/js/ranking-sort.js"></script>
+
+    }
+
+
 </div>

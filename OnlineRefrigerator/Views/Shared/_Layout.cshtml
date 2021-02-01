@@ -9,56 +9,10 @@
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" rel="stylesheet">
     <link href="~/lib/font-awesome/css/all.css" rel="stylesheet">
-
-
 </head>
+
 <body>
-
-    <header>    
-        <!--<nav class="navbar navbar-expand-lg navbar-dark bg-primary ">          
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarcolor01" aria-controls="navbarcolor01" aria-expanded="false" aria-label="toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="d-md-flex d-block flex-row mx-md-auto mx-0">
-                <div class="collapse navbar-collapse " id="navbarcolor01">
-                    <ul class="navbar-nav mr-auto ">
-                        <li class="nav-item">
-                            <a class="nav-link " asp-area="" asp-controller="home" asp-action="index">
-                                home
-                                <span class="sr-only">(current)</span>
-                            </a>
-                        </li>                      
-                        <li class="nav-item">
-                          <a class="nav-link " asp-area="" asp-controller="home" asp-action="contact">contact</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link " asp-area="" asp-controller="recipes" asp-action="index">recipes</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link " asp-area="" asp-controller="ingredients" asp-action="index">ingredients</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link " asp-area="" asp-controller="finder" asp-action="index">recipe finder</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link " asp-area="" asp-controller="ranking" asp-action="index">ranking</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" asp-area="" asp-controller="calculator" asp-action="index">calculator</a>
-                        </li>
-                    </ul>
-                </div>          
-
-                <div class="collapse navbar-collapse" id="navbarcolor01">
-                    <partial name="_loginpartial.cshtml" />
-                </div>
-            </div>-->
-                @*<div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">*@
-                
-        <!--</nav>-->
-
-
-
+    <header>            
         <div class="navbar navbar-expand-lg fixed-top navbar-dark bg-primary">
             <div class="container">
                 <a href="../" class="navbar-brand">OnlineRefrigerator</a>
@@ -66,13 +20,7 @@
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarResponsive">
-                    <ul class="navbar-nav">
-                        @*<li class="nav-item">
-            <a class="nav-link " asp-area="" asp-controller="home" asp-action="index">
-                Home
-                <span class="sr-only">(current)</span>
-            </a>
-        </li>*@
+                    <ul class="navbar-nav">                   
                         <li class="nav-item">
                             <a class="nav-link " asp-area="" asp-controller="home" asp-action="contact">Contact</a>
                         </li>
@@ -95,30 +43,16 @@
                             <partial name="_loginpartial.cshtml" />
                         </li>
                     </ul>
-                </div>
-                @*<div class="collapse navbar-collapse" id="navbarcolor01">
-                    <partial name="_loginpartial.cshtml" />
-                </div>*@
+                </div>              
             </div>
         </div>
     </header>
 
-
- 
-    <div class="container">
-        @*<div class="d-inline-flex p-2">*@
-       @* <div class="d-flex align-items-center flex-grow">*@
-      
-            <main role="main" class="pb-3">
+     
+    <div class="container"> 
+      <main role="main" class="pb-3">
 
                 @RenderBody()
-
-
-
-                @*<script src="https://code.jquery.com/jquery-1.10.2.js"></script>
-        <script src="https://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>*@
-
-
                 <script src="~/lib/jquery/dist/jquery.js"></script>
                 <script src="~/lib/jquery/dist/jquery.min.js"></script>
                 <script src="~/js/site.js" asp-append-version="true"></script>
@@ -128,16 +62,13 @@
                 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
             </main>
-        </div>
-    @*</div>*@
-  
-     @*</div>*@
+    </div>
 
-        <footer class="border-top footer text-muted">
+    <footer class="border-top footer text-muted">
             <div class="container">
                 &copy; 2021 - OnlineRefrigerator - <a asp-area="" asp-controller="Home" asp-action="Contact">Contact</a>
             </div>
-        </footer>
-        @RenderSection("Scripts", required: false)
+    </footer>
+    @RenderSection("Scripts", required: false)
 </body>
 </html>

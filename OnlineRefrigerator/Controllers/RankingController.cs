@@ -1,87 +1,87 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using OnlineRefrigerator.Data;
+using OnlineRefrigerator.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 
 namespace OnlineRefrigerator.Controllers
 {
     public class RankingController : Controller
     {
+
+        
+        private readonly IngredientsContext _context;
+     
+
+        public RankingController(IngredientsContext context)
+        {
+            _context = context;
+        }
+
+
         // GET: RatingController
         public ActionResult Index()
         {
+          
             return View();
         }
 
-        // GET: RatingController/Details/5
-        public ActionResult Details(int id)
+
+        public List<RankingViewModel> GetResults(RecipesFilter filters)
         {
-            return View();
+
+
+            var results = (from recipe in _context.Recipes
+                          select new RankingViewModel { Id = recipe.Id, Name = recipe.Name, Score = Math.Round((double)((float)recipe.VoteValue / recipe.VoteCounts), 2) }).ToList();
+
+
+            if (filters.ColumnName != null)
+            {
+                //geting property name of ingredient class, selected by clicking on the sort button of specified column name in partial view
+                PropertyInfo orderByProperty = typeof(RankingViewModel).GetProperties().SingleOrDefault(property => property.Name == filters.ColumnName);
+
+                if (filters.SortOrder)
+                {
+                  
+                     results = results.OrderByDescending(s => orderByProperty.GetValue(s)).ToList();
+
+                }
+
+                else if (!filters.SortOrder)
+                {
+
+                    results = results.OrderBy(s => orderByProperty.GetValue(s)).ToList();
+
+                }
+
+            }
+
+            return results;
+
         }
 
-        // GET: RatingController/Create
-        public ActionResult Create()
-        {
-            return View();
-        }
 
-        // POST: RatingController/Create
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public IActionResult ShowResults(RecipesFilter filters)
         {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
+
+            var partialViewModel = GetResults(filters);
+
+            return PartialView("~/Views/Ranking/_RankingResultsPartial.cshtml", partialViewModel);
+
         }
 
-        // GET: RatingController/Edit/5
-        public ActionResult Edit(int id)
-        {
-            return View();
-        }
 
-        // POST: RatingController/Edit/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        // GET: RecipeFinder/Details/5
+        public ActionResult Details(int? id)
         {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
+            //return View();
+            return RedirectToAction("Details", "Recipes", new { id = id });
         }
-
-        // GET: RatingController/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        // POST: RatingController/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
+              
     }
 }
