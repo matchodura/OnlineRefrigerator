@@ -8,27 +8,22 @@
     <h1 class="display-3">@ViewData["Title"]</h1>
     <hr class="my-4">
     <form>
-          <div class="column">
+        <div class="column">
             @using (Html.BeginForm(new { @id = "modelForm" }))
-              {
+            {
                 @Html.AntiForgeryToken()
-                  <div class="form-horizontal">
+                <div class="form-horizontal">
                     <div class="form-group">
-                      <div class="col-md-12">
-                        @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control", placeholder = "Write ingredient name" } } )
-                       </div>
+                        <div class="col-md-12">
+                            @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control", placeholder = "Write ingredient name" } })
+                        </div>
                     </div>
-                  </div>
-                }
+                </div>
+            }
 
-
-           
-              <div id="renderDetails"></div>
-           
-           
-              <div id="renderResults"></div>
-         
-          </div>
+            <div id="renderDetails"></div>
+            <div id="renderResults"></div>                          
+        </div>
     </form>
 
 

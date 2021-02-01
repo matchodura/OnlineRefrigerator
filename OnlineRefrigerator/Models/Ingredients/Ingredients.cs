@@ -39,10 +39,10 @@ namespace OnlineRefrigerator.Models
 
         [ForeignKey("Serving")]
         public int? ServingId { get; set; }
-        [DisplayName("Serving Type")]
+        [DisplayName("Serving")]
         public virtual Servings Serving { get; set; }
 
-        [DisplayName("Serving Value")]
+        [DisplayName("Value")]
         public int? ServingValue { get; set; }
 
         [ForeignKey("Image")]

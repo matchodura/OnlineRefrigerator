@@ -1,6 +1,7 @@
 ﻿$(document).on('change', "#ServingQuantity", function (e) {
 
 
+
     var data = {
         fat: $('#Fat').text(),
         carbs: $('#Carbs').text(),

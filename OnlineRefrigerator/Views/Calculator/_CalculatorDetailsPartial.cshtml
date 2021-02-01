@@ -115,24 +115,24 @@
     <div class="card">
         <div class="row">
             <div class="card-body">
-                <img class="ingredients-details-img" src="@Url.Action("GetImage", new { id = Model.Ingredient.ImageId })" />
+                <img class="ingredients-details-img" src="@Url.Action("GetImage","Ingredients", new { id = Model.Ingredient.ImageId })" />
             </div>
             <div class="card-body">
                 <ul class="list-group list-group-flush">
 
                     <li class="list-group-item">
-                        <h5>@Html.DisplayNameFor(model => model.Ingredient.Fat)  @Html.DisplayFor(model => model.Ingredient.Fat)</h5>
+                        <h5>@Html.DisplayNameFor(model => model.Ingredient.Fat) <span id="Fat">@Html.DisplayFor(model => model.Ingredient.Fat)</span></h5>
                     </li>
 
                     <li class="list-group-item">
-                        <h5>@Html.DisplayNameFor(model => model.Ingredient.Carbs)  @Html.DisplayFor(model => model.Ingredient.Carbs)</h5>
+                        <h5>@Html.DisplayNameFor(model => model.Ingredient.Carbs)  <span id="Carbs">@Html.DisplayFor(model => model.Ingredient.Carbs)</span></h5>
                     </li>
 
                     <li class="list-group-item">
-                        <h5>@Html.DisplayNameFor(model => model.Ingredient.Protein)  @Html.DisplayFor(model => model.Ingredient.Protein)</h5>
+                        <h5>@Html.DisplayNameFor(model => model.Ingredient.Protein)  <span id="Protein">@Html.DisplayFor(model => model.Ingredient.Protein)</span></h5>
 
                     <li class="list-group-item">
-                        <h5>@Html.DisplayNameFor(model => model.Ingredient.Energy)  @Html.DisplayFor(model => model.Ingredient.Energy)</h5>
+                        <h5>@Html.DisplayNameFor(model => model.Ingredient.Energy)  <span id="Energy">@Html.DisplayFor(model => model.Ingredient.Energy)</span></h5>
                     </li>
 
                     <li class="list-group-item">
@@ -140,7 +140,7 @@
                     </li>
 
                     <li class="list-group-item">
-                        <h5> @Html.DisplayNameFor(model => model.Ingredient.ServingValue)  @Html.DisplayFor(model => model.Ingredient.ServingValue)</h5>
+                        <h5> @Html.DisplayNameFor(model => model.Ingredient.ServingValue) <span id="ServingValue">@Html.DisplayFor(model => model.Ingredient.ServingValue)</span></h5>
                     </li>
                 </ul>
             </div>
