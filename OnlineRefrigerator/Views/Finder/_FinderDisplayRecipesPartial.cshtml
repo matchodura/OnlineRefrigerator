@@ -1,13 +1,13 @@
 ﻿@model OnlineRefrigerator.Models.FinderViewModel
 
-<div class="table-responsive">
+<div class="tableFixHead">
     <table class="table table-hover table-striped table-bordered">
         <thead class="thead-dark">
             <tr>
-                <th id="Name" scope="col">@Html.DisplayNameFor(model => model.Recipes[0].Name) </th>
+                <th id="Name" scope="col"><span class="text-nowrap">@Html.DisplayNameFor(model => model.Recipes[0].Name) </span></th>
                 @*<i class="fas fa-sort"></i>*@
-                <th id="PreparationTime" scope="col">@Html.DisplayNameFor(model => model.Recipes[0].PreparationTime)</th>
-                <th id="TypeId" scope="col">@Html.DisplayNameFor(model => model.Recipes[0].Type)</th>
+                <th id="PreparationTime" scope="col"><span class="text-nowrap">@Html.DisplayNameFor(model => model.Recipes[0].PreparationTime) </span></th>
+                <th id="TypeId" scope="col"><span class="text-nowrap">@Html.DisplayNameFor(model => model.Recipes[0].Type) </span></th>
                 <th></th>
             </tr>
         </thead>

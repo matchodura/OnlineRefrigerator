@@ -14,6 +14,7 @@ namespace OnlineRefrigerator.Models
 
         public double Score { get; set; }
 
+        public int? Votes { get; set; }
 
     }
 }
