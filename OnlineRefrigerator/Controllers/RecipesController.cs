@@ -5,6 +5,7 @@ using System.Linq;
 using System.Reflection;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -167,88 +168,140 @@ namespace OnlineRefrigerator.Controllers
                                                 select new IngredientsData { Name = c.Name, Quantity = s.ServingQuantity, Type = k.ServingType }).ToList();
 
 
-            vm.UserVote = await _context.UserVotes.Where(x => x.UserId == userId).Select(a => a.VoteValue).FirstOrDefaultAsync();
+            vm.UserVote = await _context.UserVotes.Where(x => x.UserId == userId && x.RecipeId == id).Select(a => a.VoteValue).FirstOrDefaultAsync();
 
+
+            if (_context.UserVotes.Where(u => u.UserId == userId && u.RecipeId == recipe.Id).Any())
+            {
+                vm.VotingButton = "Recast Vote!";
+            }
+            else
+            {
+                vm.VotingButton = "Cast Vote!";
+            }
+
+
+                if (recipe.VoteValue != null)
+            {
+                vm.Score = Math.Round((double)((float)recipe.VoteValue / recipe.VoteCounts), 2);
+            }
+
+            else
+            {
+                vm.Score = 0;
+            }
 
             vm.IngredientsUsed = ingredients;
             vm.Recipe = recipe;
             vm.RecipesSteps = steps;
 
+            
 
             return View(vm);
         }
 
-
-
-
-        //[HttpPost]
-        //public IActionResult CastVote(int vote, int id)
-        //{
-
-        //   var result = AddVote(vote, id);
-
-
-
-        //    return RedirectToAction("Details",id);
-        //}
-
-
-
-       
+               
 
         [HttpPost]
-        [ValidateAntiForgeryToken]      
+        [ValidateAntiForgeryToken]    
+       
         public async Task<IActionResult> CastVote(RecipesDetailsViewModel model)
         {
 
+            //get current logged user id
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier); 
 
-            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier); // will give the user's userId
+            //get current recipe
+            var currentRecipe = await _context.Recipes.FindAsync(model.Recipe.Id);
 
-            var recipes = await _context.Recipes.FindAsync(model.Recipe.Id);
+            //get current user votes
+            var userVotes = _context.UserVotes.Where(x => x.RecipeId == model.Recipe.Id).SingleOrDefault();
 
-            var votes = new UserVotes();
 
-            if (recipes.VoteCounts == null)
+            //if user changes his vote
+            if ( _context.UserVotes.Where(u=> u.UserId == userId && u.RecipeId == currentRecipe.Id).Any())
             {
-                var voteCounts = 0;
-                var voteValue = 0;
 
-                voteCounts += 1;
-                voteValue = voteValue + model.VoteValue;
+                //userVotes.VoteValue = model.VoteValue;
 
-                recipes.VoteCounts = voteCounts;
-                recipes.VoteValue = voteValue;
-               
+
+                var recipe = await _context.Recipes.FindAsync(model.Recipe.Id);
+
+
+                if (userVotes.VoteValue - model.VoteValue >=0)
+                {
+                    recipe.VoteValue = currentRecipe.VoteValue - (userVotes.VoteValue - model.VoteValue);
+                }
+
+                else
+                {
+                    recipe.VoteValue = currentRecipe.VoteValue + (model.VoteValue - userVotes.VoteValue );
+                }
+                
+
+                _context.Recipes.Update(recipe);
+                await _context.SaveChangesAsync();
+
+
+                userVotes.VoteValue = model.VoteValue;
+
+
+                _context.UserVotes.Update(userVotes);
+                await _context.SaveChangesAsync();
+
 
             }
 
+
+            // if first vote by user or first vote for recipe
             else
             {
-                var voteCounts = recipes.VoteCounts;
-                var voteValue = recipes.VoteValue;
+                     
+                var recipe = currentRecipe;
 
-                voteValue = voteValue + model.VoteValue;
-                voteCounts += 1;
+                if (currentRecipe.VoteCounts == null)
+                {
 
-                recipes.VoteCounts = voteCounts;
-                recipes.VoteValue = voteValue;
+                    var voteCounts = 0;
+                    var voteValue = 0;
+
+                    voteCounts += 1;
+                    voteValue = voteValue + model.VoteValue;
+
+                    recipe.VoteCounts = voteCounts;
+                    recipe.VoteValue = voteValue;
+                                     
+
+                }
+
+                else
+                {
+                    var voteCounts = currentRecipe.VoteCounts;
+                    var voteValue = currentRecipe.VoteValue;
+
+                    voteValue = voteValue + model.VoteValue;
+                    voteCounts += 1;
+
+                    recipe.VoteCounts = voteCounts;
+                    recipe.VoteValue = voteValue;
+
+
+                }
+
+                var votes = new UserVotes();
+                votes.RecipeId = model.Recipe.Id;
+                votes.VoteValue = model.VoteValue;
+                votes.UserId = userId;
+
+                _context.Recipes.Update(recipe);
+                await _context.SaveChangesAsync();
+
+                _context.UserVotes.Add(votes);
+                await _context.SaveChangesAsync();
+
             }
 
-
-            
-
-            votes.RecipeId = model.Recipe.Id;
-            votes.VoteValue = model.VoteValue;
-            votes.UserId = userId;
-
-            
-
-
-            _context.Recipes.Update(recipes);
-            await _context.SaveChangesAsync();
-
-            _context.UserVotes.Update(votes);
-            await _context.SaveChangesAsync();
+                        
 
             return RedirectToAction("Details", new { id = model.Recipe.Id });
         }

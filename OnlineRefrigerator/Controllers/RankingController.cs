@@ -36,7 +36,7 @@ namespace OnlineRefrigerator.Controllers
 
 
             var results = (from recipe in _context.Recipes
-                          select new RankingViewModel { Id = recipe.Id, Votes = recipe.VoteCounts, Name = recipe.Name, Score = Math.Round((double)((float)recipe.VoteValue / recipe.VoteCounts), 2) }).ToList();
+                          select new RankingViewModel { Id = recipe.Id, ImageId = recipe.ImageId, Votes = recipe.VoteCounts, Name = recipe.Name, Score = Math.Round((double)((float)recipe.VoteValue / recipe.VoteCounts), 2) }).ToList();
 
 
             if (filters.ColumnName != null)
