@@ -128,10 +128,7 @@ namespace OnlineRefrigerator
 
             //gets path of immage in wwwroot
             var path = env.WebRootFileProvider.GetFileInfo("Images/missing_image.jpg")?.PhysicalPath;
-
-
-           
-
+                    
 
             if(ingredientImage != null)
             {
@@ -227,7 +224,6 @@ namespace OnlineRefrigerator
         {
 
             Ingredients ingredientModel = model.Ingredient;
-
             IngredientsImages ingredientImage = new IngredientsImages();
 
             var image = model.Image;

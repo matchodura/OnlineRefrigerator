@@ -1,11 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Security.Claims;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using OnlineRefrigerator.Areas.Identity.Data;
 using OnlineRefrigerator.Data;
 using OnlineRefrigerator.Models;
 
@@ -15,10 +20,15 @@ namespace OnlineRefrigerator.Controllers
     {
         //private readonly RecipesContext _context;
         private readonly IngredientsContext _context;
+        private readonly IWebHostEnvironment env;
+        private readonly UserManager<AppUser> _userManager;
 
-        public RecipesController(IngredientsContext context)
+        public RecipesController(IngredientsContext context, UserManager<AppUser> userManager, IWebHostEnvironment env)
         {
-            _context = context;           
+            //allows for using wwwroot files
+            this.env = env;
+            _context = context;
+            _userManager = userManager;
         }
 
         // GET: Recipes       
@@ -136,6 +146,7 @@ namespace OnlineRefrigerator.Controllers
         {
             var vm = new RecipesDetailsViewModel();
 
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier); // will give the user's userId
 
             if (id == null)
             {
@@ -146,7 +157,7 @@ namespace OnlineRefrigerator.Controllers
 
             var steps = _context.RecipesSteps.Where(s => s.RecipeId == id).ToList();
 
-          
+            
 
 
             List<IngredientsData> ingredients = (from s in _context.IngredientsRecipes
@@ -154,7 +165,10 @@ namespace OnlineRefrigerator.Controllers
                                                 join k in _context.Servings on s.ServingType equals k.Id
                                                 where s.RecipeId == id
                                                 select new IngredientsData { Name = c.Name, Quantity = s.ServingQuantity, Type = k.ServingType }).ToList();
-                                              
+
+
+            vm.UserVote = await _context.UserVotes.Where(x => x.UserId == userId).Select(a => a.VoteValue).FirstOrDefaultAsync();
+
 
             vm.IngredientsUsed = ingredients;
             vm.Recipe = recipe;
@@ -183,13 +197,16 @@ namespace OnlineRefrigerator.Controllers
        
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
+        [ValidateAntiForgeryToken]      
         public async Task<IActionResult> CastVote(RecipesDetailsViewModel model)
         {
-          
 
+
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier); // will give the user's userId
 
             var recipes = await _context.Recipes.FindAsync(model.Recipe.Id);
+
+            var votes = new UserVotes();
 
             if (recipes.VoteCounts == null)
             {
@@ -201,6 +218,7 @@ namespace OnlineRefrigerator.Controllers
 
                 recipes.VoteCounts = voteCounts;
                 recipes.VoteValue = voteValue;
+               
 
             }
 
@@ -215,17 +233,22 @@ namespace OnlineRefrigerator.Controllers
                 recipes.VoteCounts = voteCounts;
                 recipes.VoteValue = voteValue;
             }
-                
+
+
             
 
+            votes.RecipeId = model.Recipe.Id;
+            votes.VoteValue = model.VoteValue;
+            votes.UserId = userId;
 
-         
+            
 
 
             _context.Recipes.Update(recipes);
             await _context.SaveChangesAsync();
 
-
+            _context.UserVotes.Update(votes);
+            await _context.SaveChangesAsync();
 
             return RedirectToAction("Details", new { id = model.Recipe.Id });
         }
@@ -269,6 +292,51 @@ namespace OnlineRefrigerator.Controllers
             return Json(serving);
         }
 
+
+        public ActionResult GetImage(int id)
+        {
+            //selectes images from db
+            var recipeImage = _context.RecipesImages.Where(x => x.Id == id).FirstOrDefault();
+
+            //gets path of immage in wwwroot
+            var path = env.WebRootFileProvider.GetFileInfo("Images/missing_image.jpg")?.PhysicalPath;
+
+
+            if (recipeImage != null)
+            {
+
+                if (recipeImage.Image == null)
+                {
+                    var imageFileStream = System.IO.File.OpenRead(path);
+                    return File(imageFileStream, "image/jpeg");
+
+                }
+
+                else
+                {
+                    byte[] image = recipeImage.Image;
+
+                    return File(image, "image/jpg");
+
+
+                }
+
+
+            }
+
+            else
+            {
+
+                //displays missing image as placeholder if correct image was not provided
+                var imageFileStream = System.IO.File.OpenRead(path);
+                return File(imageFileStream, "image/jpeg");
+
+            }
+
+        }
+
+
+
         // POST: Recipes/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
@@ -278,14 +346,41 @@ namespace OnlineRefrigerator.Controllers
         {
 
             Recipes recipe = model.Recipe;
-            recipe.TypeId = model.SelectedCategory;            
+            RecipesImages recipeImage = new RecipesImages();
+
+            var image = model.Image;
+
+            recipe.TypeId = model.SelectedCategory;
+
+
+
+            if (!ModelState.IsValid)
+            {               
+                return View(model);
+            }
 
             if (ModelState.IsValid)
             {
 
-                _context.Add(recipe);
+                if( image != null)
+                {
+                    using (var memoryStream = new MemoryStream())
+                    {
+                        await image.CopyToAsync(memoryStream);
+                        var imageToBeUploadedByteArray = memoryStream.ToArray();
+                        recipeImage.Image = imageToBeUploadedByteArray;
+                    }
+                }
+
+                _context.RecipesImages.Add(recipeImage);
                 await _context.SaveChangesAsync();
-                              
+
+                recipe.ImageId = recipeImage.Id;
+                
+                _context.Add(recipe);
+
+
+                await _context.SaveChangesAsync();                              
                              
                 for(int i = 0; i<model.StepList.Count; i++)
                 {
@@ -314,6 +409,7 @@ namespace OnlineRefrigerator.Controllers
                     _context.Add(ingredientsRecipes);
 
                 }
+
                 //watiting for other queries to update date before inserting into main Recipes table
                 await _context.SaveChangesAsync();
 

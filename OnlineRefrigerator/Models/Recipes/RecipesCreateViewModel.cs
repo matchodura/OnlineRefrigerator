@@ -42,7 +42,7 @@ namespace OnlineRefrigerator.Models
 
         public List<Ingredient> IngredientsList { get; set; }
 
-
+        public IFormFile Image { get; set; }
 
         public RecipesCreateViewModel()
         {

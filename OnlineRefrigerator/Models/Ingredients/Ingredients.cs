@@ -47,9 +47,7 @@ namespace OnlineRefrigerator.Models
 
         [ForeignKey("Image")]
         [DisplayName("")]
-        public int? ImageId { get; set; }
-
-       
+        public int? ImageId { get; set; }       
         public virtual IngredientsImages Image { get; set; }
 
     

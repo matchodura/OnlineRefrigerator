@@ -8,7 +8,8 @@
     <h1 class="display-3">@ViewData["Title"]</h1>
     <hr class="my-4">
 
-    <form asp-action="Create" method="post">
+    <form asp-action="Create" enctype="multipart/form-data">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
         <div class="row">
             <div class="col-md-4">
                 <div class="form-group" style="margin-bottom:1rem">
@@ -27,45 +28,50 @@
                     <input asp-for="@Model.Recipe.PreparationTime" class="form-control" placeholder="Insert Preparation time" />
                     <span asp-validation-for="@Model.Recipe.PreparationTime" class="text-danger"></span>
                 </div>
+
+                <div class="form-group" style="margin-bottom:1rem">
+                    <label asp-for="@Model.Recipe.Image class=" control-label"></label>
+                    <input asp-for="Image" type="file" />
+                </div>
             </div>
-       
+
             <div class="col-md-4">
-                    <div class="form-group">
-                        <div id="inputFormRow">
-                            <div class="input-group">
-                                @Html.EditorFor(f => f.StepList)
-                                <div class="input-group-append">
-                                </div>
+                <div class="form-group">
+                    <div id="inputFormRow">
+                        <div class="input-group">
+                            @Html.EditorFor(f => f.StepList)
+                            <div class="input-group-append">
                             </div>
                         </div>
-
-                        <div class="form-group" id="item-list-steps"></div>
-                        <button id="addRow" type="button" class="btn btn-warning" style="margin-bottom:1rem">Add Step</button>
-                        <div id="newRow"></div>
-
                     </div>
+
+                    <div class="form-group" id="item-list-steps"></div>
+                    <button id="addRow" type="button" class="btn btn-warning" style="margin-bottom:1rem">Add Step</button>
+                    <div id="newRow"></div>
+
                 </div>
-                    
+            </div>
+
             <div class="col-md-4">
-              <div class="form-group">
-                <div id="inputIngredientsRow">
-                  <div class="input-group">
-                    @Html.EditorFor(f => f.IngredientsList)
-                    <div class="input-group-append"></div>
-                  </div>
+                <div class="form-group">
+                    <div id="inputIngredientsRow">
+                        <div class="input-group">
+                            @Html.EditorFor(f => f.IngredientsList)
+                            <div class="input-group-append"></div>
+                        </div>
+                    </div>
+
+                    <div class="form-group" id="item-list-ingredients"></div>
+                    <div id="newIngredient"></div>
+                    <button id="addIngredient" type="button" class="btn btn-warning" style="margin-bottom:1rem">Add Ingredient</button>
                 </div>
 
-                <div class="form-group" id="item-list-ingredients"></div>
-                   <div id="newIngredient"></div>
-                   <button id="addIngredient" type="button" class="btn btn-warning" style="margin-bottom:1rem">Add Ingredient</button>
-              </div>
-
-              <div class="missingIngredient">
-                <p>Missing ingredient? <input type="button" value="Create new!" class="btn btn-info" onclick="location.href='@Url.Action("Create", "Ingredients")'" /> </p>
-              </div>
+                <div class="missingIngredient">
+                    <p>Missing ingredient? <input type="button" value="Create new!" class="btn btn-info" onclick="location.href='@Url.Action("Create", "Ingredients")'" /> </p>
+                </div>
 
             </div>
-           
+
         </div>
 
         <div class="d-flex justify-content-start">

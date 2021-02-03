@@ -33,10 +33,15 @@ namespace OnlineRefrigerator.Models
         [DisplayName("Preparation Time"), Range(1, Int32.MaxValue, ErrorMessage = "Value cannot be negative!")]
         public int PreparationTime { get; set; }
 
-        
+
         //public int StepId { get; set; }
         //public virtual RecipesSteps Step { get; set; }
-        //TODO
+
+
+        [ForeignKey("Image")]
+        [DisplayName("")]
+        public int? ImageId { get; set; }
+
         public virtual RecipesImages Image { get; set; }
 
 

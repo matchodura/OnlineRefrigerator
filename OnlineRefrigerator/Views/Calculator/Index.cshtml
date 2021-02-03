@@ -24,61 +24,7 @@
             <div id="renderDetails"></div>
             @*<div id="renderResults"></div>*@                          
         </div>
-    </form>
-
-
-
-        @*<svg xmlns="http://www.w3.org/2000/svg" class="d-block user-select-none" width="100%" height="200" aria-label="Placeholder: Image cap" focusable="false" role="img" preserveAspectRatio="xMidYMid slice" viewBox="0 0 318 180" style="font-size:1.125rem;text-anchor:middle">
-                      <rect width="100%" height="100%" fill="#868e96"></rect>
-                      <text x="50%" y="50%" fill="#dee2e6" dy=".3em">Image cap</text>
-            </div>
-                  </svg>*@
-        @*<div class="card">
-                <div class="card-body">
-                    <img class="ingredients-details-img" src="@Url.Action("GetImage", new { id = Model.ImageId })" />
-                </div>
-            </div>
-
-
-
-            <div class="card">
-                <div class="card-body">
-                    <ul class="list-group list-group-flush">
-
-                        <li class="list-group-item">
-                            <h5>@Html.DisplayNameFor(model => model.Fat)  @Html.DisplayFor(model => model.Fat)</h5>
-                        </li>
-
-                        <li class="list-group-item">
-                            <h5>@Html.DisplayNameFor(model => model.Carbs)  @Html.DisplayFor(model => model.Carbs)</h5>
-                        </li>
-
-                        <li class="list-group-item">
-                            <h5>@Html.DisplayNameFor(model => model.Protein)  @Html.DisplayFor(model => model.Protein)</h5>
-
-                        <li class="list-group-item">
-                            <h5>@Html.DisplayNameFor(model => model.Energy)  @Html.DisplayFor(model => model.Energy)</h5>
-                        </li>
-
-                        <li class="list-group-item">
-                            <h5>@Html.DisplayNameFor(model => model.Serving) @Html.DisplayFor(model => model.Serving.ServingType)</h5>
-                        </li>
-
-                        <li class="list-group-item">
-                            <h5> @Html.DisplayNameFor(model => model.ServingValue)  @Html.DisplayFor(model => model.ServingValue)</h5>
-                        </li>
-
-
-                    </ul>
-                </div>
-            </div>
-
-            <div class="card">
-                <div class="card-body">
-                    <a class="btn btn-primary" asp-action="Index">Back to List</a>
-                </div>
-            </div>*@
-    <!--</div>-->
+    </form>               
 
     @section Scripts{
         @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
