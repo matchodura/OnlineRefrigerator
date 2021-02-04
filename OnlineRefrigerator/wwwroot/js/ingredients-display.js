@@ -5,7 +5,7 @@
 
 $('#category').on('change', function (e) {
 
-    var filters = {
+    let filters = {
         ingredientName: $('#ingredient').val(),
         categoryId: $('#category').val()
 
@@ -18,16 +18,16 @@ $('#category').on('change', function (e) {
 
 $('#ingredient').on('keyup', function (e) {
 
-    var filters = {
+    let filters = {
         ingredientName: $('#ingredient').val(),
         categoryId: $('#category').val()
 
     };
-
    
     GetIngredients(filters);
 
 });
+
 
 $("#ingredient").autocomplete({
     source: function (request, response) {
@@ -48,8 +48,7 @@ $("#ingredient").autocomplete({
     },
     select: function (event, ui) {
 
-
-        var filters = {
+        let filters = {
             ingredientName: $('#ingredient').val(),
             categoryId: $('#category').val()
 

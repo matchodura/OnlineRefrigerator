@@ -1,8 +1,6 @@
 ﻿$(document).on('change', "#ServingQuantity", function (e) {
 
-
-
-    var data = {
+    let data = {
         fat: $('#Fat').text(),
         carbs: $('#Carbs').text(),
         protein: $('#Protein').text(),
@@ -10,20 +8,15 @@
         servingValue: $('#ServingValue').text(),
         servingType: $('#SelectedServing').val(),
         servingQuantity: $('#ServingQuantity').val()
-
-
     }
-  
-    //console.log(data);
-    console.log(data);
+    
     GetResults(data);
 });
 
 
-
 function GetResults(data) {
 
-    var calculatorParameters = {
+    let calculatorParameters = {
         fat: data.fat,
         carbs: data.carbs,
         protein: data.protein,
@@ -31,11 +24,8 @@ function GetResults(data) {
         servingType: data.servingType,
         servingValue: data.servingValue,
         servingQuantity: data.servingQuantity
-
     }
     
-
-
     $.ajax({
         url: '/Calculator/DisplayResults',
         type: 'POST',
@@ -53,5 +43,4 @@ function GetResults(data) {
             console.log('error: ' + xhr.status + ' - '
                 + xhr.statusText + ' - ' + xhr.responseText);
         });
-
 }

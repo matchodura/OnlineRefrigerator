@@ -5,29 +5,27 @@
 
 $('#category').on('change', function (e) {
 
-    var filters = {
+    let filters = {
         recipeName: $('#recipes').val(),
         categoryId: $('#category').val()
 
     };
 
     GetRecipes(filters);
-
 });
 
 
 $('#recipes').on('keyup', function (e) {
 
-    var filters = {
+    let filters = {
         recipeName: $('#recipes').val(),
         categoryId: $('#category').val()
 
     };
 
-
     GetRecipes(filters);
-
 });
+
 
 $("#recipes").autocomplete({
     source: function (request, response) {
@@ -48,15 +46,12 @@ $("#recipes").autocomplete({
     },
     select: function (event, ui) {
 
-
-        var filters = {
+        let filters = {
             recipeName: $('#recipes').val(),
             categoryId: $('#category').val()
 
         };
 
-
         GetRecipes(filters);
     }
-
 });

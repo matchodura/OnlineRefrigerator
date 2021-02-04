@@ -19,5 +19,4 @@
             console.log('error: ' + xhr.status + ' - '
                 + xhr.statusText + ' - ' + xhr.responseText);
         });
-
 }

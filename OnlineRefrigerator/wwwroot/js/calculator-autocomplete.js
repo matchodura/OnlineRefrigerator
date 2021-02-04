@@ -7,20 +7,14 @@
                 dataType: "json",
                 data: { Prefix: request.term },
                 success: function (data) {
-                    response($.map(data, function (item) {
-                        console.log(item);
-                       
+                    response($.map(data, function (item) {    
                         return { label: item.name, value: item.name, id: item.id };
                     }))
-
                 }
             })
         },
-        select: function (event, ui) {
-            //alert(ui.item ? ("You picked '" + ui.item.label + "' with an ID of " + ui.item.id)
-            //    : "Nothing selected, input was " + this.value);
-
-            var id = ui.item.id;
+        select: function (event, ui) {      
+            let id = ui.item.id;
             DisplayDetails(id);
         }
          
@@ -28,11 +22,7 @@
 }) 
 
 
-
-
-function DisplayDetails(ingredientId) {
-
-  
+function DisplayDetails(ingredientId) {  
     $.ajax({
         url: '/Calculator/DisplayDetails',
         type: 'POST',
@@ -42,8 +32,6 @@ function DisplayDetails(ingredientId) {
         data: {
             id: ingredientId
         }
-
-
     })
         .done(function (result) {
             $('#renderDetails')
@@ -55,5 +43,4 @@ function DisplayDetails(ingredientId) {
             console.log('error: ' + xhr.status + ' - '
                 + xhr.statusText + ' - ' + xhr.responseText);
         });
-
 }
