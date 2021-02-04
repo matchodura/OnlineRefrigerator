@@ -215,7 +215,7 @@ namespace OnlineRefrigerator.Controllers
             var currentRecipe = await _context.Recipes.FindAsync(model.Recipe.Id);
 
             //get current user votes
-            var userVotes = _context.UserVotes.Where(x => x.RecipeId == model.Recipe.Id).SingleOrDefault();
+            var userVotes = _context.UserVotes.Where(x => x.RecipeId == model.Recipe.Id && x.UserId == userId).SingleOrDefault();
 
 
             //if user changes his vote

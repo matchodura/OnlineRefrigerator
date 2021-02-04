@@ -50,18 +50,27 @@
 
      
     <div class="container"> 
-      <main role="main" class="pb-3">
+        @*<main role="main" class="pb-3">*@
+            @RenderBody()
 
-                @RenderBody()
-                <script src="~/lib/jquery/dist/jquery.js"></script>
-                <script src="~/lib/jquery/dist/jquery.min.js"></script>
-                <script src="~/js/site.js" asp-append-version="true"></script>
-                <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-                <link rel="stylesheet" href="https://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
-                <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-                <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+            @*<script src="~/lib/jquery/dist/jquery.js"></script>
+        <script src="~/lib/jquery/dist/jquery.min.js"></script>
+        <script src="~/js/site.js" asp-append-version="true"></script>
+        <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+        <link rel="stylesheet" href="https://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+        <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>*@
 
-            </main>
+            <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+            <script src="~/lib/jquery/dist/jquery.js"></script>
+            <script src="~/js/site.js" asp-append-version="true"></script>
+            <script src="~/lib/jquery/dist/jquery.min.js"></script>
+            <script src="//code.jquery.com/jquery-1.10.2.js"></script>
+            <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+
+
+            <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+        @*</main>*@
     </div>
 
     <footer class="border-top footer text-muted">
