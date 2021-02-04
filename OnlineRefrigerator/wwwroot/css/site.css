@@ -15,23 +15,20 @@ a.navbar-brand {
 
 /*images in tables and details*/
 .ingredients-table-img {
- /*   width: 100%;
-    height: 100%;*/
-    width: 100px;
-    height: 100px;
+  width: 100px;
+  height: 100px;
 }
 
 
 .ingredients-details-img{
-
-    width:350px;
-    height:350px;
+  width:350px;
+  height:350px;
 }
 
 
 .ingredients-table-results {
-    height: 500px;
-    overflow: scroll;
+  height: 500px;
+  overflow: scroll;
 }
 
 
@@ -48,10 +45,11 @@ a.navbar-brand {
   bottom: 20%;
   color: black;
   background: rgba(255,255,255,0.8);
- /* display: flex;
-  flex-direction: column;
-  align-items: stretch;
-  align-content: stretch;*/
+}
+
+
+h4 {
+  margin-top: 60px;
 }
 
 
@@ -122,22 +120,25 @@ body {
 
 
 .carousel-subtext {
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: stretch;
-    align-content: center;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  align-content: center;
 }
 
 
 @media (max-width: 575px) {
+
   .carousel-subtext {
     display: none;
   }
+
 }
 
 
 @media (min-width: 576px) {
+
   .page-content {
     max-width: 540px;
    }
@@ -151,10 +152,12 @@ body {
   .text-box-content {
     font-size: 16px;
   }
+
 }
 
 
 @media (min-width: 768px) {
+
   .page-content {
     max-width: 720px;
   }
@@ -178,27 +181,31 @@ body {
   .text-box-content {
     font-size: 20px;
   }     
+
 }
 
 
- @media (min-width: 992px) {
-   .page-content {
-     max-width: 960px;
-   }
+@media (min-width: 992px) {
+
+  .page-content {
+    max-width: 960px;
+  }
 
 
   .btn {
-    width: 10em;
+   width: 10em;
   }
 
 
   .text-box-content {
     font-size: 24px;
   }
+
 }
 
 
 @media (min-width: 1200px) {
+
   .page-content {
     max-width: 1140px;
   }
@@ -212,6 +219,7 @@ body {
   .text-box-content {
     font-size: 24px;
   }
+
 }
 
 
@@ -225,7 +233,7 @@ body {
 
 
 #myCarousel {
-   margin-top: 100px;
+  margin-top: 100px;
 }
 
 
@@ -266,7 +274,6 @@ a {
 .btn {
   width: 8em;
 }
-
 
 
 .text-nowrap {
@@ -322,11 +329,28 @@ td:first-child {
 
 .tableFixHead th {
   position: sticky;
-  top: 0;
-    /*z-index:1;*/
+  top: 0;  
 }
 
 
 .table thead th {
   vertical-align: middle;
 }
+
+
+/*contact links*/
+.item {
+  max-width: 60%;
+}
+
+
+.item a {
+  text-decoration: none;
+  text-align: center;
+}
+
+
+.item a:hover {
+  color: black;
+}
+

@@ -1,83 +1,69 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - OnlineRefrigerator</title>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap-superhero.css" />
-    <link rel="stylesheet" href="~/css/site.css" />
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" rel="stylesheet">
-    <link href="~/lib/font-awesome/css/all.css" rel="stylesheet">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>@ViewData["Title"] - OnlineRefrigerator</title>
+  <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap-superhero.css" />
+  <link rel="stylesheet" href="~/css/site.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" rel="stylesheet">
+  <link href="~/lib/font-awesome/css/all.css" rel="stylesheet">
 </head>
 
 <body>
-    <header>            
-        <div class="navbar navbar-expand-lg fixed-top navbar-dark bg-primary">
-            <div class="container">
-                <a href="../" class="navbar-brand">OnlineRefrigerator</a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarResponsive">
-                    <ul class="navbar-nav">                   
-                        <li class="nav-item">
-                            <a class="nav-link " asp-area="" asp-controller="home" asp-action="contact">Contact</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link " asp-area="" asp-controller="recipes" asp-action="index">Recipes</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link " asp-area="" asp-controller="ingredients" asp-action="index">Ingredients</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link " asp-area="" asp-controller="finder" asp-action="index">Recipe Finder</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link " asp-area="" asp-controller="ranking" asp-action="index">Ranking</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" asp-area="" asp-controller="calculator" asp-action="index">Calculator</a>
-                        </li>
-                        <li class="nav-item">
-                            <partial name="_loginpartial.cshtml" />
-                        </li>
-                    </ul>
-                </div>              
-            </div>
-        </div>
-    </header>
-
-     
-    <div class="container"> 
-        @*<main role="main" class="pb-3">*@
-            @RenderBody()
-
-            @*<script src="~/lib/jquery/dist/jquery.js"></script>
-        <script src="~/lib/jquery/dist/jquery.min.js"></script>
-        <script src="~/js/site.js" asp-append-version="true"></script>
-        <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-        <link rel="stylesheet" href="https://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
-        <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>*@
-
-            <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
-            <script src="~/lib/jquery/dist/jquery.js"></script>
-            <script src="~/js/site.js" asp-append-version="true"></script>
-            <script src="~/lib/jquery/dist/jquery.min.js"></script>
-            <script src="//code.jquery.com/jquery-1.10.2.js"></script>
-            <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
-
-
-            <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-        @*</main>*@
+  <header>            
+    <div class="navbar navbar-expand-lg fixed-top navbar-dark bg-primary">
+      <div class="container">
+        <a href="../" class="navbar-brand">OnlineRefrigerator</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+          <ul class="navbar-nav">                   
+            <li class="nav-item">
+              <a class="nav-link " asp-area="" asp-controller="home" asp-action="contact">Contact</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link " asp-area="" asp-controller="recipes" asp-action="index">Recipes</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link " asp-area="" asp-controller="ingredients" asp-action="index">Ingredients</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link " asp-area="" asp-controller="finder" asp-action="index">Recipe Finder</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link " asp-area="" asp-controller="ranking" asp-action="index">Ranking</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" asp-area="" asp-controller="calculator" asp-action="index">Calculator</a>
+            </li>
+            <li class="nav-item">
+              <partial name="_loginpartial.cshtml" />
+            </li>
+        </ul>
+        </div>              
+      </div>
     </div>
-
-    <footer class="border-top footer text-muted">
-            <div class="container">
-                &copy; 2021 - OnlineRefrigerator - <a asp-area="" asp-controller="Home" asp-action="Contact">Contact</a>
-            </div>
-    </footer>
-    @RenderSection("Scripts", required: false)
-</body>
+  </header>
+  <div class="container"> 
+    @RenderBody()
+        
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+    <script src="~/lib/jquery/dist/jquery.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="//code.jquery.com/jquery-1.10.2.js"></script>
+    <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    
+  </div>
+  <footer class="border-top footer text-muted">
+    <div class="container">
+      &copy; 2021 - OnlineRefrigerator - <a asp-area="" asp-controller="Home" asp-action="Contact">Contact</a>
+    </div>
+  </footer>
+  @RenderSection("Scripts", required: false)
+  </body>
 </html>

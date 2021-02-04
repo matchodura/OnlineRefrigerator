@@ -5,108 +5,92 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-
 <div class="jumbotron">
-    <h1 class="display-3">@ViewData["Title"]</h1>
-    <hr class="my-4">
-    <div class="card text-center mb-3">
-        <h3 class="card-header">@Html.DisplayFor(model => model.Recipe.Name)</h3>
-        <div class="card-body">
-            <h5 class="card-title">@Html.DisplayFor(model => model.Recipe.Type.Name)</h5>
-            <h5 class="card-title">@Html.DisplayFor(model => model.Recipe.PreparationTime) minutes</h5>
-        </div>
-
-        <div class="card">
-            <div class="card-body">
-                <img class="ingredients-details-img" src="@Url.Action("GetImage", new { id = Model.Recipe.ImageId })" />
+  <h1 class="display-3">@ViewData["Title"]</h1>
+  <hr class="my-4">
+  <div class="card text-center mb-3">
+    <h3 class="card-header">@Html.DisplayFor(model => model.Recipe.Name)</h3>
+    <div class="card-body">
+      <h5 class="card-title">@Html.DisplayFor(model => model.Recipe.Type.Name)</h5>
+      <h5 class="card-title">@Html.DisplayFor(model => model.Recipe.PreparationTime) minutes</h5>
+    </div>
+    <div class="card">
+      <div class="card-body">
+        <img class="ingredients-details-img" src="@Url.Action("GetImage", new { id = Model.Recipe.ImageId })" />
+      </div>
+    </div>
+  </div>
+  <div class="card text-center">
+    <div class="card-body">
+      <ul class="list-group list-group-flush">
+        @foreach (var item in Model.RecipesSteps)
+          {
+          var step = item.StepNumber + 1;
+          <li class="list-group-item">
+            <h5> @Html.DisplayNameFor(modelItem => item.StepNumber) @Html.DisplayFor(modelItem => step) </h5> @Html.DisplayFor(modelItem => item.Text)
+          </li>
+          }
+      </ul>
+    </div>
+  </div>
+  <div class="card text-center">
+    <div class="card-body">
+      <ul class="list-group list-group-flush">
+        @foreach (var item in Model.IngredientsUsed)
+          {
+          <li class="list-group-item">
+            <h5> @Html.DisplayFor(modelItem => item.Name)</h5>   @Html.DisplayFor(modelItem => item.Type)  @Html.DisplayFor(modelItem => item.Quantity)
+          </li>
+          }
+      </ul>
+    </div>
+  </div>
+  <div class="card text-center">
+    <div class="card-body">
+      <div class="row">
+        @if (User.Identity.IsAuthenticated)
+          {
+          <div class="col">
+            <form asp-action="CastVote">
+            <div class="form-group">                         
+              @foreach (var value in Model.Values)
+                {
+                @if (value == Model.UserVote)
+                  {
+                    <input type="radio" asp-for="VoteValue" value="@value" checked="checked" /> @value<br />
+                  }
+                else
+                  {
+                    <input type="radio" asp-for="VoteValue" value="@value" /> @value<br />
+                  }
+               }
             </div>
-        </div>
-    </div>
-
-    <div class="card text-center">
-        <div class="card-body">
-            <ul class="list-group list-group-flush">
-                @foreach (var item in Model.RecipesSteps)
-                {
-
-                    var step = item.StepNumber + 1;
-
-                    <li class="list-group-item">
-                        <h5> @Html.DisplayNameFor(modelItem => item.StepNumber) @Html.DisplayFor(modelItem => step) </h5> @Html.DisplayFor(modelItem => item.Text)
-                    </li>
-                }
-
-            </ul>
-        </div>
-    </div>
-
-    <div class="card text-center">
-        <div class="card-body">
-            <ul class="list-group list-group-flush">
-                @foreach (var item in Model.IngredientsUsed)
-                {
-
-                    <li class="list-group-item">
-                        <h5> @Html.DisplayFor(modelItem => item.Name)</h5>   @Html.DisplayFor(modelItem => item.Type)  @Html.DisplayFor(modelItem => item.Quantity)
-                    </li>
-                }
-
-            </ul>
-        </div>
-    </div>
-
-    <div class="card text-center">
-        <div class="card-body">
-             <div class="row">
-                @if (User.Identity.IsAuthenticated)
-                {
-                    <div class="col">
-                        <form asp-action="CastVote">
-                            <div class="form-group">                         
-
-                                @foreach (var value in Model.Values)
-                                {
-                                    @if (value == Model.UserVote)
-                                    {
-                                        <input type="radio" asp-for="VoteValue" value="@value" checked="checked" /> @value<br />
-
-                                    }
-
-                                    else
-                                    {
-                                        <input type="radio" asp-for="VoteValue" value="@value" /> @value<br />
-                                    }
-
-                                }
-
-                            </div>
-
-                            <div>
-                                <p>You voted previously for: @Html.DisplayFor(model => model.UserVote)</p>
-                            </div>
-
-                            <div class="form-group">
-                                <input type="submit" value="@Model.VotingButton" class="btn btn-primary" />
-                                <input type="hidden" asp-for="Recipe.Id" />
-                            </div>
-
-
-                        </form>
-                      
-                    </div>
-                }
-                    <div class="col">
-                        <p>Votes Casted: @Html.DisplayFor(model => model.Recipe.VoteCounts)</p>
-                        <p>Current Score: @Html.DisplayFor(model => model.Score)</p>
-                     </div>
-
-                </div>
+            <div>
+              <p>You voted previously for: @Html.DisplayFor(model => model.UserVote)</p>
             </div>
-    </div>
-
-    <div class="card text-center">
-        <div class="card-body">
-            <a class="btn btn-primary" asp-action="Index">Back to List</a>
+            <div class="form-group">
+              <input type="submit" value="@Model.VotingButton" class="btn btn-primary" />
+              <input type="hidden" asp-for="Recipe.Id" />
+            </div>
+            </form>
+          </div>
+          }
+        <div class="col">
+          <p>Votes Casted: @Html.DisplayFor(model => model.Recipe.VoteCounts)</p>
+          <p>Current Score: @Html.DisplayFor(model => model.Score)</p>
         </div>
+      </div>
     </div>
+  </div>
+  <div class="card text-center">
+    <div class="card-body">
+        @*@if (this.User.Identity.IsAuthenticated)
+        {
+            <a class="btn btn-warning" asp-action="Edit" asp-route-id="@Model.Recipe.Id">Edit</a>
+            <a class="btn btn-danger" asp-action="Delete" asp-route-id="@Model.Recipe.Id">Delete</a>
+
+        }*@
+      <a class="btn btn-primary" asp-action="Index">Back to List</a>
+    </div>
+  </div>
 </div>

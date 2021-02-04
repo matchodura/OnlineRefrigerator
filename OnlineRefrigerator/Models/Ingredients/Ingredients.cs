@@ -20,16 +20,16 @@ namespace OnlineRefrigerator.Models
 
         public string Description { get; set; }
 
-        [DisplayName("Fat"), Range(0.0, Double.MaxValue, ErrorMessage = "Value cannot be negative!")]
+        [DisplayName("Fat [*]"), Range(0.0, Double.MaxValue, ErrorMessage = "Value cannot be negative!")]
         public decimal Fat { get; set; }
 
-        [DisplayName("Carbs"), Range(0.0, Double.MaxValue, ErrorMessage = "Value cannot be negative!")]
+        [DisplayName("Carbs [*]"), Range(0.0, Double.MaxValue, ErrorMessage = "Value cannot be negative!")]
         public decimal Carbs { get; set; }
 
-        [DisplayName("Protein"), Range(0.0, Double.MaxValue, ErrorMessage = "Value cannot be negative!")]
+        [DisplayName("Protein [*]"), Range(0.0, Double.MaxValue, ErrorMessage = "Value cannot be negative!")]
         public decimal Protein { get; set; }
 
-        [DisplayName("Energy"), Range(0.0, Double.MaxValue, ErrorMessage = "Value cannot be negative!")]
+        [DisplayName("Energy [*]"), Range(0.0, Double.MaxValue, ErrorMessage = "Value cannot be negative!")]
         public decimal Energy { get; set; }
 
       
@@ -42,7 +42,7 @@ namespace OnlineRefrigerator.Models
         [DisplayName("Serving")]
         public virtual Servings Serving { get; set; }
 
-        [DisplayName("Value")]
+        [DisplayName("Value [g]")]
         public int? ServingValue { get; set; }
 
         [ForeignKey("Image")]

@@ -30,7 +30,7 @@ namespace OnlineRefrigerator.Models
         /// time in minutes as integers
         /// </summary>
         /// 
-        [DisplayName("Preparation Time"), Range(1, Int32.MaxValue, ErrorMessage = "Value cannot be negative!")]
+        [DisplayName("Preparation Time [min]"), Range(1, Int32.MaxValue, ErrorMessage = "Value cannot be negative!")]
         public int PreparationTime { get; set; }
 
 

@@ -1,4 +1,5 @@
 ﻿@model OnlineRefrigerator.Models.Ingredients
+
 @{
     ViewData["Title"] = "Calculator";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -20,15 +21,16 @@
                     </div>
                 </div>
             }
-
             <div id="renderDetails"></div>
-            @*<div id="renderResults"></div>*@                          
         </div>
-    </form>               
-
-    @section Scripts{
-        @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-        <script src="~/js/calculator-autocomplete.js"></script>
-        <script src="~/js/calculator-results-display.js"></script>
-    }
+    </form>
 </div>
+
+@section Scripts{
+
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    <script src="~/js/calculator-autocomplete.js"></script>
+    <script src="~/js/calculator-results-display.js"></script>
+
+}

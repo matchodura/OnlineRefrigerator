@@ -5,62 +5,57 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-
 <div class="jumbotron">
-    <h1 class="display-3">@ViewData["Title"]</h1>
-    <hr class="my-4">
-
-  <div class="card text-center mb-3" >
+  <h1 class="display-3">@ViewData["Title"]</h1>
+  <hr class="my-4">
+  <div class="card text-center mb-3">
     <h3 class="card-header">@Html.DisplayFor(model => model.Name)</h3>
     <div class="card-body">
-        <h5 class="card-title">@Html.DisplayFor(model => model.Category.Name)</h5>    
-        <h5 class="card-title"><i>@Html.DisplayFor(model => model.Description)</i></h5>    
-
+      <h5 class="card-title">@Html.DisplayFor(model => model.Category.Name)</h5>
+      <h5 class="card-title"><i>@Html.DisplayFor(model => model.Description)</i></h5>
     </div>
-
     <div class="card">
-        <div class="card-body">
-            <img class="ingredients-details-img" src="@Url.Action("GetImage", new { id = Model.ImageId })" />
-        </div>
+      <div class="card-body">
+        <img class="ingredients-details-img" src="@Url.Action("GetImage", new { id = Model.ImageId })" />
+      </div>
     </div>
-
-
     <div class="card">
+      <div class="card-body">
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item">
+            <h5>@Html.DisplayNameFor(model => model.Fat)  @Html.DisplayFor(model => model.Fat)</h5>
+          </li>
+          <li class="list-group-item">
+            <h5>@Html.DisplayNameFor(model => model.Carbs)  @Html.DisplayFor(model => model.Carbs)</h5>
+          </li>
+          <li class="list-group-item">
+            <h5>@Html.DisplayNameFor(model => model.Protein)  @Html.DisplayFor(model => model.Protein)</h5>
+          </li>
+          <li class="list-group-item">
+            <h5>@Html.DisplayNameFor(model => model.Energy)  @Html.DisplayFor(model => model.Energy)</h5>
+          </li>
+          <li class="list-group-item">
+            <h5>@Html.DisplayNameFor(model => model.Serving) @Html.DisplayFor(model => model.Serving.ServingType)</h5>
+          </li>
+          <li class="list-group-item">
+            <h5> @Html.DisplayNameFor(model => model.ServingValue)  @Html.DisplayFor(model => model.ServingValue)</h5>
+          </li>
+          <li class="list-group-item">
+            <i>* per serving</i>
+          </li>
+        </ul>
+      </div>
+      <div class="card">
         <div class="card-body">
-            <ul class="list-group list-group-flush">
+                @*@if (this.User.Identity.IsAuthenticated)
+                {
+                    <a class="btn btn-warning" asp-action="Edit" asp-route-id="@Model.Id">Edit</a>
+                    <a class="btn btn-danger" asp-action="Delete" asp-route-id="@Model.Id">Delete</a>
 
-                <li class="list-group-item">
-                    <h5>@Html.DisplayNameFor(model => model.Fat)  @Html.DisplayFor(model => model.Fat)</h5>
-                </li>
-
-                <li class="list-group-item">
-                    <h5>@Html.DisplayNameFor(model => model.Carbs)  @Html.DisplayFor(model => model.Carbs)</h5>
-                </li>
-
-                <li class="list-group-item">
-                    <h5>@Html.DisplayNameFor(model => model.Protein)  @Html.DisplayFor(model => model.Protein)</h5>
-
-                <li class="list-group-item">
-                    <h5>@Html.DisplayNameFor(model => model.Energy)  @Html.DisplayFor(model => model.Energy)</h5>
-                </li>
-
-                <li class="list-group-item">
-                    <h5>@Html.DisplayNameFor(model => model.Serving) @Html.DisplayFor(model => model.Serving.ServingType)</h5>
-                </li>
-
-                <li class="list-group-item">
-                    <h5> @Html.DisplayNameFor(model => model.ServingValue)  @Html.DisplayFor(model => model.ServingValue)</h5>
-                </li>
-
-
-            </ul>
+                }*@
+          <a class="btn btn-primary" asp-action="Index">Back to List</a>
         </div>
+      </div>    
     </div>
-
-    <div class="card">
-        <div class="card-body">
-            <a class="btn btn-primary" asp-action="Index">Back to List</a>
-        </div>
-    </div>
-</div>
+  </div>
 </div>

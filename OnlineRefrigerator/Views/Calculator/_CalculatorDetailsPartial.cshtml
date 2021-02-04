@@ -1,160 +1,52 @@
 ﻿@model OnlineRefrigerator.Models.CalculatorViewModel
 
-@*<div>
-        <div class="row">
-            <div class="column col-md-6">
-                <div class="col-sm-10">
-                    <img class="ingredients-details-img" src="@Url.Action("GetImage", "Ingredients", new { id = Model.Ingredient.ImageId })" />
-                </div>
-            </div>
-
-
-            <div class="column col-md-6">
-                <dl class="row">
-                    <dt class="col-sm-2">
-                        @Html.DisplayNameFor(model => model.Ingredient.Category)
-                    </dt>
-                    <dd class="col-sm-10">
-                        @Html.DisplayFor(model => model.Ingredient.Category.Name)
-                    </dd>
-                    <dt class="col-sm-2">
-                        @Html.DisplayNameFor(model => model.Ingredient.Name)
-                    </dt>
-                    <dd class="col-sm-10">
-                        @Html.DisplayFor(model => model.Ingredient.Name)
-                    </dd>
-                    <dt class="col-sm-2">
-                        @Html.DisplayNameFor(model => model.Ingredient.Fat)
-                    </dt>
-                    <dd class="col-sm-10">
-                        <span id="Fat">@Model.Ingredient.Fat</span>
-                    </dd>
-                    <dt class="col-sm-2">
-                        @Html.DisplayNameFor(model => model.Ingredient.Carbs)
-                    </dt>
-                    <dd class="col-sm-10">
-                        <span id="Carbs">@Model.Ingredient.Carbs</span>
-                    </dd>
-                    <dt class="col-sm-2">
-                        @Html.DisplayNameFor(model => model.Ingredient.Protein)
-                    </dt>
-                    <dd class="col-sm-10">
-                        <span id="Protein">@Model.Ingredient.Protein</span>
-                    </dd>
-                    <dt class="col-sm-2">
-                        @Html.DisplayNameFor(model => model.Ingredient.Energy)
-                    </dt>
-                    <dd class="col-sm-10">
-                        <span id="Energy">@Model.Ingredient.Energy</span>
-                    </dd>
-
-                    <dt class="col-sm-2">
-                        @Html.DisplayNameFor(model => model.Ingredient.Serving)
-                    </dt>
-                    <dd class="col-sm-10">
-                        @Html.DisplayFor(model => model.Ingredient.Serving.ServingType)
-                    </dd>
-
-                    <dt class="col-sm-2">
-                        @Html.DisplayNameFor(model => model.Ingredient.ServingValue)
-                    </dt>
-                    <dd class="col-sm-10">
-                        <span id="ServingValue">@Model.Ingredient.ServingValue</span>
-                    </dd>
-                </dl>
-            </div>
-
-        </div>
-
-
-        <div class="column">
-            <div class="col-md-4">
-                <div class="form-group">
-                    <label asp-for="@Model.ServingTypes" class="control-label"></label>
-                    @Html.DropDownListFor(s => s.SelectedServing, Model.ServingTypes, htmlAttributes: new { @class = "form-control" })
-
-                </div>
-
-                <div class="form-group">
-                    <label asp-for="@Model.ServingQuantity" class="control-label"></label>
-                    <input asp-for="@Model.ServingQuantity" class="form-control" name="dupa" />
-                    <span asp-validation-for="@Model.ServingQuantity" class="text-danger"></span>
-                </div>
-            </div>
-
-        </div>
-
-
-    </div>*@
-
-
-    <hr class="my-4">
-    <!--<div class="voting">
-        dupa dupa
-
-    </div>
-    <div>-->
-    @*<a asp-action="Edit" asp-route-id="@Model.Recipe.Id">Edit</a>*@
-    <!--<a asp-action="Index">Back to List</a>
-    </div>-->
-
-
+<hr class="my-4">
 <div class="card text-center mb-3">
-    <h3 class="card-header">@Html.DisplayFor(model => model.Ingredient.Name)</h3>
+  <h3 class="card-header">@Html.DisplayFor(model => model.Ingredient.Name)</h3>
     <div class="card-body">
-        <h5 class="card-title">@Html.DisplayFor(model => model.Ingredient.Category.Name)</h5>      
-    </div>
-      
+      <h5 class="card-title">@Html.DisplayFor(model => model.Ingredient.Category.Name)</h5>      
+    </div>      
     <div class="card">
-        <div class="row">
-            <div class="card-body">
-                <img class="ingredients-details-img" style:"text-align:center" src="@Url.Action("GetImage","Ingredients", new { id = Model.Ingredient.ImageId })" />
-            </div>
-            <div class="card-body">          
-                    <ul class="list-group list-group-flush" style="flex: 1;">
-                        <li class="list-group-item">
-                            <h5>@Html.DisplayNameFor(model => model.Ingredient.Serving) @Html.DisplayFor(model => model.Ingredient.Serving.ServingType)</h5>
-                        </li>
-
-                        <li class="list-group-item">
-                            <h5> @Html.DisplayNameFor(model => model.Ingredient.ServingValue) <span id="ServingValue">@Html.DisplayFor(model => model.Ingredient.ServingValue)</span></h5>
-                        </li>
-                        <li class="list-group-item">
-                            <h5>@Html.DisplayNameFor(model => model.Ingredient.Fat) <span id="Fat">@Html.DisplayFor(model => model.Ingredient.Fat)</span></h5>
-                        </li>
-
-                        <li class="list-group-item">
-                            <h5>@Html.DisplayNameFor(model => model.Ingredient.Carbs)  <span id="Carbs">@Html.DisplayFor(model => model.Ingredient.Carbs)</span></h5>
-                        </li>
-
-                        <li class="list-group-item">
-                            <h5>@Html.DisplayNameFor(model => model.Ingredient.Protein)  <span id="Protein">@Html.DisplayFor(model => model.Ingredient.Protein)</span></h5>
-
-                        <li class="list-group-item">
-                            <h5>@Html.DisplayNameFor(model => model.Ingredient.Energy)  <span id="Energy">@Html.DisplayFor(model => model.Ingredient.Energy)</span></h5>
-                        </li>
-                    </ul>
-                </div>
-             
-
-                <div class="card-body">
-                    <div class="form-group">
-                        <label asp-for="@Model.ServingTypes" class="control-label"></label>
-                        @Html.DropDownListFor(s => s.SelectedServing, Model.ServingTypes, htmlAttributes: new { @class = "form-control" })
-
-                    </div>
-
-                    <div class="form-group">
-                        <label asp-for="@Model.ServingQuantity" class="control-label"></label>
-                        <input asp-for="@Model.ServingQuantity" class="form-control" name="dupa" />
-                        <span asp-validation-for="@Model.ServingQuantity" class="text-danger"></span>
-                    </div>
-
-                    <div class="card-body">
-                        <div id="renderResults"></div>
-                    </div>
-                </div>
+      <div class="row">
+        <div class="card-body">
+          <img class="ingredients-details-img" style:"text-align:center" src="@Url.Action("GetImage","Ingredients", new { id = Model.Ingredient.ImageId })" />
         </div>
+        <div class="card-body">          
+          <ul class="list-group list-group-flush" style="flex: 1;">
+            <li class="list-group-item">
+              <h5>@Html.DisplayNameFor(model => model.Ingredient.Serving) @Html.DisplayFor(model => model.Ingredient.Serving.ServingType)</h5>
+            </li>
+            <li class="list-group-item">
+              <h5> @Html.DisplayNameFor(model => model.Ingredient.ServingValue) <span id="ServingValue">@Html.DisplayFor(model => model.Ingredient.ServingValue)</span></h5>
+            </li>
+            <li class="list-group-item">
+              <h5>@Html.DisplayNameFor(model => model.Ingredient.Fat) <span id="Fat">@Html.DisplayFor(model => model.Ingredient.Fat)</span></h5>
+            </li>
+            <li class="list-group-item">
+              <h5>@Html.DisplayNameFor(model => model.Ingredient.Carbs)  <span id="Carbs">@Html.DisplayFor(model => model.Ingredient.Carbs)</span></h5>
+            </li>
+            <li class="list-group-item">
+              <h5>@Html.DisplayNameFor(model => model.Ingredient.Protein)  <span id="Protein">@Html.DisplayFor(model => model.Ingredient.Protein)</span></h5>
+            </li> 
+            <li class="list-group-item">
+              <h5>@Html.DisplayNameFor(model => model.Ingredient.Energy)  <span id="Energy">@Html.DisplayFor(model => model.Ingredient.Energy)</span></h5>
+            </li>
+          </ul>
+        </div>
+        <div class="card-body">
+          <div class="form-group">
+            <label asp-for="@Model.ServingTypes" class="control-label"></label>
+              @Html.DropDownListFor(s => s.SelectedServing, Model.ServingTypes, htmlAttributes: new { @class = "form-control" })
+          </div>
+          <div class="form-group">
+            <label asp-for="@Model.ServingQuantity" class="control-label"></label>
+            <input asp-for="@Model.ServingQuantity" class="form-control" />
+            <span asp-validation-for="@Model.ServingQuantity" class="text-danger"></span>
+          </div>
+          <div class="card-body">
+            <div id="renderResults"></div>
+          </div>
+        </div>
+      </div>
     </div>
 </div>   
-  
