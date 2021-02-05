@@ -7,12 +7,8 @@ namespace OnlineRefrigerator.Models
 {
     public class IngredientsImages
     {
-
         public int Id { get; set; }
         public byte[] Image { get; set; }
         public virtual ICollection<Ingredients> Ingredient { get; set; }
-
-
-
     }
 }

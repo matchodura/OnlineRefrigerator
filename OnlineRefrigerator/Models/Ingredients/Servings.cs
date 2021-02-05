@@ -9,7 +9,6 @@ namespace OnlineRefrigerator.Models
     {
         public int Id { get; set; }
         public string ServingType { get; set; }
-
         public int? ServingValue { get; set; }
         public virtual ICollection<Ingredients> Ingredient { get; set; }
     }
@@ -17,9 +16,7 @@ namespace OnlineRefrigerator.Models
     public class ServingDropdownListItem
     {
         public string name { get; set; }
-
-        public int id { get; set; }
-    
+        public int id { get; set; }    
     }
 
 }

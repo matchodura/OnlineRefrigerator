@@ -11,17 +11,12 @@ namespace OnlineRefrigerator.Models
     public class RecipesSteps
     {
              
-        public int Id { get; set; }
-        
+        public int Id { get; set; }        
         public int? RecipeId { get; set; }
-
         [DisplayName("Step number ")]        
         public int? StepNumber { get; set; }
-
         [Column(TypeName = "text")]
         public string Text { get; set; }
-
-        public byte[] StepImage { get; set; }
-        
+        public byte[] StepImage { get; set; }        
     }
 }

@@ -10,14 +10,12 @@ namespace OnlineRefrigerator.Models
 {
     public class Ingredients
     {
-
         public int Id { get; set; }
 
         // public string Category { get; set; }
 
         [RegularExpression(@"([a-zA-Z](\s)?)+", ErrorMessage = "Name can only contain letters"), Required(ErrorMessage = "Name must be provided")]
         public string Name { get; set; }
-
         public string Description { get; set; }
 
         [DisplayName("Fat [*]"), Range(0.0, Double.MaxValue, ErrorMessage = "Value cannot be negative!")]
@@ -47,7 +45,6 @@ namespace OnlineRefrigerator.Models
         [ForeignKey("Image")]
         [DisplayName("")]
         public int? ImageId { get; set; }       
-        public virtual IngredientsImages Image { get; set; }
-            
+        public virtual IngredientsImages Image { get; set; }            
     }         
 }

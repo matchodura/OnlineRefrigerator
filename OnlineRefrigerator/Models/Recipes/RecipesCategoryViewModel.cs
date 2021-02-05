@@ -9,11 +9,7 @@ namespace OnlineRefrigerator.Models
     public class RecipesCategoryViewModel
     {
         public List<Recipes> Recipes { get; set; }
-
         public List<RecipesCategories> Categories { get; set; }
-
         public int SelectedCategory { get; set; }
-
-
     }
 }

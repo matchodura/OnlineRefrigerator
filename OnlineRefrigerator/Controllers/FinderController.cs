@@ -15,6 +15,7 @@ namespace OnlineRefrigerator.Controllers
 
         private readonly IngredientsContext _context;
 
+
         public FinderController(IngredientsContext context)
         {
             _context = context;           
@@ -30,7 +31,6 @@ namespace OnlineRefrigerator.Controllers
         [HttpPost]
         public JsonResult Autocomplete(string prefix)
         {
-
             var ingredients = from m in _context.Ingredients.Include(x => x.Category)
                               where m.Name.StartsWith(prefix)
                               select new { m.Name, m.Id }; ;
@@ -49,7 +49,6 @@ namespace OnlineRefrigerator.Controllers
 
         public FinderViewModel GetRecipes(int[] ids, bool displayMissing, bool ignoreHerbs)
         {
-
             var query = _context.IngredientsRecipes.ToList();
         
             var results = query
@@ -59,6 +58,7 @@ namespace OnlineRefrigerator.Controllers
 
             var value = new List<Recipes>();
 
+
             if (displayMissing == true)
             {
                 value = (from r in _context.IngredientsRecipes
@@ -67,6 +67,7 @@ namespace OnlineRefrigerator.Controllers
                          where ids.Contains(r.IngredientId)
                          select l).Include(a => a.Type).ToList();
             }
+
 
             else
             {
@@ -79,10 +80,11 @@ namespace OnlineRefrigerator.Controllers
                 Recipes = value
             };
 
+
             return vm;
         }
               
-                      
+        
         public ActionResult Details(int? id)
         {       
             return RedirectToAction("Details", "Recipes", new { id = id});

@@ -12,7 +12,9 @@ namespace OnlineRefrigerator.Controllers
 {   
     public class HomeController : Controller
     {
+
         private readonly ILogger<HomeController> _logger;
+
 
         public HomeController(ILogger<HomeController> logger)
         {
@@ -24,6 +26,7 @@ namespace OnlineRefrigerator.Controllers
         {
             return View();
         }
+
 
         public IActionResult Contact()
         {

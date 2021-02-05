@@ -13,19 +13,18 @@ namespace OnlineRefrigerator.Controllers
 {
     public class CalculatorController : Controller
     {
+
         private readonly IngredientsContext _context;
     
+
         public CalculatorController(IngredientsContext context)
         {        
-
             _context = context;
         }
 
-
-        // GET: Calculator
+               
         public IActionResult Index()
-        {        
-
+        {   
             return View();
         }
 
@@ -34,7 +33,6 @@ namespace OnlineRefrigerator.Controllers
         [HttpPost]
         public JsonResult Index(string prefix)
         {
-
             var ingredients = from m in _context.Ingredients.Include(x => x.Category)
                               where m.Name.StartsWith(prefix)
                               select new { m.Name, m.Id }; ;                     
@@ -43,27 +41,22 @@ namespace OnlineRefrigerator.Controllers
         }
 
 
-
-
         //displaying partial view with ingredient details and options for calculating values
         [HttpPost]
         public IActionResult DisplayDetails(int id)
         {
-
             var partialViewModel = GetDetails(id);
-
             return PartialView("~/Views/Calculator/_CalculatorDetailsPartial.cshtml", partialViewModel);
         }
 
 
         //returning details of found ingredient
         public CalculatorViewModel GetDetails(int? id)
-        {
-            
+        {            
             var ingredient =  _context.Ingredients.Include(x => x.Category).Include(x => x.Serving)
                 .FirstOrDefault(m => m.Id == id);
-
-         
+            
+            
             var model = new CalculatorViewModel
             {
                 Ingredient = ingredient,
@@ -75,7 +68,6 @@ namespace OnlineRefrigerator.Controllers
                     }, "Value", "Text")
             };
 
-
             return model;
         }
 
@@ -83,9 +75,7 @@ namespace OnlineRefrigerator.Controllers
         [HttpPost]
         public IActionResult DisplayResults(CalculatorParameters calculatorParameters)
         {
-
             var partialViewModel = CalculateResults(calculatorParameters);
-
             return PartialView("~/Views/Calculator/_CalculatorResultsPartial.cshtml", partialViewModel);
         }
 
@@ -93,7 +83,6 @@ namespace OnlineRefrigerator.Controllers
         //helper method for calculating values with provided count and quantity
         public Ingredients CalculateResults(CalculatorParameters model)
         {
-
             Ingredients ingredientModel = new Ingredients();
 
             decimal calculatedFat = 0;

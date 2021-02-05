@@ -18,10 +18,12 @@ using OnlineRefrigerator.Models;
 namespace OnlineRefrigerator.Controllers
 {
     public class RecipesController : Controller
-    {      
+    {    
+        
         private readonly IngredientsContext _context;
         private readonly IWebHostEnvironment env;
         private readonly UserManager<AppUser> _userManager;
+
 
         public RecipesController(IngredientsContext context, UserManager<AppUser> userManager, IWebHostEnvironment env)
         {
@@ -60,6 +62,7 @@ namespace OnlineRefrigerator.Controllers
             return Json(ingredients);
         }
 
+
         /// <summary>
         /// returns partial view with viewmodel of recipes and categories
         /// </summary>
@@ -74,7 +77,6 @@ namespace OnlineRefrigerator.Controllers
             var categories = from m in _context.RecipesCategories
                              select m;
                                   
-
             var recipeVM = new RecipesCategoryViewModel
             {             
                 Categories = categories.ToList(),
@@ -170,8 +172,7 @@ namespace OnlineRefrigerator.Controllers
 
                
         [HttpPost]
-        [ValidateAntiForgeryToken]    
-       
+        [ValidateAntiForgeryToken]           
         public async Task<IActionResult> CastVote(RecipesDetailsViewModel model)
         {
 
@@ -187,8 +188,7 @@ namespace OnlineRefrigerator.Controllers
 
             //if user changes his vote
             if ( _context.UserVotes.Where(u=> u.UserId == userId && u.RecipeId == currentRecipe.Id).Any())
-            {
-                           
+            {                           
                 var recipe = await _context.Recipes.FindAsync(model.Recipe.Id);
 
                 if (userVotes.VoteValue - model.VoteValue >=0)
@@ -490,6 +490,7 @@ namespace OnlineRefrigerator.Controllers
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
+
 
         private bool RecipesExists(int id)
         {

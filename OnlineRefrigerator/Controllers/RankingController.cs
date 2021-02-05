@@ -48,6 +48,7 @@ namespace OnlineRefrigerator.Controllers
                     results = results.OrderBy(s => orderByProperty.GetValue(s)).ToList();
                 }
             }
+
             return results;
         }
 
@@ -63,7 +64,6 @@ namespace OnlineRefrigerator.Controllers
         public ActionResult Details(int? id)
         {        
             return RedirectToAction("Details", "Recipes", new { id = id });
-        }
-              
+        }              
     }
 }

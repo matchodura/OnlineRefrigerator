@@ -18,6 +18,7 @@ namespace OnlineRefrigerator
 {
     public class IngredientsController : Controller
     {
+
         private readonly IngredientsContext _context;
         private readonly IWebHostEnvironment env;
         
@@ -38,7 +39,6 @@ namespace OnlineRefrigerator
         [HttpPost]
         public JsonResult Autocomplete(string prefix)
         {
-
             var ingredients = from m in _context.Ingredients.Include(x => x.Category)
                               where m.Name.StartsWith(prefix)
                               select new { m.Name, m.Id }; ;
@@ -54,14 +54,14 @@ namespace OnlineRefrigerator
         ///    
         public IngredientsCategoryViewModel GetIngredients(SortingFilter filters)
         {
-
             var ingredients = from m in _context.Ingredients.Include(x => x.Category).Include(i => i.Image).Include(x=>x.Serving)
                               select m;
 
+
             var categories = from m in _context.Categories
                            select m;
-                            
-
+                     
+            
             var ingredientCategoryVM = new IngredientsCategoryViewModel
             {                    
                 Categories = categories.ToList(),
@@ -72,10 +72,11 @@ namespace OnlineRefrigerator
             if (!string.IsNullOrEmpty(filters.Name))
                 ingredientCategoryVM.Ingredients = ingredientCategoryVM.Ingredients.Where(s => s.Name.ToLower().StartsWith(filters.Name.ToLower())).ToList();
            
+
             if (filters.Category != 0)
                 ingredientCategoryVM.Ingredients = ingredientCategoryVM.Ingredients.Where(s => s.CategoryId == filters.Category).ToList();
-
-           
+                 
+            
             if (filters.ColumnName != null)
             {
                 //geting property name of ingredient class, selected by clicking on the sort button of specified column name in partial view
@@ -87,6 +88,7 @@ namespace OnlineRefrigerator
                     ingredientCategoryVM.Ingredients = result;
                 }
 
+
                 else if (!filters.SortOrder)
                 {
                     var result = ingredientCategoryVM.Ingredients.OrderBy(s => orderByProperty.GetValue(s)).ToList();
@@ -96,7 +98,6 @@ namespace OnlineRefrigerator
             }
 
             return ingredientCategoryVM;
-
         }
 
 
@@ -141,8 +142,7 @@ namespace OnlineRefrigerator
                 //displays missing image as placeholder if correct image was not provided
                 var imageFileStream = System.IO.File.OpenRead(path);
                 return File(imageFileStream, "image/jpeg");
-            }
-            
+            }            
         }
 
               
@@ -239,7 +239,7 @@ namespace OnlineRefrigerator
                     }
                 }
 
-
+                //first insert is into image table to get its id and use it insering ingredient later
                 _context.IngredientsImages.Add(ingredientImage);
                 await _context.SaveChangesAsync();
 
@@ -251,6 +251,7 @@ namespace OnlineRefrigerator
 
                 return RedirectToAction(nameof(Index));
             }
+
             return View(ingredientModel);
         }
 
@@ -300,8 +301,10 @@ namespace OnlineRefrigerator
                         throw;
                     }
                 }
+
                 return RedirectToAction(nameof(Index));
             }
+
             return View(ingredients);
         }
              
