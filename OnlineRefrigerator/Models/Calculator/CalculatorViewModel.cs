@@ -9,12 +9,9 @@ using System.Threading.Tasks;
 namespace OnlineRefrigerator.Models
 {
     public class CalculatorViewModel
-    {
-           
+    {           
         public Ingredients Ingredient { get; set; }
-
         public SelectList ServingTypes { get; set; }
-
         public int SelectedServing{ get; set; }
 
         [DisplayName("Serving Quantity"), Range(1, Int32.MaxValue, ErrorMessage = "Value cannot be negative!")]

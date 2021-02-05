@@ -31,8 +31,7 @@ namespace OnlineRefrigerator.Models
 
         [DisplayName("Energy [*]"), Range(0.0, Double.MaxValue, ErrorMessage = "Value cannot be negative!")]
         public decimal Energy { get; set; }
-
-      
+              
         [ForeignKey("Category")]
         public int CategoryId { get; set; }
         public virtual Categories Category{ get; set; }
@@ -49,9 +48,6 @@ namespace OnlineRefrigerator.Models
         [DisplayName("")]
         public int? ImageId { get; set; }       
         public virtual IngredientsImages Image { get; set; }
-
-    
-    }
-      
-    
+            
+    }         
 }

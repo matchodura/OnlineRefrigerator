@@ -14,10 +14,6 @@ namespace OnlineRefrigerator.Models
 
         public int SelectedCategory { get; set; }
 
-            
-        //TODO: wyszukiwanie poprzez nazwę potrawy
-        //public string SearchString { get; set; }
-
 
     }
 }

@@ -1,61 +1,11 @@
-﻿$(function () {
-    GetIngredients();
-});
+﻿let displayUrl = '/Ingredients/ShowIngredients';
+let partialDiv = '#displayIngredients';
+let searchBox = '#ingredient';
+let categoryName = '#category';
+let autocompleteUrl = "/Ingredients/Autocomplete";
+let sortOrder = true; //true = "asc", false ="desc"
 
-
-$('#category').on('change', function (e) {
-
-    let filters = {
-        ingredientName: $('#ingredient').val(),
-        categoryId: $('#category').val()
-
-    };
-
-    GetIngredients(filters);
-
-});
-
-
-$('#ingredient').on('keyup', function (e) {
-
-    let filters = {
-        ingredientName: $('#ingredient').val(),
-        categoryId: $('#category').val()
-
-    };
-   
-    GetIngredients(filters);
-
-});
-
-
-$("#ingredient").autocomplete({
-    source: function (request, response) {
-        $.ajax({
-            url: "/Ingredients/Autocomplete",
-            type: "POST",
-            dataType: "json",
-            data: { Prefix: request.term },
-            success: function (data) {
-                response($.map(data, function (item) {
-                    console.log(item);
-
-                    return { label: item.name, value: item.name, id: item.id, servingType: item.servingType };
-                }))
-
-            }
-        })
-    },
-    select: function (event, ui) {
-
-        let filters = {
-            ingredientName: $('#ingredient').val(),
-            categoryId: $('#category').val()
-
-        };
-
-
-        GetIngredients(filters);
-    }
-
+//loads results when page is loaded
+$(function () {
+    GetResults(undefined, displayUrl, partialDiv);
 });

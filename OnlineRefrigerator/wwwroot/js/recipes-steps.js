@@ -1,7 +1,5 @@
 ﻿$("#addRow").click(function () {
-
-    let numberOfElements = $(".form-control.step").length;
-  
+    let numberOfElements = $(".form-control.step").length;  
     let html = '';      
     html += '<div id="inputFormRow">';
     html += '<div class="input-group mb-3">';        
@@ -13,11 +11,10 @@
 
     $('#item-list-steps').append(html);
 
-    });
+});
 
 
 // remove row
 $(document).on('click', '#removeRow', function () {
-    $(this).closest('#inputFormRow').remove();
-      
+    $(this).closest('#inputFormRow').remove();      
 });

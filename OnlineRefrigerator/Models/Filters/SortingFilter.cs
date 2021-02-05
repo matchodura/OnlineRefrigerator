@@ -5,13 +5,13 @@ using System.Threading.Tasks;
 
 namespace OnlineRefrigerator.Models
 {
-    public class IngredientsFilter
+    public class SortingFilter
     {
-        public string IngredientName { get; set; }
-        public int CategoryId { get; set; }
+        public string Name { get; set; }
+        public int Category { get; set; }
 
         public bool SortOrder { get; set; } // true - asc,false - desc
-        
+
         public string ColumnName { get; set; } //gets column name based on id of element in view
     }
 }

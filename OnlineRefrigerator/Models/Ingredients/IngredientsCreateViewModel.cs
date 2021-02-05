@@ -13,16 +13,13 @@ namespace OnlineRefrigerator.Models
 {
     public class IngredientsCreateViewModel
     {
-
         public Ingredients Ingredient { get; set; }
 
         [DisplayName("Category")]
         public List<SelectListItem> Categories { get; set; }
         public List<SelectListItem> Servings { get; set; }
-
         public int SelectedCategory { get; set; }
         public int SelectedServing { get; set; }
-
 
         [DisplayName("Grams per serving"), Range(0.0, Double.MaxValue, ErrorMessage = "Please provide serving value in grams e.g one egg of class L weights between 63 to 73 grams")]
         public int ServingValue { get; set; }

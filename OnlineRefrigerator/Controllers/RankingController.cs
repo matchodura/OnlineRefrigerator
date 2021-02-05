@@ -12,8 +12,7 @@ namespace OnlineRefrigerator.Controllers
 {
     public class RankingController : Controller
     {
-
-        
+                
         private readonly IngredientsContext _context;
      
 
@@ -22,22 +21,17 @@ namespace OnlineRefrigerator.Controllers
             _context = context;
         }
 
-
-        // GET: RatingController
+             
         public ActionResult Index()
-        {
-          
+        {          
             return View();
         }
 
 
-        public List<RankingViewModel> GetResults(RecipesFilter filters)
+        public List<RankingViewModel> GetResults(SortingFilter filters)
         {
-
-
             var results = (from recipe in _context.Recipes
                           select new RankingViewModel { Id = recipe.Id, ImageId = recipe.ImageId, Votes = recipe.VoteCounts, Name = recipe.Name, Score = Math.Round((double)((float)recipe.VoteValue / recipe.VoteCounts), 2) }).ToList();
-
 
             if (filters.ColumnName != null)
             {
@@ -45,41 +39,29 @@ namespace OnlineRefrigerator.Controllers
                 PropertyInfo orderByProperty = typeof(RankingViewModel).GetProperties().SingleOrDefault(property => property.Name == filters.ColumnName);
 
                 if (filters.SortOrder)
-                {
-                  
+                {                  
                      results = results.OrderByDescending(s => orderByProperty.GetValue(s)).ToList();
-
                 }
 
                 else if (!filters.SortOrder)
                 {
-
                     results = results.OrderBy(s => orderByProperty.GetValue(s)).ToList();
-
                 }
-
             }
-
             return results;
-
         }
 
 
         [HttpPost]
-        public IActionResult ShowResults(RecipesFilter filters)
+        public IActionResult ShowResults(SortingFilter filters)
         {
-
             var partialViewModel = GetResults(filters);
-
             return PartialView("~/Views/Ranking/_RankingResultsPartial.cshtml", partialViewModel);
-
         }
 
-
-        // GET: RecipeFinder/Details/5
+            
         public ActionResult Details(int? id)
-        {
-            //return View();
+        {        
             return RedirectToAction("Details", "Recipes", new { id = id });
         }
               

@@ -29,14 +29,31 @@ namespace OnlineRefrigerator
         }
 
 
+        public IActionResult Index()
+        {
+            return View();
+        }
+
+
+        [HttpPost]
+        public JsonResult Autocomplete(string prefix)
+        {
+
+            var ingredients = from m in _context.Ingredients.Include(x => x.Category)
+                              where m.Name.StartsWith(prefix)
+                              select new { m.Name, m.Id }; ;
+
+            return Json(ingredients);
+        }
+
+
         /// <summary>
         /// returns partial view with viewmodel of ingredients and categories
         /// </summary>
         /// <returns></returns>
         ///    
-        public IngredientsCategoryViewModel GetIngredients(IngredientsFilter filters)
+        public IngredientsCategoryViewModel GetIngredients(SortingFilter filters)
         {
-
 
             var ingredients = from m in _context.Ingredients.Include(x => x.Category).Include(i => i.Image).Include(x=>x.Serving)
                               select m;
@@ -46,23 +63,17 @@ namespace OnlineRefrigerator
                             
 
             var ingredientCategoryVM = new IngredientsCategoryViewModel
-            {
-                             
-
+            {                    
                 Categories = categories.ToList(),
-
-
-                Ingredients = ingredients.ToList()
-                          
-
+                Ingredients = ingredients.ToList()                          
             };
 
 
-            if (!string.IsNullOrEmpty(filters.IngredientName))
-                ingredientCategoryVM.Ingredients = ingredientCategoryVM.Ingredients.Where(s => s.Name.ToLower().StartsWith(filters.IngredientName.ToLower())).ToList();
+            if (!string.IsNullOrEmpty(filters.Name))
+                ingredientCategoryVM.Ingredients = ingredientCategoryVM.Ingredients.Where(s => s.Name.ToLower().StartsWith(filters.Name.ToLower())).ToList();
            
-            if (filters.CategoryId != 0)
-                ingredientCategoryVM.Ingredients = ingredientCategoryVM.Ingredients.Where(s => s.CategoryId == filters.CategoryId).ToList();
+            if (filters.Category != 0)
+                ingredientCategoryVM.Ingredients = ingredientCategoryVM.Ingredients.Where(s => s.CategoryId == filters.Category).ToList();
 
            
             if (filters.ColumnName != null)
@@ -90,36 +101,12 @@ namespace OnlineRefrigerator
 
 
         [HttpPost]
-        public JsonResult Autocomplete(string prefix)
+        public IActionResult ShowIngredients(SortingFilter filters)
         {
-
-            var ingredients = from m in _context.Ingredients.Include(x => x.Category)
-                              where m.Name.StartsWith(prefix)
-                              select new { m.Name, m.Id }; ;
-
-
-            return Json(ingredients);
-        }
-
-
-        // GET: Ingredients
-        public IActionResult Index()
-        {
-                       
-            return View();
-            
-        }
-
-        [HttpPost]
-        public IActionResult ShowIngredients(IngredientsFilter filters)
-        {
-                  
             var partialViewModel = GetIngredients(filters);
-
-            return PartialView("~/Views/_IngredientsResultsPartial.cshtml", partialViewModel);
-                     
+            return PartialView("~/Views/Ingredients/_IngredientsResultsPartial.cshtml", partialViewModel);
         }
-
+                    
 
         public ActionResult GetImage(int id)
         {
@@ -145,28 +132,20 @@ namespace OnlineRefrigerator
                     byte[] image = ingredientImage.Image;
 
                     return File(image, "image/jpg");
-
-                    
-                }
-               
-
+                                        
+                }              
             }
 
             else
             {
-
                 //displays missing image as placeholder if correct image was not provided
                 var imageFileStream = System.IO.File.OpenRead(path);
                 return File(imageFileStream, "image/jpeg");
-
             }
             
         }
 
-
-
-        // GET: Ingredients/Details/5
-
+              
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -174,8 +153,10 @@ namespace OnlineRefrigerator
                 return NotFound();
             }
 
+
             var ingredients = await _context.Ingredients.Include(x => x.Category).Include(x=>x.Serving)
                 .FirstOrDefaultAsync(m => m.Id == id);
+
 
             if (ingredients == null)
             {
@@ -185,8 +166,7 @@ namespace OnlineRefrigerator
             return View(ingredients);
         }
 
-        // GET: Ingredients/Create
-       
+     
         public IActionResult Create()
         {
             var vm = new IngredientsCreateViewModel()
@@ -198,41 +178,31 @@ namespace OnlineRefrigerator
                                         Value = a.Id.ToString()
                                     }).ToList(),
 
-
                 Servings = _context.Servings
                                     .Select(a => new SelectListItem()
                                     {
                                         Text = a.ServingType,
                                         Value = a.Id.ToString()
                                     }).ToList()
-
-
             };
-
-           
+                      
 
             return View(vm);
         }
 
 
-        // POST: Ingredients/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]                
         public async Task<IActionResult> Create(IngredientsCreateViewModel model)
         {
-
             Ingredients ingredientModel = model.Ingredient;
             IngredientsImages ingredientImage = new IngredientsImages();
 
             var image = model.Image;
 
             ingredientModel.CategoryId = model.SelectedCategory;
-
             ingredientModel.ServingId = model.SelectedServing;
             ingredientModel.ServingValue = model.ServingValue;
-
 
 
             if (!ModelState.IsValid)
@@ -245,14 +215,12 @@ namespace OnlineRefrigerator
                                         Value = a.Id.ToString()
                                     }).ToList();
 
-
                 model.Servings = _context.Servings
                                      .Select(a => new SelectListItem()
                                      {
                                          Text = a.ServingType,
                                          Value = a.Id.ToString()
                                      }).ToList();
-
 
                 return View(model);
             }
@@ -267,8 +235,7 @@ namespace OnlineRefrigerator
                         await image.CopyToAsync(memoryStream);
                         var imageToBeUploadedByteArray = memoryStream.ToArray();
                         ingredientImage.Image = imageToBeUploadedByteArray;                                                                
-
-                        
+                                                
                     }
                 }
 
@@ -287,8 +254,7 @@ namespace OnlineRefrigerator
             return View(ingredientModel);
         }
 
-        // GET: Ingredients/Edit/5
-        
+                
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -297,16 +263,16 @@ namespace OnlineRefrigerator
             }
 
             var ingredients = await _context.Ingredients.FindAsync(id);
+
             if (ingredients == null)
             {
                 return NotFound();
             }
+
             return View(ingredients);
         }
+          
 
-        // POST: Ingredients/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]       
         public async Task<IActionResult> Edit(int id, [Bind("Id,Category,Name,Fat,Carbs,Protein,Energy")] Ingredients ingredients)
@@ -338,8 +304,7 @@ namespace OnlineRefrigerator
             }
             return View(ingredients);
         }
-
-        // GET: Ingredients/Delete/5
+             
         
         public async Task<IActionResult> Delete(int? id)
         {
@@ -350,6 +315,7 @@ namespace OnlineRefrigerator
 
             var ingredients = await _context.Ingredients
                 .FirstOrDefaultAsync(m => m.Id == id);
+
             if (ingredients == null)
             {
                 return NotFound();
@@ -358,7 +324,7 @@ namespace OnlineRefrigerator
             return View(ingredients);
         }
 
-        // POST: Ingredients/Delete/5
+               
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
@@ -368,7 +334,6 @@ namespace OnlineRefrigerator
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
-
 
 
         private bool IngredientsExists(int id)

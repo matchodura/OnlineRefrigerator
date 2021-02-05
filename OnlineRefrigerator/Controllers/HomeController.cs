@@ -9,8 +9,7 @@ using Microsoft.Extensions.Logging;
 using OnlineRefrigerator.Models;
 
 namespace OnlineRefrigerator.Controllers
-{
-   
+{   
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
@@ -30,9 +29,7 @@ namespace OnlineRefrigerator.Controllers
         {
             return View();
         }
-
-        //[Authorize]
-   
+            
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()

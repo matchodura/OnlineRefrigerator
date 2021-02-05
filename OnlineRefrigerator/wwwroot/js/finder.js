@@ -19,7 +19,6 @@ $(document).on("click", "#customSwitch1", function () {
 $(".custom-control.custom-switch").change(function () {
 
     GetRecipes(ingredients, missingIngredientsOn);
-
 });
 
 

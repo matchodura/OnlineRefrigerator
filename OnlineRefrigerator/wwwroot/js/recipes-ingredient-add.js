@@ -28,8 +28,7 @@
                 dataType: "json",
                 data: { Prefix: request.term },
                 success: function (data) {
-                    response($.map(data, function (item) {
-                        console.log(item);
+                    response($.map(data, function (item) {                     
 
                         return { label: item.name, value: item.name, id: item.id };
                     }))

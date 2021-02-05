@@ -14,11 +14,10 @@ namespace OnlineRefrigerator.Controllers
     public class CalculatorController : Controller
     {
         private readonly IngredientsContext _context;
-        //private readonly RecipesContext _recipesContext;
-
+    
         public CalculatorController(IngredientsContext context)
-        {
-            //_recipesContext = recipesContext;
+        {        
+
             _context = context;
         }
 
@@ -102,8 +101,6 @@ namespace OnlineRefrigerator.Controllers
             decimal calculatedProtein = 0;
             decimal calculatedEnergy = 0;
 
-
-
             if (model.ServingType == "portion")
             {
                 calculatedFat = model.Fat * model.ServingQuantity;
@@ -122,14 +119,12 @@ namespace OnlineRefrigerator.Controllers
 
             }
 
-
             ingredientModel.Fat = calculatedFat;
             ingredientModel.Carbs = calculatedCarbs;
             ingredientModel.Protein = calculatedProtein;
             ingredientModel.Energy = calculatedEnergy;                    
 
             return ingredientModel;
-        }
-   
+        }   
     }
 }

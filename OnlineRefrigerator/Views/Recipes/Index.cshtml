@@ -6,38 +6,37 @@
 }
 
 <div class="jumbotron">
-  <h1 class="display-3">@ViewData["Title"]</h1>  
-  <hr class="my-4">
-  <p>
-    <a asp-action="Create" class="btn btn-primary">Create New</a>
-  </p>
-  <form>
-    <div class="form-row">
-      <div class="form-group col-md-6" style="margin-bottom:1rem">
-        @*<label for="Category">Category</label>*@
-        @* TODO: dodac opcje wyboru kategorii z bazy danych *@
-        <select class="form-control" id="category">
-          <option value="0">All</option>
-          <option value="1">Uncatogarized</option>
-          <option value="2">Vegan</option>
-          <option value="3">Vegetarian</option>
-          <option value="4">Halal</option>
-        </select>
-      </div>
-      <div class="form-group col-md-6" style="margin-bottom:1rem">
-        <input type="text" id="recipes" placeholder="Write recipe name" class="form-control">
-      </div>
-    </div>
-  </form>
+    <h1 class="display-3">@ViewData["Title"]</h1>
+    <hr class="my-4">
+    <p>
+        <a asp-action="Create" class="btn btn-primary">Create New</a>
+    </p>
+    <form>
+        <div class="form-row">
+            <div class="form-group col-md-6" style="margin-bottom:1rem">
+                @*<label for="Category">Category</label>*@
+                @* TODO: dodac opcje wyboru kategorii z bazy danych *@
+                <select class="form-control" id="category">
+                    <option value="0">All</option>
+                    <option value="1">Uncatogarized</option>
+                    <option value="2">Vegan</option>
+                    <option value="3">Vegetarian</option>
+                    <option value="4">Halal</option>
+                </select>
+            </div>
+            <div class="form-group col-md-6" style="margin-bottom:1rem">
+                <input type="text" id="recipes" placeholder="Write recipe name" class="form-control">
+            </div>
+        </div>
+    </form>
 
-@* displaying partial view of recipes based on ajax call in js script *@
-  <div id="displayRecipes"> </div>
+    @* displaying partial view of recipes based on ajax call in js script *@
+    <div id="displayRecipes"> </div>
 </div>
 
 @section Scripts{
 
-    <script src="~/js/recipes-functions.js"></script>
     <script src="~/js/recipes-display.js"></script>
-    <script src="~/js/recipes-sort.js"></script>
-
+    <script src="~/js/functions.js"></script>
+ 
 }

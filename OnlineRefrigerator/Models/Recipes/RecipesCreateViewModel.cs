@@ -10,8 +10,7 @@ namespace OnlineRefrigerator.Models
 {
 
     public class Step
-    {
-      
+    {      
         public string Text{ get; set; }
 
     }

@@ -18,8 +18,7 @@ using OnlineRefrigerator.Models;
 namespace OnlineRefrigerator.Controllers
 {
     public class RecipesController : Controller
-    {
-        //private readonly RecipesContext _context;
+    {      
         private readonly IngredientsContext _context;
         private readonly IWebHostEnvironment env;
         private readonly UserManager<AppUser> _userManager;
@@ -32,12 +31,10 @@ namespace OnlineRefrigerator.Controllers
             _userManager = userManager;
         }
 
-        // GET: Recipes       
+          
         public IActionResult Index()
         {
-
             return View();
-
         }
 
 
@@ -45,7 +42,6 @@ namespace OnlineRefrigerator.Controllers
         [HttpPost]
         public JsonResult AutocompleteFindRecipe(string prefix)
         {
-
             var recipes = from m in _context.Recipes.Include(x => x.Type)
                               where m.Name.StartsWith(prefix)
                               select new { m.Name, m.Id }; ;
@@ -54,11 +50,9 @@ namespace OnlineRefrigerator.Controllers
         }
 
 
-
         [HttpPost]
         public JsonResult AutocompleteFindIngredient(string prefix)
         {
-
             var ingredients = from m in _context.Ingredients
                           where m.Name.StartsWith(prefix)
                           select new { m.Name, m.Id }; ;
@@ -71,39 +65,27 @@ namespace OnlineRefrigerator.Controllers
         /// </summary>
         /// <returns></returns>
         ///    
-        public RecipesCategoryViewModel GetRecipes(RecipesFilter filters)
+        public RecipesCategoryViewModel GetRecipes(SortingFilter filters)
         {
-
 
             var recipes = from m in _context.Recipes.Include(x => x.Type)
                               select m;
 
             var categories = from m in _context.RecipesCategories
                              select m;
-
-
-          
+                                  
 
             var recipeVM = new RecipesCategoryViewModel
-            {
-
-             
+            {             
                 Categories = categories.ToList(),
-
-
-                Recipes = recipes.ToList()
-
-              
-
+                Recipes = recipes.ToList()         
             };
 
+            if (!string.IsNullOrEmpty(filters.Name))
+                recipeVM.Recipes = recipeVM.Recipes.Where(s => s.Name.ToLower().StartsWith(filters.Name.ToLower())).ToList();
 
-            if (!string.IsNullOrEmpty(filters.RecipeName))
-                recipeVM.Recipes = recipeVM.Recipes.Where(s => s.Name.ToLower().StartsWith(filters.RecipeName.ToLower())).ToList();
-
-            if (filters.CategoryId != 0)
-                recipeVM.Recipes = recipeVM.Recipes.Where(s => s.TypeId == filters.CategoryId).ToList();
-
+            if (filters.Category != 0)
+                recipeVM.Recipes = recipeVM.Recipes.Where(s => s.TypeId == filters.Category).ToList();
 
             if (filters.ColumnName != null)
             {
@@ -121,7 +103,6 @@ namespace OnlineRefrigerator.Controllers
                     var result = recipeVM.Recipes.OrderBy(s => orderByProperty.GetValue(s)).ToList();
                     recipeVM.Recipes = result;
                 }
-
             }
 
             return recipeVM;
@@ -129,25 +110,18 @@ namespace OnlineRefrigerator.Controllers
         }
 
 
-
         [HttpPost]
-        public IActionResult ShowRecipes(RecipesFilter filters)
+        public IActionResult ShowRecipes(SortingFilter filters)
         {
-
             var partialViewModel = GetRecipes(filters);
-
             return PartialView("~/Views/Recipes/_RecipesResultsPartial.cshtml", partialViewModel);
-
         }
 
-
-
-        // GET: Recipes/Details
+           
         public async Task<IActionResult> Details(int? id)
         {
             var vm = new RecipesDetailsViewModel();
-
-            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier); // will give the user's userId
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier); 
 
             if (id == null)
             {
@@ -156,9 +130,7 @@ namespace OnlineRefrigerator.Controllers
 
             var recipe = await _context.Recipes.Include(x=>x.Type).FirstOrDefaultAsync(m => m.Id == id);
 
-            var steps = _context.RecipesSteps.Where(s => s.RecipeId == id).ToList();
-
-            
+            var steps = _context.RecipesSteps.Where(s => s.RecipeId == id).ToList();            
 
 
             List<IngredientsData> ingredients = (from s in _context.IngredientsRecipes
@@ -167,9 +139,7 @@ namespace OnlineRefrigerator.Controllers
                                                 where s.RecipeId == id
                                                 select new IngredientsData { Name = c.Name, Quantity = s.ServingQuantity, Type = k.ServingType }).ToList();
 
-
             vm.UserVote = await _context.UserVotes.Where(x => x.UserId == userId && x.RecipeId == id).Select(a => a.VoteValue).FirstOrDefaultAsync();
-
 
             if (_context.UserVotes.Where(u => u.UserId == userId && u.RecipeId == recipe.Id).Any())
             {
@@ -181,7 +151,7 @@ namespace OnlineRefrigerator.Controllers
             }
 
 
-                if (recipe.VoteValue != null)
+            if (recipe.VoteValue != null)
             {
                 vm.Score = Math.Round((double)((float)recipe.VoteValue / recipe.VoteCounts), 2);
             }
@@ -193,15 +163,12 @@ namespace OnlineRefrigerator.Controllers
 
             vm.IngredientsUsed = ingredients;
             vm.Recipe = recipe;
-            vm.RecipesSteps = steps;
-
-            
+            vm.RecipesSteps = steps;                      
 
             return View(vm);
         }
 
                
-
         [HttpPost]
         [ValidateAntiForgeryToken]    
        
@@ -221,12 +188,8 @@ namespace OnlineRefrigerator.Controllers
             //if user changes his vote
             if ( _context.UserVotes.Where(u=> u.UserId == userId && u.RecipeId == currentRecipe.Id).Any())
             {
-
-                //userVotes.VoteValue = model.VoteValue;
-
-
+                           
                 var recipe = await _context.Recipes.FindAsync(model.Recipe.Id);
-
 
                 if (userVotes.VoteValue - model.VoteValue >=0)
                 {
@@ -238,30 +201,23 @@ namespace OnlineRefrigerator.Controllers
                     recipe.VoteValue = currentRecipe.VoteValue + (model.VoteValue - userVotes.VoteValue );
                 }
                 
-
                 _context.Recipes.Update(recipe);
                 await _context.SaveChangesAsync();
 
-
                 userVotes.VoteValue = model.VoteValue;
-
 
                 _context.UserVotes.Update(userVotes);
                 await _context.SaveChangesAsync();
 
-
             }
-
 
             // if first vote by user or first vote for recipe
             else
-            {
-                     
+            {                     
                 var recipe = currentRecipe;
 
                 if (currentRecipe.VoteCounts == null)
                 {
-
                     var voteCounts = 0;
                     var voteValue = 0;
 
@@ -269,9 +225,7 @@ namespace OnlineRefrigerator.Controllers
                     voteValue = voteValue + model.VoteValue;
 
                     recipe.VoteCounts = voteCounts;
-                    recipe.VoteValue = voteValue;
-                                     
-
+                    recipe.VoteValue = voteValue;      
                 }
 
                 else
@@ -284,8 +238,6 @@ namespace OnlineRefrigerator.Controllers
 
                     recipe.VoteCounts = voteCounts;
                     recipe.VoteValue = voteValue;
-
-
                 }
 
                 var votes = new UserVotes();
@@ -299,14 +251,10 @@ namespace OnlineRefrigerator.Controllers
                 _context.UserVotes.Add(votes);
                 await _context.SaveChangesAsync();
 
-            }
-
-                        
+            }                        
 
             return RedirectToAction("Details", new { id = model.Recipe.Id });
         }
-
-
 
 
         public IActionResult Create()
@@ -320,11 +268,9 @@ namespace OnlineRefrigerator.Controllers
                                         Value = a.Id.ToString()
                                     }).ToList();
                                 
-
             return View(vm);
         }
-
-               
+                       
 
         //get declared servings for selected ingredient
         [HttpPost]
@@ -388,11 +334,7 @@ namespace OnlineRefrigerator.Controllers
 
         }
 
-
-
-        // POST: Recipes/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+          
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(RecipesCreateViewModel model)
@@ -402,10 +344,7 @@ namespace OnlineRefrigerator.Controllers
             RecipesImages recipeImage = new RecipesImages();
 
             var image = model.Image;
-
             recipe.TypeId = model.SelectedCategory;
-
-
 
             if (!ModelState.IsValid)
             {               
@@ -414,7 +353,6 @@ namespace OnlineRefrigerator.Controllers
 
             if (ModelState.IsValid)
             {
-
                 if( image != null)
                 {
                     using (var memoryStream = new MemoryStream())
@@ -474,8 +412,7 @@ namespace OnlineRefrigerator.Controllers
             return View(recipe);
         }
 
-
-        // GET: Recipes/Edit/5
+             
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -484,6 +421,7 @@ namespace OnlineRefrigerator.Controllers
             }
 
             var recipes = await _context.Recipes.FindAsync(id);
+
             if (recipes == null)
             {
                 return NotFound();
@@ -491,9 +429,7 @@ namespace OnlineRefrigerator.Controllers
             return View(recipes);
         }
 
-        // POST: Recipes/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+      
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Type,PreparationTime")] Recipes recipes)
@@ -527,7 +463,6 @@ namespace OnlineRefrigerator.Controllers
         }
 
 
-        // GET: Recipes/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -545,8 +480,7 @@ namespace OnlineRefrigerator.Controllers
             return View(recipes);
         }
 
-
-        // POST: Recipes/Delete/5
+    
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)

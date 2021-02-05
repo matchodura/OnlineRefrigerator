@@ -10,8 +10,7 @@ namespace OnlineRefrigerator.Models
 {
     public class Recipes
     {
-
-        //TODO: add rest of properties
+             
 
         public int Id { get; set; }
 

@@ -8,12 +8,9 @@ using System.Threading.Tasks;
 
 namespace OnlineRefrigerator.Models
 {
-
     public class RecipesSteps
     {
-
-        //[Key]
-        //[DatabaseGenerated(DatabaseGeneratedOption.None)]
+             
         public int Id { get; set; }
         
         public int? RecipeId { get; set; }
@@ -25,10 +22,6 @@ namespace OnlineRefrigerator.Models
         public string Text { get; set; }
 
         public byte[] StepImage { get; set; }
-
-              
-
-        //public virtual ICollection<Recipes> Recipe { get; set; }
-
+        
     }
 }
