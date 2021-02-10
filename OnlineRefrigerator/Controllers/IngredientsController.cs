@@ -58,7 +58,7 @@ namespace OnlineRefrigerator
                               select m;
 
 
-            var categories = from m in _context.Categories
+            var categories = from m in _context.IngredientsCategories
                            select m;
                      
             
@@ -171,7 +171,7 @@ namespace OnlineRefrigerator
         {
             var vm = new IngredientsCreateViewModel()
             {
-                Categories = _context.Categories
+                Categories = _context.IngredientsCategories
                                     .Select(a => new SelectListItem()
                                     {
                                         Text = a.Name,
@@ -208,7 +208,7 @@ namespace OnlineRefrigerator
             if (!ModelState.IsValid)
             {
 
-                model.Categories = _context.Categories
+                model.Categories = _context.IngredientsCategories
                                     .Select(a => new SelectListItem()
                                     {
                                         Text = a.Name,

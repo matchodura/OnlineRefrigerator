@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace OnlineRefrigerator.Models
 {
-    public class Categories
+    public class IngredientsCategories
     {
         public int Id { get; set; }
         public string Name { get; set; }

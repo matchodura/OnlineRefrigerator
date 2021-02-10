@@ -9,6 +9,6 @@ namespace OnlineRefrigerator.Models
     public class IngredientsCategoryViewModel
     {
         public List<Ingredients> Ingredients { get; set; }
-        public List<Categories> Categories { get; set; }     
+        public List<IngredientsCategories> Categories { get; set; }     
     }
 }

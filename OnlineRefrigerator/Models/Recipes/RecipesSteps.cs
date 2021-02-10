@@ -16,7 +16,6 @@ namespace OnlineRefrigerator.Models
         [DisplayName("Step number ")]        
         public int? StepNumber { get; set; }
         [Column(TypeName = "text")]
-        public string Text { get; set; }
-        public byte[] StepImage { get; set; }        
+        public string Text { get; set; }    
     }
 }

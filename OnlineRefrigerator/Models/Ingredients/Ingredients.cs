@@ -17,10 +17,11 @@ namespace OnlineRefrigerator.Models
         [RegularExpression(@"([a-zA-Z](\s)?)+", ErrorMessage = "Name can only contain letters"), Required(ErrorMessage = "Name must be provided")]
         public string Name { get; set; }
         public string Description { get; set; }
-
+             
         [DisplayName("Fat [*]"), Range(0.0, Double.MaxValue, ErrorMessage = "Value cannot be negative!")]
         public decimal Fat { get; set; }
 
+        //[DisplayName("Carbs [*]"), Range(typeof(decimal),"0.00", "1000.00", ErrorMessage = "Value cannot be negative!")]
         [DisplayName("Carbs [*]"), Range(0.0, Double.MaxValue, ErrorMessage = "Value cannot be negative!")]
         public decimal Carbs { get; set; }
 
@@ -32,7 +33,7 @@ namespace OnlineRefrigerator.Models
               
         [ForeignKey("Category")]
         public int CategoryId { get; set; }
-        public virtual Categories Category{ get; set; }
+        public virtual IngredientsCategories Category{ get; set; }
 
         [ForeignKey("Serving")]
         public int? ServingId { get; set; }
