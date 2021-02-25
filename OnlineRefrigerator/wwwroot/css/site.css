@@ -20,10 +20,6 @@ a.navbar-brand {
 }
 
 
-.ingredients-details-img{
-  width:350px;
-  height:350px;
-}
 
 
 .ingredients-table-results {
@@ -127,6 +123,19 @@ body {
   align-content: center;
 }
 
+
+.ingredients-details-img {
+    width: 350px;
+    height: 350px;
+}
+
+@media(min-width: 300px) and (max-width: 460px) {
+
+    .ingredients-details-img {
+        width: 200px;
+        height: 200px;
+    }
+}
 
 @media (max-width: 575px) {
 

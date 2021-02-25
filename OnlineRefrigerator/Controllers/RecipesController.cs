@@ -256,7 +256,7 @@ namespace OnlineRefrigerator.Controllers
             return RedirectToAction("Details", new { id = model.Recipe.Id });
         }
 
-
+        [Authorize]
         public IActionResult Create()
         {
             var vm = new RecipesCreateViewModel() { };

@@ -1,0 +1,22 @@
+{
+  "dependencies": {
+    "mssql2": {
+      "resourceId": "/subscriptions/[parameters('subscriptionId')]/resourceGroups/[parameters('resourceGroupName')]/providers/Microsoft.Sql/servers/onlinerefrigeratordb/databases/OnlineRefrigeratoIngredients",
+      "type": "mssql.azure",
+      "connectionId": "IngredientsContext",
+      "secretStore": "AzureAppSettings"
+    },
+    "mssql1": {
+      "resourceId": "/subscriptions/[parameters('subscriptionId')]/resourceGroups/[parameters('resourceGroupName')]/providers/Microsoft.Sql/servers/onlinerefrigeratordb/databases/OnlineRefrigeratoIngredients",
+      "type": "mssql.azure",
+      "connectionId": "AuthDbContextConnection",
+      "secretStore": "AzureAppSettings"
+    },
+    "mssql3": {
+      "type": "mssql",
+      "connectionId": "RecipesContext",
+      "suggestion": "true",
+      "ignored": "true"
+    }
+  }
+}

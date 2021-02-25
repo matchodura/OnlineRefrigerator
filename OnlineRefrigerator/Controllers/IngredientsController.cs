@@ -166,7 +166,7 @@ namespace OnlineRefrigerator
             return View(ingredients);
         }
 
-     
+        [Authorize]
         public IActionResult Create()
         {
             var vm = new IngredientsCreateViewModel()
